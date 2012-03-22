@@ -1,0 +1,34 @@
+#!/bin/bash
+
+ROOT_UID=0      # UID for root user
+ERR_NOARGS=65   # No arguments supplied
+ERR_NOTROOT=87  # Non-root exit error
+
+WORKSPACE_DIR="$HOME/multicast"
+SCRIPTS_DIR=$WORKSPACE_DIR"/scripts"
+
+REALM="LOCALHOST"
+TEST_USERNAME=testuser
+TEST_PASSWORD=test
+USER_COUNT=3
+
+# Root privileges required
+if [ "$UID" -ne "$ROOT_UID" ]
+then
+  echo "Must be root to run script."
+  exit $ERR_NOTROOT
+fi
+
+cd "$SCRIPTS_DIR/krb5_admin"
+
+for (( i=1 ; i <= $USER_COUNT; i++ ))
+do
+./krb_princ_create.sh $TEST_USERNAME$i $TEST_PASSWORD
+done
+
+for (( i=1 ; i <= $USER_COUNT; i++ ))
+do
+./krb_princ_remove.sh $TEST_USERNAME$i
+done
+
+exit 0

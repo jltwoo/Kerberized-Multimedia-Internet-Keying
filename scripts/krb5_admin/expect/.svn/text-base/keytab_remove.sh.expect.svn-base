@@ -1,0 +1,8 @@
+#!/usr/bin/expect
+set principal_name [lrange $argv 0 0]
+set filepath [lrange $argv 1 1 ]
+set realm [lrange $argv 2 2]
+
+spawn /usr/local/sbin/kadmin.local
+expect "kadmin.local:" {send "ktremove -k $filepath $principal_name@$realm\r"} 
+expect "kadmin.local:" {send {"exit\r"}}
