@@ -1,0 +1,102 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML>
+<HEAD>
+ <STYLE type="text/css">
+   CODE {font-family:"Courier New"Courier monospace;}
+ </STYLE>
+</HEAD>
+<BODY>
+<TABLE WIDTH=800 BORDER=0 BORDERCOLOR="#000000" CELLPADDING=4 CELLSPACING=0 ALIGN="CENTER">
+<TR><TD>
+<h1>Building and Running Minisip</h1>
+		<b>IMPORTANT:</b> This set of instruction is only intended for a specific version of minisip project.  
+		<h3>Dependencies</h3>
+					<CODE>
+						openssl<br>libssl-dev<br>libglademm version >= 2.4<br>libgtkmm-2.4-dev<br>
+						libltdl3-dev<br>build-essentials, g++, make, automake, autoconfig, libtool
+
+					</CODE>
+					<br>
+					<h3>Automated Build</h3>
+					Modified scripts available to be executed at minisip root repository directory: <a href="./buildall_mod.sh">build all</a>, <a href="./cleanall_mod.sh">clean all</a>
+					<br>
+					<br>
+					<h3>Manual Build</h3>
+					<b>IMPORTANT:</b> Must be built in this order.
+		<TABLE WIDTH=800 BORDER=1 BORDERCOLOR="#000000" CELLPADDING=4 CELLSPACING=0 ALIGN="CENTER">
+			<TR VALIGN=TOP>
+				<TD WIDTH=20% HEIGHT=4>
+				Compiling and installing libmutil
+				</TD>
+				<TD WIDTH=80%>
+First we run the bootstrap script to generate the configure script.<br>
+                <CODE>jeff@home:~/minisip/libmutil$ ./bootstrap</CODE><br>
+                <CODE>jeff@home:~/minisip/libmutil$ ./configure</CODE><br>
+<br>
+Now we are ready to compile the source code of libmutil and install it:<br>
+                <CODE>jeff@home:~/minisip/libmutil$ make</CODE><br>
+                <CODE>jeff@home:~/minisip/libmutil$ make install</CODE><br>
+<br>
+<br>
+Then execute this 
+<CODE>echo /usr/local/share/aclocal >> /usr/share/aclocal/dirlist
+</CODE>
+				</TD>
+			</TR>
+			<TR VALIGN=TOP>
+				<TD WIDTH=20% HEIGHT=4>
+				Compiling and installing libmnetutil
+				</TD>
+				<TD WIDTH=80%>
+                <CODE>jeff@home:~/minisip/libmnetutil$ ./bootstrap</CODE><br>
+                <CODE>jeff@home:~/minisip/libmnetutil$ ./configure --enable-sctp</CODE><br>
+                <CODE>jeff@home:~/minisip/libmnetutil$ make</CODE><br>
+                <CODE>jeff@home:~/minisip/libmnetutil$ make install</CODE><br>
+                <br>
+                <b>NOTE:</b> the <CODE>--enable-sctp</CODE> is to overcome a bug in <CODE>/libmnetutil/m4/libmnetutil.m4</CODE>
+				</TD>
+			</TR>
+			<TR VALIGN=TOP>
+				<TD WIDTH=20% HEIGHT=4>
+				Compiling and installing <br>libmcrypto<br>libmikey<br>libmsip<br>libmstun<br>libminisip<br>(In that order)
+				</TD>
+				<TD WIDTH=80%>
+					Use the same commands as before in its respective folders e.g. for libmcrypto use:<br>
+                <CODE>jeff@home:~/minisip/libmcrypto$ ./bootstrap</CODE><br>
+                <CODE>jeff@home:~/minisip/libmcrypto$ ./configure</CODE><br>
+                <CODE>jeff@home:~/minisip/libmcrypto$ make</CODE><br>
+                <CODE>jeff@home:~/minisip/libmcrypto$ make install</CODE><br>
+                <br>
+				</TD>
+			</TR>
+			<TR VALIGN=TOP>
+				<TD WIDTH=20% HEIGHT=4>
+				Compiling and installing minisip
+				</TD>
+				<TD WIDTH=80%>
+                <CODE>jeff@home:~/minisip/minisip$ ./bootstrap</CODE><br><br>
+                We need to add configuration flags to configure minisip application <br>
+                <CODE>--enable-textui, --enable-gtk or --enable-qt</CODE><br><br>
+This sets which user interface will be used. GTK is the default one, and the text interface is often used during development. The QT one is not maintained any more and will probably not compile. <br><br>
+To enable textui:<br>
+                <CODE>jeff@home:~/minisip/minisip$ ./configure --enable-textui</CODE><br>
+                <CODE>jeff@home:~/minisip/minisip$ make</CODE><br>
+                <CODE>jeff@home:~/minisip/minisip$ make install</CODE><br>
+                <br>
+				</TD>
+			</TR>
+		</TABLE>
+		<h3>Running minisip</h3>
+                <CODE>jeff@home:~/minisip/minisip$ minisip_gtkgui </CODE><br>
+                Or <br>
+                <CODE>jeff@home:~/minisip/minisip$ minisip_textui </CODE><br>
+                <br><br>
+		</TD>
+	</TR>
+	<TR>
+		<TD> <i>Last modified: 14-July-2010 by Jeffrey Woo</i>
+		</TD>
+	<TR>
+</TABLE>
+</BODY>
+</HTML>

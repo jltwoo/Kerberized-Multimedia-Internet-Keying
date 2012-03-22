@@ -1,0 +1,4465 @@
+Only in ../krb5-1.8.3/src//appl/gss-sample: gss-client
+Only in ../krb5-1.8.3/src//appl/gss-sample: gss-server
+Only in ../krb5-1.8.3/src//appl/gss-sample: Makefile
+Only in ../krb5-1.8.3/src//appl/gss-sample: .svn
+Only in ../krb5-1.8.3/src//appl: Makefile
+diff -crB ../original_source/krb5-1.8/src//appl/Makefile.in ../krb5-1.8.3/src//appl/Makefile.in
+*** ../original_source/krb5-1.8/src//appl/Makefile.in	2009-11-22 13:13:29.000000000 -0500
+--- ../krb5-1.8.3/src//appl/Makefile.in	2011-09-05 16:23:27.251035724 -0400
+***************
+*** 1,6 ****
+! mydir=appl
+! BUILDTOP=$(REL)..
+! 
+! SUBDIRS= sample simple user_user gss-sample
+! 
+! 
+--- 1,3 ----
+! mydir=appl/simple
+! SUBDIRS = client server
+! BUILDTOP=$(REL)..$(S)..
+Only in ../krb5-1.8.3/src//appl/sample: Makefile
+Only in ../krb5-1.8.3/src//appl/sample/sclient: Makefile
+Only in ../krb5-1.8.3/src//appl/sample/sclient: :q
+Only in ../krb5-1.8.3/src//appl/sample/sclient: sclient
+Only in ../krb5-1.8.3/src//appl/sample/sclient: .svn
+Only in ../krb5-1.8.3/src//appl/sample/sserver: Makefile
+Only in ../krb5-1.8.3/src//appl/sample/sserver: sserver
+Only in ../krb5-1.8.3/src//appl/sample/sserver: .svn
+Only in ../krb5-1.8.3/src//appl/sample: .svn
+Only in ../krb5-1.8.3/src//appl/simple/client: Makefile
+Only in ../krb5-1.8.3/src//appl/simple/client: .svn
+Only in ../krb5-1.8.3/src//appl/simple: Makefile
+Only in ../krb5-1.8.3/src//appl/simple/server: Makefile
+Only in ../krb5-1.8.3/src//appl/simple/server: .svn
+Only in ../krb5-1.8.3/src//appl/simple: .svn
+Only in ../krb5-1.8.3/src//appl: simple.h
+Only in ../krb5-1.8.3/src//appl: .svn
+Only in ../krb5-1.8.3/src//appl/user_user: Makefile
+Only in ../krb5-1.8.3/src//appl/user_user: .svn
+Only in ../krb5-1.8.3/src//appl/user_user: uuclient
+Only in ../krb5-1.8.3/src//appl/user_user: uuserver
+Only in ../krb5-1.8.3/src//ccapi/common/mac: .svn
+Only in ../krb5-1.8.3/src//ccapi/common: .svn
+Only in ../krb5-1.8.3/src//ccapi/common/unix: .svn
+Only in ../krb5-1.8.3/src//ccapi/common/win/OldCC: .svn
+Only in ../krb5-1.8.3/src//ccapi/common/win: .svn
+Only in ../krb5-1.8.3/src//ccapi/doc: .svn
+Only in ../krb5-1.8.3/src//ccapi/lib/mac: .svn
+Only in ../krb5-1.8.3/src//ccapi/lib: .svn
+Only in ../krb5-1.8.3/src//ccapi/lib/unix: .svn
+Only in ../krb5-1.8.3/src//ccapi/lib/win/OldCC: .svn
+Only in ../krb5-1.8.3/src//ccapi/lib/win: .svn
+Only in ../krb5-1.8.3/src//ccapi/server/mac: .svn
+Only in ../krb5-1.8.3/src//ccapi/server: .svn
+Only in ../krb5-1.8.3/src//ccapi/server/unix: .svn
+Only in ../krb5-1.8.3/src//ccapi/server/win: .svn
+Only in ../krb5-1.8.3/src//ccapi: .svn
+Only in ../krb5-1.8.3/src//ccapi/test: .svn
+Only in ../krb5-1.8.3/src//clients/kcpytkt: .svn
+Only in ../krb5-1.8.3/src//clients/kdeltkt: .svn
+Only in ../krb5-1.8.3/src//clients/kdestroy: kdestroy
+Only in ../krb5-1.8.3/src//clients/kdestroy: kdestroy.o
+Only in ../krb5-1.8.3/src//clients/kdestroy: Makefile
+Only in ../krb5-1.8.3/src//clients/kdestroy: .svn
+Only in ../krb5-1.8.3/src//clients/kinit: kinit
+Only in ../krb5-1.8.3/src//clients/kinit: kinit.o
+Only in ../krb5-1.8.3/src//clients/kinit: Makefile
+Only in ../krb5-1.8.3/src//clients/kinit: .svn
+Only in ../krb5-1.8.3/src//clients/klist: klist
+Only in ../krb5-1.8.3/src//clients/klist: klist.o
+Only in ../krb5-1.8.3/src//clients/klist: Makefile
+Only in ../krb5-1.8.3/src//clients/klist: .svn
+Only in ../krb5-1.8.3/src//clients/kpasswd: kpasswd
+diff -crB ../original_source/krb5-1.8/src//clients/kpasswd/kpasswd.c ../krb5-1.8.3/src//clients/kpasswd/kpasswd.c
+*** ../original_source/krb5-1.8/src//clients/kpasswd/kpasswd.c	2009-10-30 20:48:38.000000000 -0400
+--- ../krb5-1.8.3/src//clients/kpasswd/kpasswd.c	2011-09-05 16:23:27.451035724 -0400
+***************
+*** 47,53 ****
+  {
+      krb5_error_code ret;
+      krb5_context context;
+!     krb5_principal princ;
+      char *pname;
+      krb5_ccache ccache;
+      krb5_get_init_creds_opt *opts = NULL;
+--- 47,53 ----
+  {
+      krb5_error_code ret;
+      krb5_context context;
+!     krb5_principal princ = NULL;
+      char *pname;
+      krb5_ccache ccache;
+      krb5_get_init_creds_opt *opts = NULL;
+***************
+*** 84,106 ****
+              com_err(argv[0], ret, "parsing client name");
+              exit(1);
+          }
+!     } else if ((ret = krb5_cc_default(context, &ccache)) != KRB5_CC_NOTFOUND) {
+!         if (ret) {
+              com_err(argv[0], ret, "opening default ccache");
+              exit(1);
+          }
+  
+!         if ((ret = krb5_cc_get_principal(context, ccache, &princ))) {
+              com_err(argv[0], ret, "getting principal from ccache");
+              exit(1);
+          }
+  
+!         if ((ret = krb5_cc_close(context, ccache))) {
+              com_err(argv[0], ret, "closing ccache");
+              exit(1);
+          }
+!     } else {
+!         get_name_from_passwd_file(argv[0], context, &princ);
+      }
+  
+      if ((ret = krb5_get_init_creds_opt_alloc(context, &opts))) {
+--- 84,110 ----
+              com_err(argv[0], ret, "parsing client name");
+              exit(1);
+          }
+!     } else {
+!         ret = krb5_cc_default(context, &ccache);
+!         if (ret != 0) {
+              com_err(argv[0], ret, "opening default ccache");
+              exit(1);
+          }
+  
+!         ret = krb5_cc_get_principal(context, ccache, &princ);
+!         if (ret != 0 && ret != KRB5_CC_NOTFOUND && ret != KRB5_FCC_NOFILE) {
+              com_err(argv[0], ret, "getting principal from ccache");
+              exit(1);
+          }
+  
+!         ret = krb5_cc_close(context, ccache);
+!         if (ret != 0) {
+              com_err(argv[0], ret, "closing ccache");
+              exit(1);
+          }
+! 
+!         if (princ == NULL)
+!             get_name_from_passwd_file(argv[0], context, &princ);
+      }
+  
+      if ((ret = krb5_get_init_creds_opt_alloc(context, &opts))) {
+Only in ../krb5-1.8.3/src//clients/kpasswd: kpasswd.o
+Only in ../krb5-1.8.3/src//clients/kpasswd: ksetpwd
+Only in ../krb5-1.8.3/src//clients/kpasswd: ksetpwd.o
+Only in ../krb5-1.8.3/src//clients/kpasswd: Makefile
+Only in ../krb5-1.8.3/src//clients/kpasswd: .svn
+Only in ../krb5-1.8.3/src//clients/ksu: authorization.o
+Only in ../krb5-1.8.3/src//clients/ksu: ccache.o
+Only in ../krb5-1.8.3/src//clients/ksu: heuristic.o
+Only in ../krb5-1.8.3/src//clients/ksu: krb_auth_su.o
+Only in ../krb5-1.8.3/src//clients/ksu: ksu
+Only in ../krb5-1.8.3/src//clients/ksu: main.o
+Only in ../krb5-1.8.3/src//clients/ksu: Makefile
+Only in ../krb5-1.8.3/src//clients/ksu: .svn
+Only in ../krb5-1.8.3/src//clients/ksu: xmalloc.o
+Only in ../krb5-1.8.3/src//clients/kvno: kvno
+Only in ../krb5-1.8.3/src//clients/kvno: kvno.o
+Only in ../krb5-1.8.3/src//clients/kvno: Makefile
+Only in ../krb5-1.8.3/src//clients/kvno: .svn
+Only in ../krb5-1.8.3/src//clients: Makefile
+Only in ../krb5-1.8.3/src//clients: .svn
+Only in ../krb5-1.8.3/src//config/ac-archive: .svn
+Only in ../krb5-1.8.3/src//config: .svn
+Only in ../krb5-1.8.3/src/: config.cache
+diff -crB ../original_source/krb5-1.8/src//config-files/kdc.conf.M ../krb5-1.8.3/src//config-files/kdc.conf.M
+*** ../original_source/krb5-1.8/src//config-files/kdc.conf.M	2010-01-04 14:34:33.000000000 -0500
+--- ../krb5-1.8.3/src//config-files/kdc.conf.M	2011-09-05 16:23:28.403035725 -0400
+***************
+*** 53,59 ****
+  on, by default.  This list is a comma separated list of integers.  If
+  this relation is not specified, the compiled-in default is usually
+  port 88 and port 750.
+! 
+  .IP v4_mode
+  This 
+  .B string
+--- 53,69 ----
+  on, by default.  This list is a comma separated list of integers.  If
+  this relation is not specified, the compiled-in default is usually
+  port 88 and port 750.
+! .IP kdc_tcp_ports
+! This relation lists the ports on which the Kerberos server should
+! listen for TCP connections by default.  This list is a comma separated
+! list of integers.
+! If this relation is not specified, the compiled-in default is not to
+! listen for TCP connections at all.
+! 
+! If you wish to change this (which we do not recommend, because the
+! current implementation has little protection against denial-of-service
+! attacks), the standard port number assigned for Kerberos TCP traffic
+! is port 88.
+  .IP v4_mode
+  This 
+  .B string
+***************
+*** 201,206 ****
+--- 211,226 ----
+  .I [kdcdefaults] 
+  section is used.
+  
++ .IP kdc_tcp_ports
++ This
++ .B string
++ specifies the list of ports that the KDC is to listen to
++ for TCP requests for this realm.  By default, the value of
++ .I kdc_tcp_ports
++ as specified in the
++ .I [kdcdefaults]
++ section is used.
++ 
+  .IP master_key_name
+  This
+  .B string
+diff -crB ../original_source/krb5-1.8/src//config-files/krb5.conf.M ../krb5-1.8.3/src//config-files/krb5.conf.M
+*** ../original_source/krb5-1.8/src//config-files/krb5.conf.M	2010-02-25 15:14:21.000000000 -0500
+--- ../krb5-1.8.3/src//config-files/krb5.conf.M	2011-09-05 16:23:28.403035725 -0400
+***************
+*** 220,225 ****
+--- 220,229 ----
+  fail if the client machine does not have a keytab.  The default for the
+  flag is false.
+  
++ .IP ticket_lifetime
++ The value of this tag is the default lifetime for initial tickets.  The
++ default value for the tag is 1 day (1d).
++ 
+  .IP renew_lifetime
+  The value of this tag is the default renewable lifetime for initial
+  tickets.  The default value for the tag is 0.
+Only in ../krb5-1.8.3/src//config-files: Makefile
+Only in ../krb5-1.8.3/src//config-files: .svn
+Only in ../krb5-1.8.3/src/: config.log
+Only in ../krb5-1.8.3/src/: config.status
+diff -crB ../original_source/krb5-1.8/src//configure ../krb5-1.8.3/src//configure
+*** ../original_source/krb5-1.8/src//configure	2010-03-02 13:22:59.000000000 -0500
+--- ../krb5-1.8.3/src//configure	2011-09-05 16:23:43.279035732 -0400
+***************
+*** 1,6 ****
+  #! /bin/sh
+  # Guess values for system-dependent variables and create Makefiles.
+! # Generated by GNU Autoconf 2.59 for Kerberos 5 1.8.
+  #
+  # Report bugs to <krb5-bugs@mit.edu>.
+  #
+--- 1,6 ----
+  #! /bin/sh
+  # Guess values for system-dependent variables and create Makefiles.
+! # Generated by GNU Autoconf 2.59 for Kerberos 5 1.8.3.
+  #
+  # Report bugs to <krb5-bugs@mit.edu>.
+  #
+***************
+*** 273,280 ****
+  # Identity of this package.
+  PACKAGE_NAME='Kerberos 5'
+  PACKAGE_TARNAME='krb5'
+! PACKAGE_VERSION='1.8'
+! PACKAGE_STRING='Kerberos 5 1.8'
+  PACKAGE_BUGREPORT='krb5-bugs@mit.edu'
+  
+  ac_unique_file="aclocal.m4"
+--- 273,280 ----
+  # Identity of this package.
+  PACKAGE_NAME='Kerberos 5'
+  PACKAGE_TARNAME='krb5'
+! PACKAGE_VERSION='1.8.3'
+! PACKAGE_STRING='Kerberos 5 1.8.3'
+  PACKAGE_BUGREPORT='krb5-bugs@mit.edu'
+  
+  ac_unique_file="aclocal.m4"
+***************
+*** 315,321 ****
+  # include <unistd.h>
+  #endif"
+  
+! ac_subst_vars='SHELL PATH_SEPARATOR PACKAGE_NAME PACKAGE_TARNAME PACKAGE_VERSION PACKAGE_STRING PACKAGE_BUGREPORT exec_prefix prefix program_transform_name bindir sbindir libexecdir datadir sysconfdir sharedstatedir localstatedir libdir includedir oldincludedir infodir mandir build_alias host_alias target_alias DEFS ECHO_C ECHO_N ECHO_T LIBS EXTRA_FILES CC CFLAGS LDFLAGS CPPFLAGS ac_ct_CC EXEEXT OBJEXT CXX CXXFLAGS ac_ct_CXX HAVE_GCC WARN_CFLAGS WARN_CXXFLAGS CPP LD compile_et COM_ERR_VERSION SS_LIB SS_VERSION DB_HEADER DB_LIB DB_VERSION DB_HEADER_VERSION KDB5_DB_LIB HESIOD_DEFS HESIOD_LIBS MAINTAINER_MODE_TRUE MAINTAINER_MODE_FALSE MAINT CONFIG_RELTOPDIR build build_cpu build_vendor build_os host host_cpu host_vendor host_os krb5_cv_host acx_pthread_config PTHREAD_CC PTHREAD_LIBS PTHREAD_CFLAGS THREAD_SUPPORT DL_LIB EGREP KRB5_VERSION TCL_INCLUDES TCL_LIBS TCL_LIBPATH TCL_RPATH TCL_MAYBE_RPATH OBJLISTS STOBJEXT SHOBJEXT PFOBJEXT PICFLAGS PROFFLAGS LN_S RANLIB ac_ct_RANLIB ARCHIVE ARADD INSTALL_PROGRAM INSTALL_SCRIPT INSTALL_DATA AR PERL LIBLIST LIBLINKS PLUGIN PLUGINLINK PLUGININST KDB5_PLUGIN_DEPLIBS KDB5_PLUGIN_LIBS MAKE_SHLIB_COMMAND SHLIB_RPATH_FLAGS SHLIB_EXPFLAGS SHLIB_EXPORT_FILE_DEP DYNOBJ_EXPDEPS DYNOBJ_EXPFLAGS INSTALL_SHLIB STLIBEXT SHLIBEXT SHLIBVEXT SHLIBSEXT DEPLIBEXT PFLIBEXT LIBINSTLIST DYNOBJEXT MAKE_DYNOBJ_COMMAND GEN_LIB CC_LINK CXX_LINK RPATH_FLAG PROG_RPATH_FLAGS LIBUTIL STRLCPY_OBJ STRLCPY_ST_OBJ PRINTF_OBJ PRINTF_ST_OBJ AWK CRYPTO_IMPL KRB5_RUN_ENV LEX LEXLIB LEX_OUTPUT_ROOT MKSTEMP_OBJ MKSTEMP_ST_OBJ EXTRA_SUPPORT_SYMS KSU_LIBS SETENVOBJ KRB5_RCTMPDIR DO_TCL SH SH5 BASH FCTSH YACC have_RUNTEST have_PERL DO_TEST RBUILD S_TOP PERL_PATH EXPECT DO_ALL PRIOCNTL_HACK RUNTEST include_stdint include_inttypes include_xom rpcent_define GSSRPC__SYS_SELECT_H GSSRPC__SYS_TIME_H GSSRPC__UNISTD_H GSSRPC__SYS_PARAM_H GSSRPC__NETDB_H GSSRPC__STDINT_H GSSRPC__INTTYPES_H GSSRPC__FAKE_UINT32 GSSRPC__BSD_TYPEALIASES PASS LIBOBJS HAVE_RUNTEST DB_EXTRA_LIBS SUPPORTLIB_MAJOR CRYPTO_LIBS LDAP_LIBS ldap_plugin_dir LDAP PYTHON_LIB LTLIBOBJS'
+  ac_subst_files='lib_frag libobj_frag libnover_frag libpriv_frag libnodeps_frag'
+  
+  # Initialize some variables set by options.
+--- 315,321 ----
+  # include <unistd.h>
+  #endif"
+  
+! ac_subst_vars='SHELL PATH_SEPARATOR PACKAGE_NAME PACKAGE_TARNAME PACKAGE_VERSION PACKAGE_STRING PACKAGE_BUGREPORT exec_prefix prefix program_transform_name bindir sbindir libexecdir datadir sysconfdir sharedstatedir localstatedir libdir includedir oldincludedir infodir mandir build_alias host_alias target_alias DEFS ECHO_C ECHO_N ECHO_T LIBS EXTRA_FILES CC CFLAGS LDFLAGS CPPFLAGS ac_ct_CC EXEEXT OBJEXT CXX CXXFLAGS ac_ct_CXX HAVE_GCC WARN_CFLAGS WARN_CXXFLAGS CPP LD compile_et COM_ERR_VERSION SS_LIB SS_VERSION DB_HEADER DB_LIB DB_VERSION DB_HEADER_VERSION KDB5_DB_LIB HESIOD_DEFS HESIOD_LIBS MAINTAINER_MODE_TRUE MAINTAINER_MODE_FALSE MAINT CONFIG_RELTOPDIR build build_cpu build_vendor build_os host host_cpu host_vendor host_os krb5_cv_host acx_pthread_config PTHREAD_CC PTHREAD_LIBS PTHREAD_CFLAGS THREAD_SUPPORT DL_LIB EGREP KRB5_VERSION TCL_INCLUDES TCL_LIBS TCL_LIBPATH TCL_RPATH TCL_MAYBE_RPATH OBJLISTS STOBJEXT SHOBJEXT PFOBJEXT PICFLAGS PROFFLAGS LN_S RANLIB ac_ct_RANLIB ARCHIVE ARADD INSTALL_PROGRAM INSTALL_SCRIPT INSTALL_DATA AR PERL LIBLIST LIBLINKS PLUGIN PLUGINLINK PLUGININST KDB5_PLUGIN_DEPLIBS KDB5_PLUGIN_LIBS MAKE_SHLIB_COMMAND SHLIB_RPATH_FLAGS SHLIB_EXPFLAGS SHLIB_EXPORT_FILE_DEP DYNOBJ_EXPDEPS DYNOBJ_EXPFLAGS INSTALL_SHLIB STLIBEXT SHLIBEXT SHLIBVEXT SHLIBSEXT DEPLIBEXT PFLIBEXT LIBINSTLIST DYNOBJEXT MAKE_DYNOBJ_COMMAND GEN_LIB CC_LINK CXX_LINK RPATH_FLAG PROG_RPATH_FLAGS LIBUTIL STRLCPY_OBJ STRLCPY_ST_OBJ PRINTF_OBJ PRINTF_ST_OBJ AWK CRYPTO_IMPL KRB5_RUN_ENV LEX LEXLIB LEX_OUTPUT_ROOT MKSTEMP_OBJ MKSTEMP_ST_OBJ EXTRA_SUPPORT_SYMS KSU_LIBS SETENVOBJ KRB5_RCTMPDIR DO_TCL SH SH5 BASH FCTSH DIG NSLOOKUP YACC have_RUNTEST have_PERL DO_TEST RBUILD S_TOP PERL_PATH EXPECT DO_ALL PRIOCNTL_HACK RUNTEST include_stdint include_inttypes include_xom rpcent_define GSSRPC__SYS_SELECT_H GSSRPC__SYS_TIME_H GSSRPC__UNISTD_H GSSRPC__SYS_PARAM_H GSSRPC__NETDB_H GSSRPC__STDINT_H GSSRPC__INTTYPES_H GSSRPC__FAKE_UINT32 GSSRPC__BSD_TYPEALIASES PASS LIBOBJS HAVE_RUNTEST DB_EXTRA_LIBS SUPPORTLIB_MAJOR CRYPTO_LIBS LDAP_LIBS ldap_plugin_dir LDAP PYTHON_LIB LTLIBOBJS'
+  ac_subst_files='lib_frag libobj_frag libnover_frag libpriv_frag libnodeps_frag'
+  
+  # Initialize some variables set by options.
+***************
+*** 808,814 ****
+    # Omit some internal or obsolete options to make the list less imposing.
+    # This message is too long to be a string in the A/UX 3.1 sh.
+    cat <<_ACEOF
+! \`configure' configures Kerberos 5 1.8 to adapt to many kinds of systems.
+  
+  Usage: $0 [OPTION]... [VAR=VALUE]...
+  
+--- 808,814 ----
+    # Omit some internal or obsolete options to make the list less imposing.
+    # This message is too long to be a string in the A/UX 3.1 sh.
+    cat <<_ACEOF
+! \`configure' configures Kerberos 5 1.8.3 to adapt to many kinds of systems.
+  
+  Usage: $0 [OPTION]... [VAR=VALUE]...
+  
+***************
+*** 874,880 ****
+  
+  if test -n "$ac_init_help"; then
+    case $ac_init_help in
+!      short | recursive ) echo "Configuration of Kerberos 5 1.8:";;
+     esac
+    cat <<\_ACEOF
+  
+--- 874,880 ----
+  
+  if test -n "$ac_init_help"; then
+    case $ac_init_help in
+!      short | recursive ) echo "Configuration of Kerberos 5 1.8.3:";;
+     esac
+    cat <<\_ACEOF
+  
+***************
+*** 1030,1036 ****
+  test -n "$ac_init_help" && exit 0
+  if $ac_init_version; then
+    cat <<\_ACEOF
+! Kerberos 5 configure 1.8
+  generated by GNU Autoconf 2.59
+  
+  Copyright (C) 2003 Free Software Foundation, Inc.
+--- 1030,1036 ----
+  test -n "$ac_init_help" && exit 0
+  if $ac_init_version; then
+    cat <<\_ACEOF
+! Kerberos 5 configure 1.8.3
+  generated by GNU Autoconf 2.59
+  
+  Copyright (C) 2003 Free Software Foundation, Inc.
+***************
+*** 1048,1054 ****
+  This file contains any messages produced by compilers while
+  running configure, to aid debugging if configure makes a mistake.
+  
+! It was created by Kerberos 5 $as_me 1.8, which was
+  generated by GNU Autoconf 2.59.  Invocation command line was
+  
+    $ $0 $@
+--- 1048,1054 ----
+  This file contains any messages produced by compilers while
+  running configure, to aid debugging if configure makes a mistake.
+  
+! It was created by Kerberos 5 $as_me 1.8.3, which was
+  generated by GNU Autoconf 2.59.  Invocation command line was
+  
+    $ $0 $@
+***************
+*** 6837,6843 ****
+  
+  
+  
+! KRB5_VERSION=1.8
+  
+  
+  
+--- 6837,6843 ----
+  
+  
+  
+! KRB5_VERSION=1.8.3
+  
+  
+  
+***************
+*** 19617,19622 ****
+--- 19617,19705 ----
+  echo "${ECHO_T}$ac_cv_printf_positional" >&6
+  
+  
++ # for t_locate_kdc test
++ 
++ # Extract the first word of "dig", so it can be a program name with args.
++ set dummy dig; ac_word=$2
++ echo "$as_me:$LINENO: checking for $ac_word" >&5
++ echo $ECHO_N "checking for $ac_word... $ECHO_C" >&6
++ if test "${ac_cv_path_DIG+set}" = set; then
++   echo $ECHO_N "(cached) $ECHO_C" >&6
++ else
++   case $DIG in
++   [\\/]* | ?:[\\/]*)
++   ac_cv_path_DIG="$DIG" # Let the user override the test with a path.
++   ;;
++   *)
++   as_save_IFS=$IFS; IFS=$PATH_SEPARATOR
++ for as_dir in $PATH
++ do
++   IFS=$as_save_IFS
++   test -z "$as_dir" && as_dir=.
++   for ac_exec_ext in '' $ac_executable_extensions; do
++   if $as_executable_p "$as_dir/$ac_word$ac_exec_ext"; then
++     ac_cv_path_DIG="$as_dir/$ac_word$ac_exec_ext"
++     echo "$as_me:$LINENO: found $as_dir/$ac_word$ac_exec_ext" >&5
++     break 2
++   fi
++ done
++ done
++ 
++   test -z "$ac_cv_path_DIG" && ac_cv_path_DIG="false"
++   ;;
++ esac
++ fi
++ DIG=$ac_cv_path_DIG
++ 
++ if test -n "$DIG"; then
++   echo "$as_me:$LINENO: result: $DIG" >&5
++ echo "${ECHO_T}$DIG" >&6
++ else
++   echo "$as_me:$LINENO: result: no" >&5
++ echo "${ECHO_T}no" >&6
++ fi
++ 
++ # Extract the first word of "nslookup", so it can be a program name with args.
++ set dummy nslookup; ac_word=$2
++ echo "$as_me:$LINENO: checking for $ac_word" >&5
++ echo $ECHO_N "checking for $ac_word... $ECHO_C" >&6
++ if test "${ac_cv_path_NSLOOKUP+set}" = set; then
++   echo $ECHO_N "(cached) $ECHO_C" >&6
++ else
++   case $NSLOOKUP in
++   [\\/]* | ?:[\\/]*)
++   ac_cv_path_NSLOOKUP="$NSLOOKUP" # Let the user override the test with a path.
++   ;;
++   *)
++   as_save_IFS=$IFS; IFS=$PATH_SEPARATOR
++ for as_dir in $PATH
++ do
++   IFS=$as_save_IFS
++   test -z "$as_dir" && as_dir=.
++   for ac_exec_ext in '' $ac_executable_extensions; do
++   if $as_executable_p "$as_dir/$ac_word$ac_exec_ext"; then
++     ac_cv_path_NSLOOKUP="$as_dir/$ac_word$ac_exec_ext"
++     echo "$as_me:$LINENO: found $as_dir/$ac_word$ac_exec_ext" >&5
++     break 2
++   fi
++ done
++ done
++ 
++   test -z "$ac_cv_path_NSLOOKUP" && ac_cv_path_NSLOOKUP="false"
++   ;;
++ esac
++ fi
++ NSLOOKUP=$ac_cv_path_NSLOOKUP
++ 
++ if test -n "$NSLOOKUP"; then
++   echo "$as_me:$LINENO: result: $NSLOOKUP" >&5
++ echo "${ECHO_T}$NSLOOKUP" >&6
++ else
++   echo "$as_me:$LINENO: result: no" >&5
++ echo "${ECHO_T}no" >&6
++ fi
++ 
++ 
+  # for kadmin
+  
+  for ac_prog in 'bison -y' byacc
+***************
+*** 24268,24274 ****
+  } >&5
+  cat >&5 <<_CSEOF
+  
+! This file was extended by Kerberos 5 $as_me 1.8, which was
+  generated by GNU Autoconf 2.59.  Invocation command line was
+  
+    CONFIG_FILES    = $CONFIG_FILES
+--- 24351,24357 ----
+  } >&5
+  cat >&5 <<_CSEOF
+  
+! This file was extended by Kerberos 5 $as_me 1.8.3, which was
+  generated by GNU Autoconf 2.59.  Invocation command line was
+  
+    CONFIG_FILES    = $CONFIG_FILES
+***************
+*** 24331,24337 ****
+  
+  cat >>$CONFIG_STATUS <<_ACEOF
+  ac_cs_version="\\
+! Kerberos 5 config.status 1.8
+  configured by $0, generated by GNU Autoconf 2.59,
+    with options \\"`echo "$ac_configure_args" | sed 's/[\\""\`\$]/\\\\&/g'`\\"
+  
+--- 24414,24420 ----
+  
+  cat >>$CONFIG_STATUS <<_ACEOF
+  ac_cs_version="\\
+! Kerberos 5 config.status 1.8.3
+  configured by $0, generated by GNU Autoconf 2.59,
+    with options \\"`echo "$ac_configure_args" | sed 's/[\\""\`\$]/\\\\&/g'`\\"
+  
+***************
+*** 24763,24768 ****
+--- 24846,24853 ----
+  s,@SH5@,$SH5,;t t
+  s,@BASH@,$BASH,;t t
+  s,@FCTSH@,$FCTSH,;t t
++ s,@DIG@,$DIG,;t t
++ s,@NSLOOKUP@,$NSLOOKUP,;t t
+  s,@YACC@,$YACC,;t t
+  s,@have_RUNTEST@,$have_RUNTEST,;t t
+  s,@have_PERL@,$have_PERL,;t t
+diff -crB ../original_source/krb5-1.8/src//configure.in ../krb5-1.8.3/src//configure.in
+*** ../original_source/krb5-1.8/src//configure.in	2009-12-31 18:13:56.000000000 -0500
+--- ../krb5-1.8.3/src//configure.in	2011-09-05 16:23:43.303035732 -0400
+***************
+*** 662,667 ****
+--- 662,672 ----
+  AC_MSG_RESULT($ac_cv_printf_positional)
+  
+  
++ # for t_locate_kdc test
++ 
++ AC_PATH_PROG(DIG, dig, false)
++ AC_PATH_PROG(NSLOOKUP, nslookup, false)
++ 
+  # for kadmin
+  
+  AC_PROG_YACC
+Only in ../krb5-1.8.3/src/: configure_tmp
+Only in ../krb5-1.8.3/src/: cscope.out
+Only in ../krb5-1.8.3/src//gen-manpages: Makefile
+Only in ../krb5-1.8.3/src//gen-manpages: .svn
+Only in ../krb5-1.8.3/src//include: autoconf.h
+diff -crB ../original_source/krb5-1.8/src//include/autoconf.h.in ../krb5-1.8.3/src//include/autoconf.h.in
+*** ../original_source/krb5-1.8/src//include/autoconf.h.in	2010-03-02 13:23:00.000000000 -0500
+--- ../krb5-1.8.3/src//include/autoconf.h.in	2011-09-05 16:23:40.739035731 -0400
+***************
+*** 476,497 ****
+  /* Define to 1 if the system has the type `struct rt_msghdr'. */
+  #undef HAVE_STRUCT_RT_MSGHDR
+  
+! /* Define to 1 if `sin_len' is member of `struct sockaddr_in'. */
+  #undef HAVE_STRUCT_SOCKADDR_IN_SIN_LEN
+  
+! /* Define to 1 if `sa_len' is member of `struct sockaddr'. */
+  #undef HAVE_STRUCT_SOCKADDR_SA_LEN
+  
+  /* Define to 1 if the system has the type `struct sockaddr_storage'. */
+  #undef HAVE_STRUCT_SOCKADDR_STORAGE
+  
+! /* Define to 1 if `st_mtimensec' is member of `struct stat'. */
+  #undef HAVE_STRUCT_STAT_ST_MTIMENSEC
+  
+! /* Define to 1 if `st_mtimespec.tv_nsec' is member of `struct stat'. */
+  #undef HAVE_STRUCT_STAT_ST_MTIMESPEC_TV_NSEC
+  
+! /* Define to 1 if `st_mtim.tv_nsec' is member of `struct stat'. */
+  #undef HAVE_STRUCT_STAT_ST_MTIM_TV_NSEC
+  
+  /* Define to 1 if you have the `syslog' function. */
+--- 476,497 ----
+  /* Define to 1 if the system has the type `struct rt_msghdr'. */
+  #undef HAVE_STRUCT_RT_MSGHDR
+  
+! /* Define to 1 if `sin_len' is a member of `struct sockaddr_in'. */
+  #undef HAVE_STRUCT_SOCKADDR_IN_SIN_LEN
+  
+! /* Define to 1 if `sa_len' is a member of `struct sockaddr'. */
+  #undef HAVE_STRUCT_SOCKADDR_SA_LEN
+  
+  /* Define to 1 if the system has the type `struct sockaddr_storage'. */
+  #undef HAVE_STRUCT_SOCKADDR_STORAGE
+  
+! /* Define to 1 if `st_mtimensec' is a member of `struct stat'. */
+  #undef HAVE_STRUCT_STAT_ST_MTIMENSEC
+  
+! /* Define to 1 if `st_mtimespec.tv_nsec' is a member of `struct stat'. */
+  #undef HAVE_STRUCT_STAT_ST_MTIMESPEC_TV_NSEC
+  
+! /* Define to 1 if `st_mtim.tv_nsec' is a member of `struct stat'. */
+  #undef HAVE_STRUCT_STAT_ST_MTIM_TV_NSEC
+  
+  /* Define to 1 if you have the `syslog' function. */
+***************
+*** 674,679 ****
+--- 674,682 ----
+  /* Define to the one symbol short name of this package. */
+  #undef PACKAGE_TARNAME
+  
++ /* Define to the home page for this package. */
++ #undef PACKAGE_URL
++ 
+  /* Define to the version of this package. */
+  #undef PACKAGE_VERSION
+  
+***************
+*** 757,763 ****
+  /* Define to `int' if <sys/types.h> does not define. */
+  #undef mode_t
+  
+! /* Define to `long' if <sys/types.h> does not define. */
+  #undef off_t
+  
+  /* Define to `long' if <sys/types.h> does not define. */
+--- 760,766 ----
+  /* Define to `int' if <sys/types.h> does not define. */
+  #undef mode_t
+  
+! /* Define to `long int' if <sys/types.h> does not define. */
+  #undef off_t
+  
+  /* Define to `long' if <sys/types.h> does not define. */
+Only in ../krb5-1.8.3/src//include: autoconf.stamp
+Only in ../krb5-1.8.3/src//include: com_err.h
+Only in ../krb5-1.8.3/src//include: db-config.h
+Only in ../krb5-1.8.3/src//include: db.h
+Only in ../krb5-1.8.3/src//include: gssapi
+Only in ../krb5-1.8.3/src//include/gssrpc: .svn
+Only in ../krb5-1.8.3/src//include/gssrpc: types.h
+diff -crB ../original_source/krb5-1.8/src//include/k5-int-pkinit.h ../krb5-1.8.3/src//include/k5-int-pkinit.h
+*** ../original_source/krb5-1.8/src//include/k5-int-pkinit.h	2009-12-28 12:15:30.000000000 -0500
+--- ../krb5-1.8.3/src//include/k5-int-pkinit.h	2011-09-05 16:23:40.735035731 -0400
+***************
+*** 101,117 ****
+      } u;
+  } krb5_trusted_ca;
+  
+- /* typed data */
+- /* The FAST error handling logic currently assumes that this structure  and krb5_pa_data * can be safely cast to each other
+-  * if this structure changes, that code needs to be updated to copy.
+-  */
+- typedef struct _krb5_typed_data {
+-     krb5_magic magic;
+-     krb5_int32  type;
+-     unsigned int length;
+-     krb5_octet *data;
+- } krb5_typed_data;
+- 
+  /* PA-PK-AS-REQ (Draft 9 -- PA TYPE 14) */
+  typedef struct _krb5_pa_pk_as_req_draft9 {
+      krb5_octet_data signedAuthPack;
+--- 101,106 ----
+Only in ../krb5-1.8.3/src//include: kadm5
+Only in ../krb5-1.8.3/src//include/kim: .svn
+Only in ../krb5-1.8.3/src//include/krb5: krb5.h
+diff -crB ../original_source/krb5-1.8/src//include/krb5/krb5.hin ../krb5-1.8.3/src//include/krb5/krb5.hin
+*** ../original_source/krb5-1.8/src//include/krb5/krb5.hin	2010-01-21 17:49:07.000000000 -0500
+--- ../krb5-1.8.3/src//include/krb5/krb5.hin	2011-09-08 15:44:20.941196331 -0400
+***************
+*** 842,848 ****
+  #define KDC_OPT_POSTDATED               0x02000000
+  /* #define      KDC_OPT_UNUSED          0x01000000 */
+  #define KDC_OPT_RENEWABLE               0x00800000
+! /* #define      KDC_OPT_UNUSED          0x00400000 */
+  /* #define      KDC_OPT_RESERVED        0x00200000 */
+  /* #define      KDC_OPT_RESERVED        0x00100000 */
+  /* #define      KDC_OPT_RESERVED        0x00080000 */
+--- 842,848 ----
+  #define KDC_OPT_POSTDATED               0x02000000
+  /* #define      KDC_OPT_UNUSED          0x01000000 */
+  #define KDC_OPT_RENEWABLE               0x00800000
+! #define KDC_OPT_MIKEY                   0x00400000
+  /* #define      KDC_OPT_RESERVED        0x00200000 */
+  /* #define      KDC_OPT_RESERVED        0x00100000 */
+  /* #define      KDC_OPT_RESERVED        0x00080000 */
+***************
+*** 1066,1073 ****
+  #define KRB5_AUTHDATA_SESAME    65
+  #define KRB5_AUTHDATA_WIN2K_PAC 128
+  #define KRB5_AUTHDATA_ETYPE_NEGOTIATION 129     /* RFC 4537 */
+! #define KRB5_AUTHDATA_SIGNTICKET        142
+  #define KRB5_AUTHDATA_FX_ARMOR 71
+  /* password change constants */
+  
+  #define KRB5_KPASSWD_SUCCESS            0
+--- 1066,1074 ----
+  #define KRB5_AUTHDATA_SESAME    65
+  #define KRB5_AUTHDATA_WIN2K_PAC 128
+  #define KRB5_AUTHDATA_ETYPE_NEGOTIATION 129     /* RFC 4537 */
+! #define KRB5_AUTHDATA_SIGNTICKET        512     /* formerly 142 in krb5 1.8 */
+  #define KRB5_AUTHDATA_FX_ARMOR 71
++ #define KRB5_AUTHDATA_MULTICAST_GROUP 72
+  /* password change constants */
+  
+  #define KRB5_KPASSWD_SUCCESS            0
+***************
+*** 1184,1189 ****
+--- 1185,1203 ----
+      krb5_octet *contents;
+  } krb5_pa_data;
+  
++ /* typed data */
++ /*
++  * The FAST error handling logic currently assumes that this structure and
++  * krb5_pa_data * can be safely cast to each other if this structure changes,
++  * that code needs to be updated to copy.
++  */
++ typedef struct _krb5_typed_data {
++     krb5_magic magic;
++     krb5_int32  type;
++     unsigned int length;
++     krb5_octet *data;
++ } krb5_typed_data;
++ 
+  typedef struct _krb5_kdc_req {
+      krb5_magic magic;
+      krb5_msgtype msg_type;              /* AS_REQ or TGS_REQ? */
+***************
+*** 1988,1993 ****
+--- 2002,2012 ----
+                        krb5_data *);
+  
+  krb5_error_code KRB5_CALLCONV
++ krb5_recvauth_gcks(krb5_context, krb5_auth_context *, krb5_pointer, char *,
++               krb5_principal, krb5_int32, krb5_keytab, krb5_ticket **,
++                       krb5_data *);
++ 
++ krb5_error_code KRB5_CALLCONV
+  krb5_mk_ncred(krb5_context, krb5_auth_context, krb5_creds **, krb5_data **,
+                krb5_replay_data *);
+  
+***************
+*** 2570,2573 ****
+--- 2589,2597 ----
+  
+  #undef KRB5_ATTR_DEPRECATED
+  
++ 
++ // MIKEY CODE INJECTION
++ #define KDC_GCKS_PORT 5000
++ #define KDC_GCKS_ADDR "127.0.0.1"
++ 
+  #endif /* KRB5_GENERAL__ */
+Only in ../krb5-1.8.3/src//include/krb5: .svn
+Only in ../krb5-1.8.3/src//include: krb5.stamp
+Only in ../krb5-1.8.3/src//include: Makefile
+Only in ../krb5-1.8.3/src//include: osconf.h
+Only in ../krb5-1.8.3/src//include: profile.h
+Only in ../krb5-1.8.3/src//include: ss
+Only in ../krb5-1.8.3/src//include: .svn
+Only in ../krb5-1.8.3/src//kadmin/cli: getdate.c
+Only in ../krb5-1.8.3/src//kadmin/cli: getdate.o
+Only in ../krb5-1.8.3/src//kadmin/cli: kadmin
+Only in ../krb5-1.8.3/src//kadmin/cli: kadmin_ct.c
+Only in ../krb5-1.8.3/src//kadmin/cli: kadmin_ct.o
+diff -crB ../original_source/krb5-1.8/src//kadmin/cli/kadmin.h ../krb5-1.8.3/src//kadmin/cli/kadmin.h
+*** ../original_source/krb5-1.8/src//kadmin/cli/kadmin.h	2009-10-30 20:48:38.000000000 -0400
+--- ../krb5-1.8.3/src//kadmin/cli/kadmin.h	2011-09-05 16:23:41.207035731 -0400
+***************
+*** 68,74 ****
+  
+  /* Yucky global variables */
+  extern krb5_context context;
+- extern char *krb5_defkeyname;
+  extern char *whoami;
+  extern void *handle;
+  
+--- 68,73 ----
+Only in ../krb5-1.8.3/src//kadmin/cli: kadmin.local
+Only in ../krb5-1.8.3/src//kadmin/cli: kadmin.o
+diff -crB ../original_source/krb5-1.8/src//kadmin/cli/keytab.c ../krb5-1.8.3/src//kadmin/cli/keytab.c
+*** ../original_source/krb5-1.8/src//kadmin/cli/keytab.c	2009-10-30 20:48:38.000000000 -0400
+--- ../krb5-1.8.3/src//kadmin/cli/keytab.c	2011-09-05 16:23:41.211035731 -0400
+***************
+*** 2,8 ****
+  /*
+   * Copyright 1993 OpenVision Technologies, Inc., All Rights Reserved.
+   *
+!  * $Id: keytab.c 23100 2009-10-31 00:48:38Z tlyu $
+   * $Source$
+   */
+  
+--- 2,8 ----
+  /*
+   * Copyright 1993 OpenVision Technologies, Inc., All Rights Reserved.
+   *
+!  * $Id: keytab.c 24131 2010-06-10 21:14:34Z tlyu $
+   * $Source$
+   */
+  
+***************
+*** 84,92 ****
+      char *name = *keytab_str;
+  
+      if (name == NULL) {
+!         /* XXX krb5_defkeyname is an internal library global and
+!            should go away */
+!         name = strdup(krb5_defkeyname);
+          if (!name) {
+              com_err(whoami, ENOMEM, "while creating keytab name");
+              return 1;
+--- 84,90 ----
+      char *name = *keytab_str;
+  
+      if (name == NULL) {
+!         name = malloc(BUFSIZ);
+          if (!name) {
+              com_err(whoami, ENOMEM, "while creating keytab name");
+              return 1;
+***************
+*** 97,102 ****
+--- 95,106 ----
+              free(name);
+              return 1;
+          }
++         code = krb5_kt_get_name(my_context, *keytab, name, BUFSIZ);
++         if (code != 0) {
++             com_err(whoami, code, "while getting keytab name");
++             free(name);
++             return 1;
++         }
+      } else {
+          if (strchr(name, ':') != NULL)
+              name = strdup(name);
+Only in ../krb5-1.8.3/src//kadmin/cli: keytab_local.o
+Only in ../krb5-1.8.3/src//kadmin/cli: keytab.o
+Only in ../krb5-1.8.3/src//kadmin/cli: Makefile
+Only in ../krb5-1.8.3/src//kadmin/cli: ss_wrapper.o
+Only in ../krb5-1.8.3/src//kadmin/cli: .svn
+Only in ../krb5-1.8.3/src//kadmin/dbutil: dump.o
+Only in ../krb5-1.8.3/src//kadmin/dbutil: import_err.c
+Only in ../krb5-1.8.3/src//kadmin/dbutil: import_err.h
+Only in ../krb5-1.8.3/src//kadmin/dbutil: import_err.o
+Only in ../krb5-1.8.3/src//kadmin/dbutil: kadm5_create.o
+Only in ../krb5-1.8.3/src//kadmin/dbutil: kdb5_create.o
+Only in ../krb5-1.8.3/src//kadmin/dbutil: kdb5_destroy.o
+Only in ../krb5-1.8.3/src//kadmin/dbutil: kdb5_mkey.o
+diff -crB ../original_source/krb5-1.8/src//kadmin/dbutil/kdb5_stash.c ../krb5-1.8.3/src//kadmin/dbutil/kdb5_stash.c
+*** ../original_source/krb5-1.8/src//kadmin/dbutil/kdb5_stash.c	2009-11-02 22:27:56.000000000 -0500
+--- ../krb5-1.8.3/src//kadmin/dbutil/kdb5_stash.c	2011-09-05 16:23:41.019035731 -0400
+***************
+*** 135,141 ****
+      }
+  
+      retval = krb5_db_open(context, db5util_db_args,
+!                           KRB5_KDB_OPEN_RW | KRB5_KDB_SRV_TYPE_OTHER);
+      if (retval) {
+          com_err(progname, retval, "while initializing the database '%s'",
+                  dbname);
+--- 135,141 ----
+      }
+  
+      retval = krb5_db_open(context, db5util_db_args,
+!                           KRB5_KDB_OPEN_RW | KRB5_KDB_SRV_TYPE_ADMIN);
+      if (retval) {
+          com_err(progname, retval, "while initializing the database '%s'",
+                  dbname);
+Only in ../krb5-1.8.3/src//kadmin/dbutil: kdb5_stash.o
+Only in ../krb5-1.8.3/src//kadmin/dbutil: kdb5_util
+Only in ../krb5-1.8.3/src//kadmin/dbutil: kdb5_util.o
+Only in ../krb5-1.8.3/src//kadmin/dbutil: Makefile
+Only in ../krb5-1.8.3/src//kadmin/dbutil: ovload.o
+Only in ../krb5-1.8.3/src//kadmin/dbutil: string_table.o
+Only in ../krb5-1.8.3/src//kadmin/dbutil: strtok.o
+Only in ../krb5-1.8.3/src//kadmin/dbutil: .svn
+Only in ../krb5-1.8.3/src//kadmin/kdbkeys: .svn
+Only in ../krb5-1.8.3/src//kadmin/ktutil: ktutil
+Only in ../krb5-1.8.3/src//kadmin/ktutil: ktutil_ct.c
+Only in ../krb5-1.8.3/src//kadmin/ktutil: ktutil_ct.o
+Only in ../krb5-1.8.3/src//kadmin/ktutil: ktutil_funcs.o
+Only in ../krb5-1.8.3/src//kadmin/ktutil: ktutil.o
+Only in ../krb5-1.8.3/src//kadmin/ktutil: Makefile
+Only in ../krb5-1.8.3/src//kadmin/ktutil: .svn
+Only in ../krb5-1.8.3/src//kadmin: Makefile
+Only in ../krb5-1.8.3/src//kadmin/scripts: .svn
+Only in ../krb5-1.8.3/src//kadmin/server: ipropd_svc.o
+Only in ../krb5-1.8.3/src//kadmin/server: kadmind
+Only in ../krb5-1.8.3/src//kadmin/server: kadm_rpc_svc.o
+Only in ../krb5-1.8.3/src//kadmin/server: Makefile
+Only in ../krb5-1.8.3/src//kadmin/server: misc.o
+Only in ../krb5-1.8.3/src//kadmin/server: network.o
+Only in ../krb5-1.8.3/src//kadmin/server: ovsec_kadmd.o
+Only in ../krb5-1.8.3/src//kadmin/server: schpw.o
+Only in ../krb5-1.8.3/src//kadmin/server: server_stubs.o
+Only in ../krb5-1.8.3/src//kadmin/server: .svn
+Only in ../krb5-1.8.3/src//kadmin: .svn
+Only in ../krb5-1.8.3/src//kadmin/testing: Makefile
+Only in ../krb5-1.8.3/src//kadmin/testing/proto: .svn
+Only in ../krb5-1.8.3/src//kadmin/testing/scripts: compare_dump.pl
+Only in ../krb5-1.8.3/src//kadmin/testing/scripts: env-setup.sh
+Only in ../krb5-1.8.3/src//kadmin/testing/scripts: env-setup.stamp
+Only in ../krb5-1.8.3/src//kadmin/testing/scripts: Makefile
+Only in ../krb5-1.8.3/src//kadmin/testing/scripts: make-host-keytab.pl
+Only in ../krb5-1.8.3/src//kadmin/testing/scripts: qualname.pl
+Only in ../krb5-1.8.3/src//kadmin/testing/scripts: simple_dump.pl
+Only in ../krb5-1.8.3/src//kadmin/testing/scripts: .svn
+Only in ../krb5-1.8.3/src//kadmin/testing/scripts: verify_xrunner_report.pl
+Only in ../krb5-1.8.3/src//kadmin/testing: .svn
+Only in ../krb5-1.8.3/src//kadmin/testing/tcl: .svn
+Only in ../krb5-1.8.3/src//kadmin/testing/util: Makefile
+Only in ../krb5-1.8.3/src//kadmin/testing/util: .svn
+Only in ../krb5-1.8.3/src//kdc: cscope.out
+Only in ../krb5-1.8.3/src//kdc: dispatch.o
+Only in ../krb5-1.8.3/src//kdc: do_as_req.o
+diff -crB ../original_source/krb5-1.8/src//kdc/do_tgs_req.c ../krb5-1.8.3/src//kdc/do_tgs_req.c
+*** ../original_source/krb5-1.8/src//kdc/do_tgs_req.c	2010-02-22 19:25:54.000000000 -0500
+--- ../krb5-1.8.3/src//kdc/do_tgs_req.c	2011-09-15 17:06:34.433450310 -0400
+***************
+*** 72,77 ****
+--- 72,81 ----
+  #include "adm_proto.h"
+  #include <ctype.h>
+  
++ // MIKEY TEST CODE INJECTION
++ #include <libmikey_wrapper.h>
++ 
++ 
+  static void
+  find_alternate_tgs(krb5_kdc_req *,krb5_db_entry *,
+                     krb5_boolean *,int *);
+***************
+*** 83,88 ****
+--- 87,96 ----
+  static krb5_int32
+  prep_reprocess_req(krb5_kdc_req *,krb5_principal *);
+  
++ static krb5_int32
++ do_gcks_req(char* cname, char* sname, krb5_fulladdr* from, krb5_keyblock * service_key,
++         krb5_keyblock * session_key);
++ 
+  /*ARGSUSED*/
+  krb5_error_code
+  process_tgs_req(krb5_data *pkt, const krb5_fulladdr *from,
+***************
+*** 133,138 ****
+--- 141,158 ----
+      krb5_pa_data *pa_tgs_req; /*points into request*/
+      krb5_data scratch;
+      krb5_data e_data = empty_data(); /* backend-provided error data */
++     
++     /* Variables used by MIKEY CODE INJECTION */
++     char* gcks_realm = "LOCALHOST";
++     krb5_principal gcks_princ;
++     krb5_db_entry gcks_db_entry;
++     krb5_boolean more_gcks;
++     krb5_keyblock *gcks_mkey_ptr;
++     char* gcks_sname;
++     int nprincs_gcks = 0;
++     krb5_key_data  *gcks_key;
++     krb5_keyblock gcks_encrypting_key;
++     /* -------------------------------------- */
+  
+      reply.padata = 0; /* For cleanup handler */
+      reply_encpart.enc_padata = 0;
+***************
+*** 142,151 ****
+      session_key.contents = NULL;
+  
+      retval = decode_krb5_tgs_req(pkt, &request);
+      if (retval)
+          return retval;
+!     if (request->msg_type != KRB5_TGS_REQ)
+          return KRB5_BADMSGTYPE;
+  
+      /*
+       * setup_server_realm() sets up the global realm-specific data pointer.
+--- 162,174 ----
+      session_key.contents = NULL;
+  
+      retval = decode_krb5_tgs_req(pkt, &request);
++ 
+      if (retval)
+          return retval;
+!     if (request->msg_type != KRB5_TGS_REQ) {
+!         krb5_free_kdc_req(kdc_context, request);
+          return KRB5_BADMSGTYPE;
++     }
+  
+      /*
+       * setup_server_realm() sets up the global realm-specific data pointer.
+***************
+*** 543,548 ****
+--- 567,573 ----
+             to the caller */
+          ticket_reply = *(header_ticket);
+          enc_tkt_reply = *(header_ticket->enc_part2);
++         enc_tkt_reply.authorization_data = NULL;
+          clear(enc_tkt_reply.flags, TKT_FLG_INVALID);
+      }
+  
+***************
+*** 554,559 ****
+--- 579,585 ----
+             to the caller */
+          ticket_reply = *(header_ticket);
+          enc_tkt_reply = *(header_ticket->enc_part2);
++         enc_tkt_reply.authorization_data = NULL;
+  
+          old_life = enc_tkt_reply.times.endtime - enc_tkt_reply.times.starttime;
+  
+***************
+*** 886,893 ****
+--- 912,1002 ----
+  
+      errcode = krb5_encrypt_tkt_part(kdc_context, &encrypting_key,
+                                      &ticket_reply);
++     
++     /*----------- Code injection for MIKEY integration ---------------------*/
++     /*   We must do this before the encrypting_key is freed        */
++     krb5_klog_syslog(LOG_INFO, "TGS_REQ : Backdoor GCKS [%X]", request->kdc_options & KDC_OPT_MIKEY);
++     if( isflagset(request->kdc_options, KDC_OPT_MIKEY) ){
++ 
++         /* NEED TO DO GCKS-SERVICE(GROUP) mapping here*/
++         gcks_sname = "ksm2_gcks1";
++         errcode = krb5_sname_to_principal(kdc_context, gcks_realm, gcks_sname,
++                                          KRB5_NT_SRV_HST, &gcks_princ);
++ 
++     krb5_unparse_name(kdc_context,gcks_princ,
++                                       &gcks_sname);
++         if (errcode) {
++             status = "LOOKING_UP_GCKS_PRINCIPAL_SNAME";
++             goto cleanup;
++         }
++     krb5_klog_syslog(LOG_INFO, "TGS_REQ : Backdoor GCKS DEBUG1 %s", gcks_sname);
++         if (errcode) {
++             status = "LOOKING_UP_GCKS_PRINCIPAL";
++             goto cleanup;
++         }
++         nprincs_gcks = 1;
++         errcode = krb5_db_get_principal_ext(kdc_context,
++                                             gcks_princ,
++                                             KRB5_KDB_FLAG_CANONICALIZE,
++                                             &gcks_db_entry,
++                                             &nprincs_gcks,
++                                             &more_gcks);
++         if (errcode) {
++             status = "LOOKING_UP_GCKS";
++             nprincs_gcks = 0;
++             goto cleanup;
++         }
++         
++         if ((errcode = krb5_dbe_find_enctype(kdc_context, &gcks_db_entry,
++                                              -1, /* ignore keytype */
++                                              -1, /* Ignore salttype */
++                                              0,  /* Get highest kvno */
++                                              &gcks_key))) {
++             status = "FINDING_GCKS_KEY";
++             goto cleanup;
++         }
++ 
++         if ((errcode = krb5_dbe_find_mkey(kdc_context, master_keylist, &gcks_db_entry,
++                                           &gcks_mkey_ptr))) {
++             krb5_keylist_node *tmp_mkey_list;
++             /* try refreshing master key list */
++             /* XXX it would nice if we had the mkvno here for optimization */
++             if (krb5_db_fetch_mkey_list(kdc_context, master_princ,
++                                         &master_keyblock, 0, &tmp_mkey_list) == 0) {
++                 krb5_dbe_free_key_list(kdc_context, master_keylist);
++                 master_keylist = tmp_mkey_list;
++                 if ((errcode = krb5_dbe_find_mkey(kdc_context, master_keylist,
++                                                   &gcks_db_entry, &gcks_mkey_ptr))) {
++                     status = "FINDING_MASTER_KEY";
++                     goto cleanup;
++                 }
++             } else {
++                 status = "FINDING_MASTER_KEY";
++                 goto cleanup;
++             }
++         }
++         /*
++          * Convert gcks_key.key into a real key
++          * (it may be encrypted in the database)
++          */
++         if ((errcode = krb5_dbekd_decrypt_key_data(kdc_context,
++                                                    gcks_mkey_ptr,
++                                                    gcks_key, &gcks_encrypting_key,
++                                                    NULL))) {
++             status = "DECRYPT_GCKS_KEY";
++             goto cleanup;
++         }
++         
++         do_gcks_req(cname, sname, from, &gcks_encrypting_key, &session_key);
++ 
++     krb5_klog_syslog(LOG_INFO, "TGS_REQ : %s(%d)", __FILE__, __LINE__);
++     }
++     /*----------- Local function end for MIKEY integration ------------------*/
++ 
++     krb5_klog_syslog(LOG_INFO, "TGS_REQ : %s(%d)", __FILE__, __LINE__);
+      if (!isflagset(request->kdc_options, KDC_OPT_ENC_TKT_IN_SKEY))
+          krb5_free_keyblock_contents(kdc_context, &encrypting_key);
++     krb5_klog_syslog(LOG_INFO, "TGS_REQ : %s(%d)", __FILE__, __LINE__);
+      if (errcode) {
+          status = "TKT_ENCRYPT";
+          goto cleanup;
+***************
+*** 895,900 ****
+--- 1004,1010 ----
+      ticket_reply.enc_part.kvno = ticket_kvno;
+      /* Start assembling the response */
+      reply.msg_type = KRB5_TGS_REP;
++     krb5_klog_syslog(LOG_INFO, "TGS_REQ : %s(%d)", __FILE__, __LINE__);
+      if (isflagset(c_flags, KRB5_KDB_FLAG_PROTOCOL_TRANSITION) &&
+          find_pa_data(request->padata, KRB5_PADATA_S4U_X509_USER) != NULL) {
+          errcode = kdc_make_s4u2self_rep(kdc_context,
+***************
+*** 909,914 ****
+--- 1019,1025 ----
+          }
+      }
+  
++     krb5_klog_syslog(LOG_INFO, "TGS_REQ : %s(%d)", __FILE__, __LINE__);
+      reply.client = enc_tkt_reply.client;
+      reply.enc_part.kvno = 0;/* We are using the session key */
+      reply.ticket = &ticket_reply;
+***************
+*** 916,921 ****
+--- 1027,1033 ----
+      reply_encpart.session = &session_key;
+      reply_encpart.nonce = request->nonce;
+  
++     krb5_klog_syslog(LOG_INFO, "TGS_REQ : %s(%d)", __FILE__, __LINE__);
+      /* copy the time fields */
+      reply_encpart.times = enc_tkt_reply.times;
+  
+***************
+*** 933,944 ****
+--- 1045,1058 ----
+      reply_encpart.flags = enc_tkt_reply.flags;
+      reply_encpart.server = ticket_reply.server;
+  
++     krb5_klog_syslog(LOG_INFO, "TGS_REQ : %s(%d)", __FILE__, __LINE__);
+      /* use the session key in the ticket, unless there's a subsession key
+         in the AP_REQ */
+      reply.enc_part.enctype = subkey ? subkey->enctype :
+          header_ticket->enc_part2->session->enctype;
+      errcode  = kdc_fast_response_handle_padata(state, request, &reply,
+                                                 subkey ? subkey->enctype : header_ticket->enc_part2->session->enctype);
++     krb5_klog_syslog(LOG_INFO, "TGS_REQ : %s(%d)", __FILE__, __LINE__);
+      if (errcode !=0 ) {
+          status = "Preparing FAST padata";
+          goto cleanup;
+***************
+*** 949,964 ****
+          status  = "generating reply key";
+          goto cleanup;
+      }
+      errcode = return_enc_padata(kdc_context, pkt, request,
+                                  reply_key, &server, &reply_encpart,
+                                  is_referral &&
+                                  isflagset(s_flags,
+                                            KRB5_KDB_FLAG_CANONICALIZE));
+      if (errcode) {
+          status = "KDC_RETURN_ENC_PADATA";
+          goto cleanup;
+      }
+! 
+      errcode = krb5_encode_kdc_rep(kdc_context, KRB5_TGS_REP, &reply_encpart,
+                                    subkey ? 1 : 0,
+                                    reply_key,
+--- 1063,1080 ----
+          status  = "generating reply key";
+          goto cleanup;
+      }
++     krb5_klog_syslog(LOG_INFO, "TGS_REQ : %s(%d)", __FILE__, __LINE__);
+      errcode = return_enc_padata(kdc_context, pkt, request,
+                                  reply_key, &server, &reply_encpart,
+                                  is_referral &&
+                                  isflagset(s_flags,
+                                            KRB5_KDB_FLAG_CANONICALIZE));
++     krb5_klog_syslog(LOG_INFO, "TGS_REQ : %s(%d)", __FILE__, __LINE__);
+      if (errcode) {
+          status = "KDC_RETURN_ENC_PADATA";
+          goto cleanup;
+      }
+!     
+      errcode = krb5_encode_kdc_rep(kdc_context, KRB5_TGS_REP, &reply_encpart,
+                                    subkey ? 1 : 0,
+                                    reply_key,
+***************
+*** 969,974 ****
+--- 1085,1091 ----
+          status = "ISSUE";
+      }
+  
++     krb5_klog_syslog(LOG_INFO, "TGS_REQ : %s(%d)", __FILE__, __LINE__);
+      memset(ticket_reply.enc_part.ciphertext.data, 0,
+             ticket_reply.enc_part.ciphertext.length);
+      free(ticket_reply.enc_part.ciphertext.data);
+***************
+*** 979,984 ****
+--- 1096,1102 ----
+      free(reply.enc_part.ciphertext.data);
+  
+  cleanup:
++     krb5_klog_syslog(LOG_INFO, "TGS_REQ : %s(%d)", __FILE__, __LINE__);
+      assert(status != NULL);
+      if (reply_key)
+          krb5_free_keyblock(kdc_context, reply_key);
+***************
+*** 1215,1220 ****
+--- 1333,1339 ----
+          strlcpy(comp1_str,comp1->data,comp1->length+1);
+  
+          if ((krb5_princ_type(kdc_context, request->server) == KRB5_NT_SRV_HST ||
++              krb5_princ_type(kdc_context, request->server) == KRB5_NT_SRV_INST ||
+               (krb5_princ_type(kdc_context, request->server) == KRB5_NT_UNKNOWN &&
+                kdc_active_realm->realm_host_based_services != NULL &&
+                (krb5_match_config_pattern(kdc_active_realm->realm_host_based_services,
+***************
+*** 1268,1270 ****
+--- 1387,1557 ----
+  
+      return retval;
+  }
++ 
++ 
++ /* MIKEY related Methods:
++  * In our prototype model,  the KDC will send a copy of the session key to the GCKS
++  * So that the GCKS can generate the MIKEY-INIT with a new TGK for the client
++  * It will also know which group that the client is wanting to connect to.
++  */
++ 
++ /* process_gcks_req
++  * Forwards the session key to the GCKS to allow it to do the group
++  * key management. 
++  */
++ static krb5_int32
++ do_gcks_req(char* cname, char* sname, krb5_fulladdr* from,
++     krb5_keyblock * gcks_key, krb5_keyblock * session_key)
++ {
++     // Need to add do_gcks_req(krb5_keyblock * session_key);
++     // to the error code table
++     krb5_error_code retval = -1; 
++     int sock;
++     struct hostent *host;
++     struct sockaddr_in gcks_addr;
++ 
++     struct MikeyTestConfig* config;
++     struct Mikey* mikey;
++     char* mikeyMessage;
++     //char* senderMessage;
++     
++     const char *fromString = 0;
++     char fromStringBuf[100];
++     char connInfo[1024]; // Construct the client's name, address, port number
++                     // and service (multicast group) name
++     char tmpBuf[BUFSIZ];
++     char* tmp;
++     int i;
++     
++     struct linger linger; 
++     
++     fromString = inet_ntop(ADDRTYPE2FAMILY(from->address->addrtype),
++                        from->address->contents,
++                        fromStringBuf, sizeof(fromStringBuf));
++    
++     if (!fromString)
++         fromString = "<unknown>"; // Unknown type of address
++     
++     krb5_klog_syslog(LOG_INFO,
++     "TGS_REQ : do_gcks_req cname[%s], sname[%s], clientaddr[%s], port[%d]",
++                                                                 cname,
++                                                                 sname,
++                                                                 fromString,
++                                                                 from->port);
++ 
++      //  krb5_klog_syslog(LOG_INFO, "TGS_REQ : do_gcks_req gcks_key_length [%d]", gcks_key->length);
++     //for(i=0; i< gcks_key->length;i++){
++         //krb5_klog_syslog(LOG_INFO, "TGS_REQ : do_gcks_req gcks_key [%02X]", gcks_key->contents[i]);
++         //tmpBuf[i]=gcks_key->contents[i];
++     //}
++     //krb5_klog_syslog(LOG_INFO, "TGS_REQ : do_gcks_req gcks_key [%s]", tmpBuf);
++ krb5_klog_syslog(LOG_INFO, "%s(%d)", __FILE__, __LINE__);
++     if ( cname != NULL && sname != NULL )
++     {
++         snprintf(connInfo, 1024, "%s|%s|%d|%s|", cname,fromString, from->port,sname);
++     }
++ 
++ krb5_klog_syslog(LOG_INFO, "%s(%d)", __FILE__, __LINE__);
++     krb5_klog_syslog(LOG_INFO, "TGS_REQ : do_gcks_req connInfo [%s]", connInfo);
++ 
++     // Constructors for C++ objects
++     call_MikeyTestConfig_Construct( &config );
++     call_MikeyTestConfig_setPSK( config, gcks_key->contents, gcks_key->length );
++     call_MikeyTestConfig_setTGK( config, session_key->contents, session_key->length );
++     call_MikeyTestConfig_setConnInfo( config, connInfo );
++     
++     call_Mikey_Construct( &mikey, config );
++ 
++     tmp= call_MikeyTestConfig_getPSK(config);
++     krb5_klog_syslog(LOG_INFO, "TGS_REQ : do_gcks_req Config PSK: [%s]", tmp);
++ 
++ krb5_klog_syslog(LOG_INFO, "%s(%d)", __FILE__, __LINE__);
++     call_Mikey_addSender(mikey, rand());
++     
++ krb5_klog_syslog(LOG_INFO, "%s(%d)", __FILE__, __LINE__);
++     mikeyMessage = call_Mikey_initiatorCreate(mikey, KEY_AGREEMENT_TYPE_PSK, "KDC");
++     
++ krb5_klog_syslog(LOG_INFO, "%s(%d)", __FILE__, __LINE__);
++     memset(tmpBuf, '\0', BUFSIZ);
++ krb5_klog_syslog(LOG_INFO, "%s(%d)", __FILE__, __LINE__);
++     strncpy(tmpBuf, mikeyMessage, BUFSIZ);
++ krb5_klog_syslog(LOG_INFO, "%s(%d)", __FILE__, __LINE__);
++     tmpBuf[BUFSIZ-1] = '\0';
++     
++ krb5_klog_syslog(LOG_INFO, "%s(%d)", __FILE__, __LINE__);
++     //senderMessage = (char*) malloc(strlen(mikeyMessage) + 1);
++     //strncpy(senderMessage, mikeyMessage, strlen(mikeyMessage));
++     //senderMessage[strlen(mikeyMessage)] = 0;
++ 
++     /* DEBUG prints for checking MIKEY messages
++     krb5_klog_syslog(LOG_INFO, "TGS_REQ : do_gcks_req MikeyMsgLength: %d", strlen(tmpBuf));
++     krb5_klog_syslog(LOG_INFO, "TGS_REQ : do_gcks_req MikeyMsg: %s", tmpBuf);
++     */
++     
++     // FIXME Should be figuring the GCKS address dynamically,
++     // we leave that for future development when GCKS-group mapping is done
++     host = gethostbyname(KDC_GCKS_ADDR);
++     if ((sock = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP)) == -1) {
++         perror("Socket");
++         retval = -1;
++         return retval;
++     }
++     gcks_addr.sin_family = AF_INET;
++     gcks_addr.sin_port = htons(KDC_GCKS_PORT);
++     gcks_addr.sin_addr = *((struct in_addr *)host->h_addr_list[0]);
++     bzero(&(gcks_addr.sin_zero),8);
++ 
++ krb5_klog_syslog(LOG_INFO, "%s(%d)", __FILE__, __LINE__);
++ 
++     linger.l_onoff = 1; 
++     linger.l_linger = 1; 
++      
++     if (setsockopt(sock,SOL_SOCKET,SO_LINGER, 
++                  &linger,sizeof(linger)) == -1) { 
++         perror("Setsockopt"); 
++         exit(1); 
++     }
++ /*
++ {   
++     struct sockaddr_in mySockAddr;
++     int sockaddr_len;
++ 
++     mySockAddr.sin_family = AF_INET;
++     mySockAddr.sin_port = htons(0);
++     mySockAddr.sin_addr.s_addr = htonl(INADDR_ANY);
++     if( bind( sock, (struct sockaddr *) &mySockAddr, 
++                 sizeof(struct sockaddr_in)) == -1 )
++     {
++         perror("Bind");
++         exit(1);
++     }
++ 
++     bzero(&mySockAddr, sizeof(mySockAddr));
++     if(getsockname(sock, (struct sockaddr *) &mySockAddr,
++                  (socklen_t* )&sockaddr_len) < 0) 
++     {
++         perror("getsockname"); 
++         exit(1);
++     }
++ 
++     krb5_klog_syslog(LOG_INFO, 
++         "TGS_GCKS_CLIENT: Addr: %s, port: %d\n", inet_ntoa(mySockAddr.sin_addr),
++            ntohs(mySockAddr.sin_port));
++  }*/
++     if (connect(sock, (struct sockaddr *)&gcks_addr,
++                 sizeof(struct sockaddr)) == -1)
++     {
++         //close(sock);
++         //usleep(100);
++         //if( i++ == 5 ) {
++         perror("Connect");
++         retval = -1;
++         return retval;
++         //}
++     }
++ 
++ krb5_klog_syslog(LOG_INFO, "%s(%d)", __FILE__, __LINE__);
++     send(sock,tmpBuf, strlen(tmpBuf), 0);
++ krb5_klog_syslog(LOG_INFO, "%s(%d)", __FILE__, __LINE__);
++    close(sock);
++ }
+Only in ../krb5-1.8.3/src//kdc: do_tgs_req.o
+Only in ../krb5-1.8.3/src//kdc: extern.o
+Only in ../krb5-1.8.3/src//kdc: fast_util.o
+Only in ../krb5-1.8.3/src//kdc: kdc5_err.c
+Only in ../krb5-1.8.3/src//kdc: kdc5_err.h
+Only in ../krb5-1.8.3/src//kdc: kdc5_err.o
+diff -crB ../original_source/krb5-1.8/src//kdc/kdc_authdata.c ../krb5-1.8.3/src//kdc/kdc_authdata.c
+*** ../original_source/krb5-1.8/src//kdc/kdc_authdata.c	2010-02-08 15:55:43.000000000 -0500
+--- ../krb5-1.8.3/src//kdc/kdc_authdata.c	2011-09-05 16:23:40.875035731 -0400
+***************
+*** 934,941 ****
+      enc_sp.length = sp_authdata[0]->length;
+  
+      code = decode_krb5_ad_signedpath(&enc_sp, &sp);
+!     if (code != 0)
+          goto cleanup;
+  
+      code = verify_ad_signedpath_checksum(context,
+                                           krbtgt,
+--- 934,945 ----
+      enc_sp.length = sp_authdata[0]->length;
+  
+      code = decode_krb5_ad_signedpath(&enc_sp, &sp);
+!     if (code != 0) {
+!         /* Treat an invalid signedpath authdata element as a missing one, since
+!          * we believe MS is using the same number for something else. */
+!         code = 0;
+          goto cleanup;
++     }
+  
+      code = verify_ad_signedpath_checksum(context,
+                                           krbtgt,
+Only in ../krb5-1.8.3/src//kdc: kdc_authdata.o
+Only in ../krb5-1.8.3/src//kdc: kdc_preauth.o
+diff -crB ../original_source/krb5-1.8/src//kdc/kdc_util.c ../krb5-1.8.3/src//kdc/kdc_util.c
+*** ../original_source/krb5-1.8/src//kdc/kdc_util.c	2010-02-12 15:28:39.000000000 -0500
+--- ../krb5-1.8.3/src//kdc/kdc_util.c	2011-09-05 16:23:40.875035731 -0400
+***************
+*** 1235,1241 ****
+                               KDC_OPT_ALLOW_POSTDATE | KDC_OPT_POSTDATED | \
+                               KDC_OPT_RENEWABLE | KDC_OPT_RENEWABLE_OK | \
+                               KDC_OPT_ENC_TKT_IN_SKEY | KDC_OPT_RENEW |  \
+!                              KDC_OPT_VALIDATE | KDC_OPT_CANONICALIZE | KDC_OPT_CNAME_IN_ADDL_TKT)
+  #define NO_TGT_OPTION (KDC_OPT_FORWARDED | KDC_OPT_PROXY | KDC_OPT_RENEW | \
+                         KDC_OPT_VALIDATE)
+  
+--- 1235,1242 ----
+                               KDC_OPT_ALLOW_POSTDATE | KDC_OPT_POSTDATED | \
+                               KDC_OPT_RENEWABLE | KDC_OPT_RENEWABLE_OK | \
+                               KDC_OPT_ENC_TKT_IN_SKEY | KDC_OPT_RENEW |  \
+!                              KDC_OPT_VALIDATE | KDC_OPT_CANONICALIZE | \
+!                              KDC_OPT_CNAME_IN_ADDL_TKT | KDC_OPT_MIKEY)
+  #define NO_TGT_OPTION (KDC_OPT_FORWARDED | KDC_OPT_PROXY | KDC_OPT_RENEW | \
+                         KDC_OPT_VALIDATE)
+  
+Only in ../krb5-1.8.3/src//kdc: kdc_util.o
+Only in ../krb5-1.8.3/src//kdc: krb5kdc
+diff -crB ../original_source/krb5-1.8/src//kdc/main.c ../krb5-1.8.3/src//kdc/main.c
+*** ../original_source/krb5-1.8/src//kdc/main.c	2010-01-01 11:41:04.000000000 -0500
+--- ../krb5-1.8.3/src//kdc/main.c	2011-09-05 16:23:40.891035731 -0400
+***************
+*** 728,733 ****
+--- 728,734 ----
+              break;
+          case 'P':
+              pid_file = optarg;
++             break;
+          case 'p':
+              if (default_udp_ports)
+                  free(default_udp_ports);
+Only in ../krb5-1.8.3/src//kdc: main.o
+Only in ../krb5-1.8.3/src//kdc: Makefile
+diff -crB ../original_source/krb5-1.8/src//kdc/Makefile.in ../krb5-1.8.3/src//kdc/Makefile.in
+*** ../original_source/krb5-1.8/src//kdc/Makefile.in	2009-11-22 13:13:29.000000000 -0500
+--- ../krb5-1.8.3/src//kdc/Makefile.in	2011-09-05 16:23:40.875035731 -0400
+***************
+*** 11,16 ****
+--- 11,17 ----
+  KDB5_LIB_DEPS=$(DL_LIB) $(THREAD_LINKOPTS)
+  PROG_RPATH=$(KRB5_LIBDIR)
+  DEFS=-DLIBDIR=\"$(KRB5_LIBDIR)\"
++ MIKEY_WRAPPER_LIB=-lmikey_wrapper
+  
+  all:: krb5kdc rtest
+  
+***************
+*** 61,67 ****
+  kdc5_err.o: kdc5_err.h
+  
+  krb5kdc: $(OBJS) $(KADMSRV_DEPLIBS) $(KRB5_BASE_DEPLIBS) $(APPUTILS_DEPLIB)
+! 	$(CC_LINK) -o krb5kdc $(OBJS) $(KADMSRV_LIBS) $(KRB5_BASE_LIBS) $(APPUTILS_LIB)
+  
+  rtest: $(RT_OBJS) $(KDB5_DEPLIBS) $(KADM_COMM_DEPLIBS) $(KRB5_BASE_DEPLIBS)
+  	$(CC_LINK) -o rtest $(RT_OBJS) $(KDB5_LIBS) $(KADM_COMM_LIBS) $(KRB5_BASE_LIBS)
+--- 62,68 ----
+  kdc5_err.o: kdc5_err.h
+  
+  krb5kdc: $(OBJS) $(KADMSRV_DEPLIBS) $(KRB5_BASE_DEPLIBS) $(APPUTILS_DEPLIB)
+! 	$(CC_LINK) -o krb5kdc $(OBJS) $(KADMSRV_LIBS) $(KRB5_BASE_LIBS) $(APPUTILS_LIB) $(MIKEY_WRAPPER_LIB)
+  
+  rtest: $(RT_OBJS) $(KDB5_DEPLIBS) $(KADM_COMM_DEPLIBS) $(KRB5_BASE_DEPLIBS)
+  	$(CC_LINK) -o rtest $(RT_OBJS) $(KDB5_LIBS) $(KADM_COMM_LIBS) $(KRB5_BASE_LIBS)
+Only in ../krb5-1.8.3/src//kdc: network.o
+Only in ../krb5-1.8.3/src//kdc: policy.o
+Only in ../krb5-1.8.3/src//kdc: replay.o
+Only in ../krb5-1.8.3/src//kdc: rtest
+Only in ../krb5-1.8.3/src//kdc: rtest.o
+Only in ../krb5-1.8.3/src//kdc: .svn
+Only in ../krb5-1.8.3/src//kim/agent/mac/resources/English.lproj: .svn
+Only in ../krb5-1.8.3/src//kim/agent/mac/resources: .svn
+Only in ../krb5-1.8.3/src//kim/agent/mac: .svn
+Only in ../krb5-1.8.3/src//kim/agent: .svn
+Only in ../krb5-1.8.3/src//kim/lib/mac: .svn
+Only in ../krb5-1.8.3/src//kim/lib: .svn
+Only in ../krb5-1.8.3/src//kim: .svn
+Only in ../krb5-1.8.3/src//kim/test: .svn
+Only in ../krb5-1.8.3/src/: krb5-config
+Only in ../krb5-1.8.3/src/: krb5.patch
+Only in ../krb5-1.8.3/src/: krb.patch
+Only in ../krb5-1.8.3/src//lib/apputils: dummy.o
+Only in ../krb5-1.8.3/src//lib/apputils: libapputils.a
+Only in ../krb5-1.8.3/src//lib/apputils: Makefile
+Only in ../krb5-1.8.3/src//lib/apputils: OBJS.ST
+Only in ../krb5-1.8.3/src//lib/apputils: .svn
+Only in ../krb5-1.8.3/src//lib/crypto: binutils.versions
+Only in ../krb5-1.8.3/src//lib/crypto/builtin/aes: aescrypt.so
+Only in ../krb5-1.8.3/src//lib/crypto/builtin/aes: aeskey.so
+Only in ../krb5-1.8.3/src//lib/crypto/builtin/aes: aestab.so
+Only in ../krb5-1.8.3/src//lib/crypto/builtin/aes: Makefile
+Only in ../krb5-1.8.3/src//lib/crypto/builtin/aes: OBJS.SH
+Only in ../krb5-1.8.3/src//lib/crypto/builtin/aes: .svn
+Only in ../krb5-1.8.3/src//lib/crypto/builtin/des: afsstring2key.so
+Only in ../krb5-1.8.3/src//lib/crypto/builtin/des: d3_aead.so
+Only in ../krb5-1.8.3/src//lib/crypto/builtin/des: d3_kysched.so
+Only in ../krb5-1.8.3/src//lib/crypto/builtin/des/doc: .svn
+Only in ../krb5-1.8.3/src//lib/crypto/builtin/des: f_aead.so
+Only in ../krb5-1.8.3/src//lib/crypto/builtin/des: f_cksum.so
+Only in ../krb5-1.8.3/src//lib/crypto/builtin/des: f_parity.so
+Only in ../krb5-1.8.3/src//lib/crypto/builtin/des: f_sched.so
+Only in ../krb5-1.8.3/src//lib/crypto/builtin/des: f_tables.so
+Only in ../krb5-1.8.3/src//lib/crypto/builtin/des: key_sched.so
+Only in ../krb5-1.8.3/src//lib/crypto/builtin/des: Makefile
+Only in ../krb5-1.8.3/src//lib/crypto/builtin/des: OBJS.SH
+Only in ../krb5-1.8.3/src//lib/crypto/builtin/des: string2key.so
+Only in ../krb5-1.8.3/src//lib/crypto/builtin/des: .svn
+Only in ../krb5-1.8.3/src//lib/crypto/builtin/des: weak_key.so
+Only in ../krb5-1.8.3/src//lib/crypto/builtin/enc_provider: aes.so
+Only in ../krb5-1.8.3/src//lib/crypto/builtin/enc_provider: des3.so
+Only in ../krb5-1.8.3/src//lib/crypto/builtin/enc_provider: des.so
+Only in ../krb5-1.8.3/src//lib/crypto/builtin/enc_provider: Makefile
+Only in ../krb5-1.8.3/src//lib/crypto/builtin/enc_provider: OBJS.SH
+Only in ../krb5-1.8.3/src//lib/crypto/builtin/enc_provider: rc4.so
+Only in ../krb5-1.8.3/src//lib/crypto/builtin/enc_provider: .svn
+Only in ../krb5-1.8.3/src//lib/crypto/builtin/hash_provider: hash_crc32.so
+Only in ../krb5-1.8.3/src//lib/crypto/builtin/hash_provider: hash_md4.so
+Only in ../krb5-1.8.3/src//lib/crypto/builtin/hash_provider: hash_md5.so
+Only in ../krb5-1.8.3/src//lib/crypto/builtin/hash_provider: hash_sha1.so
+Only in ../krb5-1.8.3/src//lib/crypto/builtin/hash_provider: Makefile
+Only in ../krb5-1.8.3/src//lib/crypto/builtin/hash_provider: OBJS.SH
+Only in ../krb5-1.8.3/src//lib/crypto/builtin/hash_provider: .svn
+Only in ../krb5-1.8.3/src//lib/crypto/builtin: hmac.so
+Only in ../krb5-1.8.3/src//lib/crypto/builtin: Makefile
+Only in ../krb5-1.8.3/src//lib/crypto/builtin/md4: Makefile
+Only in ../krb5-1.8.3/src//lib/crypto/builtin/md4: md4.so
+Only in ../krb5-1.8.3/src//lib/crypto/builtin/md4: OBJS.SH
+Only in ../krb5-1.8.3/src//lib/crypto/builtin/md4: .svn
+Only in ../krb5-1.8.3/src//lib/crypto/builtin/md5: Makefile
+Only in ../krb5-1.8.3/src//lib/crypto/builtin/md5: md5.so
+Only in ../krb5-1.8.3/src//lib/crypto/builtin/md5: OBJS.SH
+Only in ../krb5-1.8.3/src//lib/crypto/builtin/md5: .svn
+Only in ../krb5-1.8.3/src//lib/crypto/builtin: OBJS.SH
+Only in ../krb5-1.8.3/src//lib/crypto/builtin: pbkdf2.so
+Only in ../krb5-1.8.3/src//lib/crypto/builtin/sha1: Makefile
+Only in ../krb5-1.8.3/src//lib/crypto/builtin/sha1: OBJS.SH
+Only in ../krb5-1.8.3/src//lib/crypto/builtin/sha1: shs.so
+Only in ../krb5-1.8.3/src//lib/crypto/builtin/sha1: .svn
+Only in ../krb5-1.8.3/src//lib/crypto/builtin: .svn
+Only in ../krb5-1.8.3/src//lib/crypto/crypto_tests: Makefile
+Only in ../krb5-1.8.3/src//lib/crypto/crypto_tests: .svn
+Only in ../krb5-1.8.3/src//lib/crypto/crypto_tests/test: .svn
+Only in ../krb5-1.8.3/src//lib/crypto/krb: aead.so
+Only in ../krb5-1.8.3/src//lib/crypto/krb/arcfour: arcfour_aead.so
+Only in ../krb5-1.8.3/src//lib/crypto/krb/arcfour: arcfour_s2k.so
+Only in ../krb5-1.8.3/src//lib/crypto/krb/arcfour: arcfour.so
+Only in ../krb5-1.8.3/src//lib/crypto/krb/arcfour: Makefile
+Only in ../krb5-1.8.3/src//lib/crypto/krb/arcfour: OBJS.SH
+Only in ../krb5-1.8.3/src//lib/crypto/krb/arcfour: .svn
+Only in ../krb5-1.8.3/src//lib/crypto/krb: block_size.so
+Only in ../krb5-1.8.3/src//lib/crypto/krb: cf2.so
+Only in ../krb5-1.8.3/src//lib/crypto/krb/checksum: cbc.so
+Only in ../krb5-1.8.3/src//lib/crypto/krb/checksum: confounder.so
+diff -crB ../original_source/krb5-1.8/src//lib/crypto/krb/checksum/hmac_md5.c ../krb5-1.8.3/src//lib/crypto/krb/checksum/hmac_md5.c
+*** ../original_source/krb5-1.8/src//lib/crypto/krb/checksum/hmac_md5.c	2009-12-10 12:10:10.000000000 -0500
+--- ../krb5-1.8.3/src//lib/crypto/krb/checksum/hmac_md5.c	2011-09-05 16:23:30.059035727 -0400
+***************
+*** 48,53 ****
+--- 48,55 ----
+      krb5_data ds = empty_data(), hashval = empty_data();
+      char t[4];
+  
++     if (key == NULL || key->keyblock.length > ctp->hash->blocksize)
++         return KRB5_BAD_ENCTYPE;
+      if (ctp->ctype == CKSUMTYPE_HMAC_MD5_ARCFOUR) {
+  	/* Compute HMAC(key, "signaturekey\0") to get the signing key ks. */
+  	ret = alloc_data(&ds, key->keyblock.length);
+Only in ../krb5-1.8.3/src//lib/crypto/krb/checksum: hmac_md5.so
+Only in ../krb5-1.8.3/src//lib/crypto/krb/checksum: Makefile
+Only in ../krb5-1.8.3/src//lib/crypto/krb/checksum: OBJS.SH
+Only in ../krb5-1.8.3/src//lib/crypto/krb/checksum: .svn
+Only in ../krb5-1.8.3/src//lib/crypto/krb/checksum: unkeyed.so
+Only in ../krb5-1.8.3/src//lib/crypto/krb: checksum_length.so
+diff -crB ../original_source/krb5-1.8/src//lib/crypto/krb/cksumtypes.c ../krb5-1.8.3/src//lib/crypto/krb/cksumtypes.c
+*** ../original_source/krb5-1.8/src//lib/crypto/krb/cksumtypes.c	2009-12-10 12:10:10.000000000 -0500
+--- ../krb5-1.8.3/src//lib/crypto/krb/cksumtypes.c	2011-09-05 16:23:31.271036563 -0400
+***************
+*** 82,89 ****
+  
+      { CKSUMTYPE_HMAC_MD5_ARCFOUR,
+        "hmac-md5-rc4", { "hmac-md5-enc", "hmac-md5-earcfour" },
+!       "Microsoft HMAC MD5 (RC4 key)",
+!       &krb5int_enc_arcfour, &krb5int_hash_md5,
+        krb5int_hmacmd5_checksum, NULL,
+        16, 16, 0 },
+  
+--- 82,89 ----
+  
+      { CKSUMTYPE_HMAC_MD5_ARCFOUR,
+        "hmac-md5-rc4", { "hmac-md5-enc", "hmac-md5-earcfour" },
+!       "Microsoft HMAC MD5",
+!       NULL, &krb5int_hash_md5,
+        krb5int_hmacmd5_checksum, NULL,
+        16, 16, 0 },
+  
+***************
+*** 100,107 ****
+        20, 12, 0 },
+  
+      { CKSUMTYPE_MD5_HMAC_ARCFOUR,
+!       "md5-hmac-rc4", { 0 }, "Microsoft MD5 HMAC (RC4 key)",
+!       &krb5int_enc_arcfour, &krb5int_hash_md5,
+        krb5int_hmacmd5_checksum, NULL,
+        16, 16, 0 },
+  };
+--- 100,107 ----
+        20, 12, 0 },
+  
+      { CKSUMTYPE_MD5_HMAC_ARCFOUR,
+!       "md5-hmac-rc4", { 0 }, "Microsoft MD5 HMAC",
+!       NULL, &krb5int_hash_md5,
+        krb5int_hmacmd5_checksum, NULL,
+        16, 16, 0 },
+  };
+Only in ../krb5-1.8.3/src//lib/crypto/krb: cksumtypes.so
+Only in ../krb5-1.8.3/src//lib/crypto/krb: cksumtype_to_string.so
+Only in ../krb5-1.8.3/src//lib/crypto/krb: coll_proof_cksum.so
+Only in ../krb5-1.8.3/src//lib/crypto/krb: combine_keys.so
+Only in ../krb5-1.8.3/src//lib/crypto/krb/crc32: crc32.so
+Only in ../krb5-1.8.3/src//lib/crypto/krb/crc32: Makefile
+Only in ../krb5-1.8.3/src//lib/crypto/krb/crc32: OBJS.SH
+Only in ../krb5-1.8.3/src//lib/crypto/krb/crc32: .svn
+Only in ../krb5-1.8.3/src//lib/crypto/krb: crypto_length.so
+Only in ../krb5-1.8.3/src//lib/crypto/krb: crypto_libinit.so
+Only in ../krb5-1.8.3/src//lib/crypto/krb: decrypt_iov.so
+Only in ../krb5-1.8.3/src//lib/crypto/krb: decrypt.so
+Only in ../krb5-1.8.3/src//lib/crypto/krb: default_state.so
+Only in ../krb5-1.8.3/src//lib/crypto/krb/dk: checksum.so
+Only in ../krb5-1.8.3/src//lib/crypto/krb/dk: derive.so
+Only in ../krb5-1.8.3/src//lib/crypto/krb/dk: dk_aead.so
+Only in ../krb5-1.8.3/src//lib/crypto/krb/dk: Makefile
+Only in ../krb5-1.8.3/src//lib/crypto/krb/dk: OBJS.SH
+Only in ../krb5-1.8.3/src//lib/crypto/krb/dk: stringtokey.so
+Only in ../krb5-1.8.3/src//lib/crypto/krb/dk: .svn
+Only in ../krb5-1.8.3/src//lib/crypto/krb: encrypt_iov.so
+Only in ../krb5-1.8.3/src//lib/crypto/krb: encrypt_length.so
+Only in ../krb5-1.8.3/src//lib/crypto/krb: encrypt.so
+Only in ../krb5-1.8.3/src//lib/crypto/krb: enctype_util.so
+Only in ../krb5-1.8.3/src//lib/crypto/krb: etypes.so
+Only in ../krb5-1.8.3/src//lib/crypto/krb/hash_provider: .svn
+Only in ../krb5-1.8.3/src//lib/crypto/krb: keyblocks.so
+Only in ../krb5-1.8.3/src//lib/crypto/krb: keyed_checksum_types.so
+Only in ../krb5-1.8.3/src//lib/crypto/krb: keyed_cksum.so
+Only in ../krb5-1.8.3/src//lib/crypto/krb: keylengths.so
+Only in ../krb5-1.8.3/src//lib/crypto/krb: key.so
+Only in ../krb5-1.8.3/src//lib/crypto/krb: make_checksum_iov.so
+Only in ../krb5-1.8.3/src//lib/crypto/krb: make_checksum.so
+Only in ../krb5-1.8.3/src//lib/crypto/krb: Makefile
+Only in ../krb5-1.8.3/src//lib/crypto/krb: make_random_key.so
+Only in ../krb5-1.8.3/src//lib/crypto/krb: mandatory_sumtype.so
+Only in ../krb5-1.8.3/src//lib/crypto/krb: nfold.so
+Only in ../krb5-1.8.3/src//lib/crypto/krb: OBJS.SH
+Only in ../krb5-1.8.3/src//lib/crypto/krb/old: des_stringtokey.so
+Only in ../krb5-1.8.3/src//lib/crypto/krb/old: Makefile
+Only in ../krb5-1.8.3/src//lib/crypto/krb/old: OBJS.SH
+Only in ../krb5-1.8.3/src//lib/crypto/krb/old: old_aead.so
+Only in ../krb5-1.8.3/src//lib/crypto/krb/old: .svn
+Only in ../krb5-1.8.3/src//lib/crypto/krb: old_api_glue.so
+Only in ../krb5-1.8.3/src//lib/crypto/krb/prf: des_prf.so
+Only in ../krb5-1.8.3/src//lib/crypto/krb/prf: dk_prf.so
+Only in ../krb5-1.8.3/src//lib/crypto/krb/prf: Makefile
+Only in ../krb5-1.8.3/src//lib/crypto/krb/prf: OBJS.SH
+Only in ../krb5-1.8.3/src//lib/crypto/krb/prf: rc4_prf.so
+Only in ../krb5-1.8.3/src//lib/crypto/krb/prf: .svn
+Only in ../krb5-1.8.3/src//lib/crypto/krb: prf.so
+Only in ../krb5-1.8.3/src//lib/crypto/krb: prng.so
+Only in ../krb5-1.8.3/src//lib/crypto/krb/rand2key: aes_rand2key.so
+Only in ../krb5-1.8.3/src//lib/crypto/krb/rand2key: des3_rand2key.so
+Only in ../krb5-1.8.3/src//lib/crypto/krb/rand2key: des_rand2key.so
+Only in ../krb5-1.8.3/src//lib/crypto/krb/rand2key: Makefile
+Only in ../krb5-1.8.3/src//lib/crypto/krb/rand2key: OBJS.SH
+Only in ../krb5-1.8.3/src//lib/crypto/krb/rand2key: rc4_rand2key.so
+Only in ../krb5-1.8.3/src//lib/crypto/krb/rand2key: .svn
+Only in ../krb5-1.8.3/src//lib/crypto/krb: random_to_key.so
+Only in ../krb5-1.8.3/src//lib/crypto/krb/raw: Makefile
+Only in ../krb5-1.8.3/src//lib/crypto/krb/raw: OBJS.SH
+Only in ../krb5-1.8.3/src//lib/crypto/krb/raw: raw_aead.so
+Only in ../krb5-1.8.3/src//lib/crypto/krb/raw: .svn
+Only in ../krb5-1.8.3/src//lib/crypto/krb: state.so
+Only in ../krb5-1.8.3/src//lib/crypto/krb: string_to_cksumtype.so
+Only in ../krb5-1.8.3/src//lib/crypto/krb: string_to_key.so
+Only in ../krb5-1.8.3/src//lib/crypto/krb: .svn
+Only in ../krb5-1.8.3/src//lib/crypto/krb: valid_cksumtype.so
+Only in ../krb5-1.8.3/src//lib/crypto/krb: verify_checksum_iov.so
+Only in ../krb5-1.8.3/src//lib/crypto/krb: verify_checksum.so
+Only in ../krb5-1.8.3/src//lib/crypto/krb/yarrow: Makefile
+Only in ../krb5-1.8.3/src//lib/crypto/krb/yarrow: OBJS.SH
+Only in ../krb5-1.8.3/src//lib/crypto/krb/yarrow: .svn
+Only in ../krb5-1.8.3/src//lib/crypto/krb/yarrow: yarrow.so
+Only in ../krb5-1.8.3/src//lib/crypto/krb/yarrow: ycipher.so
+Only in ../krb5-1.8.3/src//lib/crypto: libk5crypto.so
+Only in ../krb5-1.8.3/src//lib/crypto: libk5crypto.so.3
+Only in ../krb5-1.8.3/src//lib/crypto: libk5crypto.so.3.1
+Only in ../krb5-1.8.3/src//lib/crypto: Makefile
+Only in ../krb5-1.8.3/src//lib/crypto/openssl/aes: .svn
+Only in ../krb5-1.8.3/src//lib/crypto/openssl/des: .svn
+Only in ../krb5-1.8.3/src//lib/crypto/openssl/enc_provider: .svn
+Only in ../krb5-1.8.3/src//lib/crypto/openssl/hash_provider: .svn
+Only in ../krb5-1.8.3/src//lib/crypto/openssl/md4: .svn
+Only in ../krb5-1.8.3/src//lib/crypto/openssl/md5: .svn
+Only in ../krb5-1.8.3/src//lib/crypto/openssl/sha1: .svn
+Only in ../krb5-1.8.3/src//lib/crypto/openssl: .svn
+Only in ../krb5-1.8.3/src//lib/crypto: .svn
+Only in ../krb5-1.8.3/src//lib: cscope.out
+Only in ../krb5-1.8.3/src//lib/gssapi: binutils.versions
+Only in ../krb5-1.8.3/src//lib/gssapi/generic: disp_com_err_status.so
+Only in ../krb5-1.8.3/src//lib/gssapi/generic: disp_major_status.so
+Only in ../krb5-1.8.3/src//lib/gssapi/generic: errmap.h
+Only in ../krb5-1.8.3/src//lib/gssapi/generic: gssapi_err_generic.c
+Only in ../krb5-1.8.3/src//lib/gssapi/generic: gssapi_err_generic.h
+Only in ../krb5-1.8.3/src//lib/gssapi/generic: gssapi_err_generic.so
+Only in ../krb5-1.8.3/src//lib/gssapi/generic: gssapi_generic.so
+Only in ../krb5-1.8.3/src//lib/gssapi/generic: gssapi.h
+Only in ../krb5-1.8.3/src//lib/gssapi/generic: Makefile
+Only in ../krb5-1.8.3/src//lib/gssapi/generic: OBJS.SH
+Only in ../krb5-1.8.3/src//lib/gssapi/generic: oid_ops.so
+Only in ../krb5-1.8.3/src//lib/gssapi/generic: rel_buffer.so
+Only in ../krb5-1.8.3/src//lib/gssapi/generic: rel_oid_set.so
+Only in ../krb5-1.8.3/src//lib/gssapi/generic: .svn
+Only in ../krb5-1.8.3/src//lib/gssapi/generic: util_buffer_set.so
+Only in ../krb5-1.8.3/src//lib/gssapi/generic: util_buffer.so
+Only in ../krb5-1.8.3/src//lib/gssapi/generic: util_errmap.so
+Only in ../krb5-1.8.3/src//lib/gssapi/generic: util_ordering.so
+Only in ../krb5-1.8.3/src//lib/gssapi/generic: util_set.so
+Only in ../krb5-1.8.3/src//lib/gssapi/generic: util_token.so
+Only in ../krb5-1.8.3/src//lib/gssapi/generic: util_validate.so
+diff -crB ../original_source/krb5-1.8/src//lib/gssapi/krb5/accept_sec_context.c ../krb5-1.8.3/src//lib/gssapi/krb5/accept_sec_context.c
+*** ../original_source/krb5-1.8/src//lib/gssapi/krb5/accept_sec_context.c	2009-12-07 19:04:48.000000000 -0500
+--- ../krb5-1.8.3/src//lib/gssapi/krb5/accept_sec_context.c	2011-09-05 16:23:32.275035727 -0400
+***************
+*** 607,612 ****
+--- 607,619 ----
+      }
+  #endif
+  
++     if (authdat->checksum == NULL) {
++         /* missing checksum counts as "inappropriate type" */
++         code = KRB5KRB_AP_ERR_INAPP_CKSUM;
++         major_status = GSS_S_FAILURE;
++         goto fail;
++     }
++ 
+      if (authdat->checksum->checksum_type != CKSUMTYPE_KG_CB) {
+          /* Samba does not send 0x8003 GSS-API checksums */
+          krb5_boolean valid;
+Only in ../krb5-1.8.3/src//lib/gssapi/krb5: accept_sec_context.so
+Only in ../krb5-1.8.3/src//lib/gssapi/krb5: acquire_cred.so
+Only in ../krb5-1.8.3/src//lib/gssapi/krb5: add_cred.so
+Only in ../krb5-1.8.3/src//lib/gssapi/krb5: canon_name.so
+Only in ../krb5-1.8.3/src//lib/gssapi/krb5: compare_name.so
+Only in ../krb5-1.8.3/src//lib/gssapi/krb5: context_time.so
+Only in ../krb5-1.8.3/src//lib/gssapi/krb5: copy_ccache.so
+Only in ../krb5-1.8.3/src//lib/gssapi/krb5: delete_sec_context.so
+Only in ../krb5-1.8.3/src//lib/gssapi/krb5: disp_name.so
+Only in ../krb5-1.8.3/src//lib/gssapi/krb5: disp_status.so
+Only in ../krb5-1.8.3/src//lib/gssapi/krb5: duplicate_name.so
+Only in ../krb5-1.8.3/src//lib/gssapi/krb5: error_map.h
+Only in ../krb5-1.8.3/src//lib/gssapi/krb5: export_name.so
+Only in ../krb5-1.8.3/src//lib/gssapi/krb5: export_sec_context.so
+Only in ../krb5-1.8.3/src//lib/gssapi/krb5: get_tkt_flags.so
+Only in ../krb5-1.8.3/src//lib/gssapi/krb5: gssapi_err_krb5.c
+Only in ../krb5-1.8.3/src//lib/gssapi/krb5: gssapi_err_krb5.h
+Only in ../krb5-1.8.3/src//lib/gssapi/krb5: gssapi_err_krb5.so
+diff -crB ../original_source/krb5-1.8/src//lib/gssapi/krb5/gssapi_krb5.c ../krb5-1.8.3/src//lib/gssapi/krb5/gssapi_krb5.c
+*** ../original_source/krb5-1.8/src//lib/gssapi/krb5/gssapi_krb5.c	2010-02-12 15:28:47.000000000 -0500
+--- ../krb5-1.8.3/src//lib/gssapi/krb5/gssapi_krb5.c	2011-09-05 16:23:32.263035727 -0400
+***************
+*** 75,81 ****
+   */
+  
+  /*
+!  * $Id: gssapi_krb5.c 23720 2010-02-12 20:28:47Z tlyu $
+   */
+  
+  
+--- 75,81 ----
+   */
+  
+  /*
+!  * $Id: gssapi_krb5.c 24196 2010-07-20 22:28:44Z tlyu $
+   */
+  
+  
+***************
+*** 740,746 ****
+      printf("gss_krb5int_lib_init\n");
+  #endif
+  
+!     add_error_table(&et_ggss_error_table);
+  
+  #ifndef LEAN_CLIENT
+      err = k5_mutex_finish_init(&gssint_krb5_keytab_lock);
+--- 740,746 ----
+      printf("gss_krb5int_lib_init\n");
+  #endif
+  
+!     add_error_table(&et_k5g_error_table);
+  
+  #ifndef LEAN_CLIENT
+      err = k5_mutex_finish_init(&gssint_krb5_keytab_lock);
+Only in ../krb5-1.8.3/src//lib/gssapi/krb5: gssapi_krb5.h
+Only in ../krb5-1.8.3/src//lib/gssapi/krb5: gssapi_krb5.so
+Only in ../krb5-1.8.3/src//lib/gssapi/krb5: import_name.so
+diff -crB ../original_source/krb5-1.8/src//lib/gssapi/krb5/import_sec_context.c ../krb5-1.8.3/src//lib/gssapi/krb5/import_sec_context.c
+*** ../original_source/krb5-1.8/src//lib/gssapi/krb5/import_sec_context.c	2009-12-07 19:04:48.000000000 -0500
+--- ../krb5-1.8.3/src//lib/gssapi/krb5/import_sec_context.c	2011-09-05 16:23:32.251035727 -0400
+***************
+*** 106,117 ****
+      ibp = (krb5_octet *) interprocess_token->value;
+      blen = (size_t) interprocess_token->length;
+      kret = kg_ctx_internalize(context, (krb5_pointer *) &ctx, &ibp, &blen);
+-     krb5_free_context(context);
+      if (kret) {
+          *minor_status = (OM_uint32) kret;
+          save_error_info(*minor_status, context);
+          return(GSS_S_FAILURE);
+      }
+  
+      /* intern the context handle */
+      if (! kg_save_ctx_id((gss_ctx_id_t) ctx)) {
+--- 106,118 ----
+      ibp = (krb5_octet *) interprocess_token->value;
+      blen = (size_t) interprocess_token->length;
+      kret = kg_ctx_internalize(context, (krb5_pointer *) &ctx, &ibp, &blen);
+      if (kret) {
+          *minor_status = (OM_uint32) kret;
+          save_error_info(*minor_status, context);
++         krb5_free_context(context);
+          return(GSS_S_FAILURE);
+      }
++     krb5_free_context(context);
+  
+      /* intern the context handle */
+      if (! kg_save_ctx_id((gss_ctx_id_t) ctx)) {
+Only in ../krb5-1.8.3/src//lib/gssapi/krb5: import_sec_context.so
+Only in ../krb5-1.8.3/src//lib/gssapi/krb5: indicate_mechs.so
+Only in ../krb5-1.8.3/src//lib/gssapi/krb5: init_sec_context.so
+Only in ../krb5-1.8.3/src//lib/gssapi/krb5: inq_context.so
+Only in ../krb5-1.8.3/src//lib/gssapi/krb5: inq_cred.so
+Only in ../krb5-1.8.3/src//lib/gssapi/krb5: inq_names.so
+diff -crB ../original_source/krb5-1.8/src//lib/gssapi/krb5/k5seal.c ../krb5-1.8.3/src//lib/gssapi/krb5/k5seal.c
+*** ../original_source/krb5-1.8/src//lib/gssapi/krb5/k5seal.c	2009-12-07 19:04:48.000000000 -0500
+--- ../krb5-1.8.3/src//lib/gssapi/krb5/k5seal.c	2011-09-05 16:23:32.271035727 -0400
+***************
+*** 328,334 ****
+  {
+      krb5_gss_ctx_id_rec *ctx;
+      krb5_error_code code;
+-     krb5_timestamp now;
+      krb5_context context;
+  
+      output_message_buffer->length = 0;
+--- 328,333 ----
+***************
+*** 359,370 ****
+      }
+  
+      context = ctx->k5_context;
+-     if ((code = krb5_timeofday(context, &now))) {
+-         *minor_status = code;
+-         save_error_info(*minor_status, context);
+-         return(GSS_S_FAILURE);
+-     }
+- 
+      switch (ctx->proto)
+      {
+      case 0:
+--- 358,363 ----
+***************
+*** 396,400 ****
+          *conf_state = conf_req_flag;
+  
+      *minor_status = 0;
+!     return((ctx->krb_times.endtime < now)?GSS_S_CONTEXT_EXPIRED:GSS_S_COMPLETE);
+  }
+--- 389,393 ----
+          *conf_state = conf_req_flag;
+  
+      *minor_status = 0;
+!     return(GSS_S_COMPLETE);
+  }
+diff -crB ../original_source/krb5-1.8/src//lib/gssapi/krb5/k5sealiov.c ../krb5-1.8.3/src//lib/gssapi/krb5/k5sealiov.c
+*** ../original_source/krb5-1.8/src//lib/gssapi/krb5/k5sealiov.c	2009-12-07 19:04:48.000000000 -0500
+--- ../krb5-1.8.3/src//lib/gssapi/krb5/k5sealiov.c	2011-09-05 16:23:32.251035727 -0400
+***************
+*** 279,285 ****
+  {
+      krb5_gss_ctx_id_rec *ctx;
+      krb5_error_code code;
+-     krb5_timestamp now;
+      krb5_context context;
+  
+      if (qop_req != 0) {
+--- 279,284 ----
+***************
+*** 298,316 ****
+          return GSS_S_NO_CONTEXT;
+      }
+  
+-     context = ctx->k5_context;
+-     code = krb5_timeofday(context, &now);
+-     if (code != 0) {
+-         *minor_status = code;
+-         save_error_info(*minor_status, context);
+-         return GSS_S_FAILURE;
+-     }
+- 
+      if (conf_req_flag && kg_integ_only_iov(iov, iov_count)) {
+          /* may be more sensible to return an error here */
+          conf_req_flag = FALSE;
+      }
+  
+      switch (ctx->proto) {
+      case 0:
+          code = make_seal_token_v1_iov(context, ctx, conf_req_flag,
+--- 297,308 ----
+          return GSS_S_NO_CONTEXT;
+      }
+  
+      if (conf_req_flag && kg_integ_only_iov(iov, iov_count)) {
+          /* may be more sensible to return an error here */
+          conf_req_flag = FALSE;
+      }
+  
++     context = ctx->k5_context;
+      switch (ctx->proto) {
+      case 0:
+          code = make_seal_token_v1_iov(context, ctx, conf_req_flag,
+***************
+*** 333,339 ****
+  
+      *minor_status = 0;
+  
+!     return (ctx->krb_times.endtime < now) ? GSS_S_CONTEXT_EXPIRED : GSS_S_COMPLETE;
+  }
+  
+  #define INIT_IOV_DATA(_iov)     do { (_iov)->buffer.value = NULL;       \
+--- 325,331 ----
+  
+      *minor_status = 0;
+  
+!     return GSS_S_COMPLETE;
+  }
+  
+  #define INIT_IOV_DATA(_iov)     do { (_iov)->buffer.value = NULL;       \
+Only in ../krb5-1.8.3/src//lib/gssapi/krb5: k5sealiov.so
+Only in ../krb5-1.8.3/src//lib/gssapi/krb5: k5seal.so
+Only in ../krb5-1.8.3/src//lib/gssapi/krb5: k5sealv3iov.so
+Only in ../krb5-1.8.3/src//lib/gssapi/krb5: k5sealv3.so
+diff -crB ../original_source/krb5-1.8/src//lib/gssapi/krb5/k5unseal.c ../krb5-1.8.3/src//lib/gssapi/krb5/k5unseal.c
+*** ../original_source/krb5-1.8/src//lib/gssapi/krb5/k5unseal.c	2009-12-07 19:04:48.000000000 -0500
+--- ../krb5-1.8.3/src//lib/gssapi/krb5/k5unseal.c	2011-09-05 16:23:32.271035727 -0400
+***************
+*** 79,85 ****
+      krb5_checksum md5cksum;
+      krb5_data plaind;
+      char *data_ptr;
+-     krb5_timestamp now;
+      unsigned char *plain;
+      unsigned int cksum_len = 0;
+      size_t plainlen;
+--- 79,84 ----
+***************
+*** 441,456 ****
+      if (qop_state)
+          *qop_state = GSS_C_QOP_DEFAULT;
+  
+-     if ((code = krb5_timeofday(context, &now))) {
+-         *minor_status = code;
+-         return(GSS_S_FAILURE);
+-     }
+- 
+-     if (now > ctx->krb_times.endtime) {
+-         *minor_status = 0;
+-         return(GSS_S_CONTEXT_EXPIRED);
+-     }
+- 
+      /* do sequencing checks */
+  
+      if ((ctx->initiate && direction != 0xff) ||
+--- 440,445 ----
+diff -crB ../original_source/krb5-1.8/src//lib/gssapi/krb5/k5unsealiov.c ../krb5-1.8.3/src//lib/gssapi/krb5/k5unsealiov.c
+*** ../original_source/krb5-1.8/src//lib/gssapi/krb5/k5unsealiov.c	2009-12-07 19:04:48.000000000 -0500
+--- ../krb5-1.8.3/src//lib/gssapi/krb5/k5unsealiov.c	2011-09-05 16:23:32.263035727 -0400
+***************
+*** 52,58 ****
+      int signalg;
+      krb5_checksum cksum;
+      krb5_checksum md5cksum;
+-     krb5_timestamp now;
+      size_t cksum_len = 0;
+      size_t conflen = 0;
+      int direction;
+--- 52,57 ----
+***************
+*** 280,298 ****
+      if (qop_state != NULL)
+          *qop_state = GSS_C_QOP_DEFAULT;
+  
+-     code = krb5_timeofday(context, &now);
+-     if (code != 0) {
+-         *minor_status = code;
+-         retval = GSS_S_FAILURE;
+-         goto cleanup;
+-     }
+- 
+-     if (now > ctx->krb_times.endtime) {
+-         *minor_status = 0;
+-         retval = GSS_S_CONTEXT_EXPIRED;
+-         goto cleanup;
+-     }
+- 
+      if ((ctx->initiate && direction != 0xff) ||
+          (!ctx->initiate && direction != 0)) {
+          *minor_status = (OM_uint32)G_BAD_DIRECTION;
+--- 279,284 ----
+Only in ../krb5-1.8.3/src//lib/gssapi/krb5: k5unsealiov.so
+Only in ../krb5-1.8.3/src//lib/gssapi/krb5: k5unseal.so
+Only in ../krb5-1.8.3/src//lib/gssapi/krb5: krb5_gss_glue.so
+Only in ../krb5-1.8.3/src//lib/gssapi/krb5: lucid_context.so
+Only in ../krb5-1.8.3/src//lib/gssapi/krb5: Makefile
+Only in ../krb5-1.8.3/src//lib/gssapi/krb5: naming_exts.so
+Only in ../krb5-1.8.3/src//lib/gssapi/krb5: OBJS.SH
+Only in ../krb5-1.8.3/src//lib/gssapi/krb5: prf.so
+Only in ../krb5-1.8.3/src//lib/gssapi/krb5: process_context_token.so
+Only in ../krb5-1.8.3/src//lib/gssapi/krb5: rel_cred.so
+Only in ../krb5-1.8.3/src//lib/gssapi/krb5: rel_name.so
+Only in ../krb5-1.8.3/src//lib/gssapi/krb5: rel_oid.so
+Only in ../krb5-1.8.3/src//lib/gssapi/krb5: s4u_gss_glue.so
+Only in ../krb5-1.8.3/src//lib/gssapi/krb5: seal.so
+Only in ../krb5-1.8.3/src//lib/gssapi/krb5: ser_sctx.so
+Only in ../krb5-1.8.3/src//lib/gssapi/krb5: set_allowable_enctypes.so
+Only in ../krb5-1.8.3/src//lib/gssapi/krb5: set_ccache.so
+Only in ../krb5-1.8.3/src//lib/gssapi/krb5: sign.so
+Only in ../krb5-1.8.3/src//lib/gssapi/krb5: store_cred.so
+Only in ../krb5-1.8.3/src//lib/gssapi/krb5: .svn
+Only in ../krb5-1.8.3/src//lib/gssapi/krb5: unseal.so
+Only in ../krb5-1.8.3/src//lib/gssapi/krb5: util_cksum.so
+Only in ../krb5-1.8.3/src//lib/gssapi/krb5: util_crypt.so
+Only in ../krb5-1.8.3/src//lib/gssapi/krb5: util_seed.so
+Only in ../krb5-1.8.3/src//lib/gssapi/krb5: util_seqnum.so
+Only in ../krb5-1.8.3/src//lib/gssapi/krb5: val_cred.so
+Only in ../krb5-1.8.3/src//lib/gssapi/krb5: verify.so
+Only in ../krb5-1.8.3/src//lib/gssapi/krb5: wrap_size_limit.so
+Only in ../krb5-1.8.3/src//lib/gssapi: libgssapi_krb5.so
+Only in ../krb5-1.8.3/src//lib/gssapi: libgssapi_krb5.so.2
+Only in ../krb5-1.8.3/src//lib/gssapi: libgssapi_krb5.so.2.2
+Only in ../krb5-1.8.3/src//lib/gssapi: Makefile
+diff -crB ../original_source/krb5-1.8/src//lib/gssapi/mechglue/deps ../krb5-1.8.3/src//lib/gssapi/mechglue/deps
+*** ../original_source/krb5-1.8/src//lib/gssapi/mechglue/deps	2010-01-03 18:41:49.000000000 -0500
+--- ../krb5-1.8.3/src//lib/gssapi/mechglue/deps	2011-09-05 16:23:32.535035727 -0400
+***************
+*** 358,363 ****
+--- 358,371 ----
+    $(top_srcdir)/include/k5-platform.h $(top_srcdir)/include/k5-thread.h \
+    ../generic/gssapi_err_generic.h g_set_name_attr.c mechglue.h \
+    mglueP.h
++ g_set_neg_mechs.so g_set_neg_mechs.po $(OUTPRE)g_set_neg_mechs.$(OBJEXT): \
++   $(BUILDTOP)/include/autoconf.h $(BUILDTOP)/include/gssapi/gssapi.h \
++   $(BUILDTOP)/include/gssapi/gssapi_ext.h $(COM_ERR_DEPS) \
++   $(srcdir)/../generic/gssapiP_generic.h $(srcdir)/../generic/gssapi_ext.h \
++   $(srcdir)/../generic/gssapi_generic.h $(top_srcdir)/include/k5-buf.h \
++   $(top_srcdir)/include/k5-platform.h $(top_srcdir)/include/k5-thread.h \
++   ../generic/gssapi_err_generic.h g_set_neg_mechs.c mechglue.h \
++   mglueP.h
+  g_sign.so g_sign.po $(OUTPRE)g_sign.$(OBJEXT): $(BUILDTOP)/include/autoconf.h \
+    $(BUILDTOP)/include/gssapi/gssapi.h $(BUILDTOP)/include/gssapi/gssapi_ext.h \
+    $(COM_ERR_DEPS) $(srcdir)/../generic/gssapiP_generic.h \
+diff -crB ../original_source/krb5-1.8/src//lib/gssapi/mechglue/g_accept_sec_context.c ../krb5-1.8.3/src//lib/gssapi/mechglue/g_accept_sec_context.c
+*** ../original_source/krb5-1.8/src//lib/gssapi/mechglue/g_accept_sec_context.c	2009-10-30 20:48:38.000000000 -0400
+--- ../krb5-1.8.3/src//lib/gssapi/mechglue/g_accept_sec_context.c	2011-09-05 16:23:32.531035727 -0400
+***************
+*** 356,364 ****
+  	free(union_ctx_id);
+      }
+  
+-     if (output_token->length)
+- 	(void) gss_release_buffer(&temp_minor_status, output_token);
+- 
+      if (src_name)
+  	*src_name = GSS_C_NO_NAME;
+  
+--- 356,361 ----
+Only in ../krb5-1.8.3/src//lib/gssapi/mechglue: g_accept_sec_context.so
+Only in ../krb5-1.8.3/src//lib/gssapi/mechglue: g_acquire_cred_imp_name.so
+Only in ../krb5-1.8.3/src//lib/gssapi/mechglue: g_acquire_cred.so
+Only in ../krb5-1.8.3/src//lib/gssapi/mechglue: g_buffer_set.so
+Only in ../krb5-1.8.3/src//lib/gssapi/mechglue: g_canon_name.so
+Only in ../krb5-1.8.3/src//lib/gssapi/mechglue: g_compare_name.so
+Only in ../krb5-1.8.3/src//lib/gssapi/mechglue: g_complete_auth_token.so
+Only in ../krb5-1.8.3/src//lib/gssapi/mechglue: g_context_time.so
+Only in ../krb5-1.8.3/src//lib/gssapi/mechglue: g_delete_sec_context.so
+Only in ../krb5-1.8.3/src//lib/gssapi/mechglue: g_del_name_attr.so
+Only in ../krb5-1.8.3/src//lib/gssapi/mechglue: g_dsp_name_ext.so
+Only in ../krb5-1.8.3/src//lib/gssapi/mechglue: g_dsp_name.so
+Only in ../krb5-1.8.3/src//lib/gssapi/mechglue: g_dsp_status.so
+Only in ../krb5-1.8.3/src//lib/gssapi/mechglue: g_dup_name.so
+Only in ../krb5-1.8.3/src//lib/gssapi/mechglue: g_export_name_comp.so
+Only in ../krb5-1.8.3/src//lib/gssapi/mechglue: g_export_name.so
+Only in ../krb5-1.8.3/src//lib/gssapi/mechglue: g_exp_sec_context.so
+Only in ../krb5-1.8.3/src//lib/gssapi/mechglue: g_get_name_attr.so
+Only in ../krb5-1.8.3/src//lib/gssapi/mechglue: g_glue.so
+Only in ../krb5-1.8.3/src//lib/gssapi/mechglue: g_imp_name.so
+Only in ../krb5-1.8.3/src//lib/gssapi/mechglue: g_imp_sec_context.so
+Only in ../krb5-1.8.3/src//lib/gssapi/mechglue: g_initialize.so
+Only in ../krb5-1.8.3/src//lib/gssapi/mechglue: g_init_sec_context.so
+Only in ../krb5-1.8.3/src//lib/gssapi/mechglue: g_inq_context_oid.so
+Only in ../krb5-1.8.3/src//lib/gssapi/mechglue: g_inq_context.so
+Only in ../krb5-1.8.3/src//lib/gssapi/mechglue: g_inq_cred_oid.so
+Only in ../krb5-1.8.3/src//lib/gssapi/mechglue: g_inq_cred.so
+Only in ../krb5-1.8.3/src//lib/gssapi/mechglue: g_inq_name.so
+Only in ../krb5-1.8.3/src//lib/gssapi/mechglue: g_inq_names.so
+Only in ../krb5-1.8.3/src//lib/gssapi/mechglue: g_map_name_to_any.so
+Only in ../krb5-1.8.3/src//lib/gssapi/mechglue: g_mech_invoke.so
+Only in ../krb5-1.8.3/src//lib/gssapi/mechglue: g_mechname.so
+Only in ../krb5-1.8.3/src//lib/gssapi/mechglue: g_oid_ops.so
+Only in ../krb5-1.8.3/src//lib/gssapi/mechglue: g_prf.so
+Only in ../krb5-1.8.3/src//lib/gssapi/mechglue: g_process_context.so
+Only in ../krb5-1.8.3/src//lib/gssapi/mechglue: g_rel_buffer.so
+Only in ../krb5-1.8.3/src//lib/gssapi/mechglue: g_rel_cred.so
+Only in ../krb5-1.8.3/src//lib/gssapi/mechglue: g_rel_name_mapping.so
+Only in ../krb5-1.8.3/src//lib/gssapi/mechglue: g_rel_name.so
+Only in ../krb5-1.8.3/src//lib/gssapi/mechglue: g_rel_oid_set.so
+Only in ../krb5-1.8.3/src//lib/gssapi/mechglue: g_seal.so
+Only in ../krb5-1.8.3/src//lib/gssapi/mechglue: g_set_context_option.so
+Only in ../krb5-1.8.3/src//lib/gssapi/mechglue: g_set_cred_option.so
+Only in ../krb5-1.8.3/src//lib/gssapi/mechglue: g_set_name_attr.so
+Only in ../krb5-1.8.3/src//lib/gssapi/mechglue: g_set_neg_mechs.so
+Only in ../krb5-1.8.3/src//lib/gssapi/mechglue: g_sign.so
+Only in ../krb5-1.8.3/src//lib/gssapi/mechglue: g_store_cred.so
+Only in ../krb5-1.8.3/src//lib/gssapi/mechglue: g_unseal.so
+Only in ../krb5-1.8.3/src//lib/gssapi/mechglue: g_unwrap_aead.so
+Only in ../krb5-1.8.3/src//lib/gssapi/mechglue: g_unwrap_iov.so
+Only in ../krb5-1.8.3/src//lib/gssapi/mechglue: g_verify.so
+Only in ../krb5-1.8.3/src//lib/gssapi/mechglue: g_wrap_aead.so
+Only in ../krb5-1.8.3/src//lib/gssapi/mechglue: g_wrap_iov.so
+Only in ../krb5-1.8.3/src//lib/gssapi/mechglue: Makefile
+Only in ../krb5-1.8.3/src//lib/gssapi/mechglue: OBJS.SH
+Only in ../krb5-1.8.3/src//lib/gssapi/mechglue: .svn
+Only in ../krb5-1.8.3/src//lib/gssapi: OBJS.SH
+Only in ../krb5-1.8.3/src//lib/gssapi/spnego: Makefile
+Only in ../krb5-1.8.3/src//lib/gssapi/spnego: OBJS.SH
+diff -crB ../original_source/krb5-1.8/src//lib/gssapi/spnego/spnego_mech.c ../krb5-1.8.3/src//lib/gssapi/spnego/spnego_mech.c
+*** ../original_source/krb5-1.8/src//lib/gssapi/spnego/spnego_mech.c	2010-02-22 19:25:58.000000000 -0500
+--- ../krb5-1.8.3/src//lib/gssapi/spnego/spnego_mech.c	2011-09-05 16:23:32.591035727 -0400
+***************
+*** 1576,1582 ****
+  	spnego_gss_ctx_id_t sc = NULL;
+  	spnego_gss_cred_id_t spcred = NULL;
+  	OM_uint32 mechstat = GSS_S_FAILURE;
+! 	int sendTokenInit = 0;
+  
+  	mechtok_in = mic_in = mic_out = GSS_C_NO_BUFFER;
+  
+--- 1576,1582 ----
+  	spnego_gss_ctx_id_t sc = NULL;
+  	spnego_gss_cred_id_t spcred = NULL;
+  	OM_uint32 mechstat = GSS_S_FAILURE;
+! 	int sendTokenInit = 0, tmpret;
+  
+  	mechtok_in = mic_in = mic_out = GSS_C_NO_BUFFER;
+  
+***************
+*** 1609,1615 ****
+  		if (delegated_cred_handle != NULL)
+  			*delegated_cred_handle = GSS_C_NO_CREDENTIAL;
+  		if (input_token->length == 0) {
+- 			sendTokenInit = 1;
+  			ret = acc_ctx_hints(minor_status,
+  					    context_handle, spcred,
+  					    &mic_out,
+--- 1609,1614 ----
+***************
+*** 1617,1622 ****
+--- 1616,1622 ----
+  					    &return_token);
+  			if (ret != GSS_S_COMPLETE)
+  				goto cleanup;
++ 			sendTokenInit = 1;
+  			ret = GSS_S_CONTINUE_NEEDED;
+  		} else {
+  			/* Can set negState to REQUEST_MIC */
+***************
+*** 1664,1690 ****
+  				 &negState, &return_token);
+  	}
+  cleanup:
+! 	if (return_token != NO_TOKEN_SEND && return_token != CHECK_MIC) {
+! 		/* For acceptor-sends-first send a tokenInit */
+! 		int tmpret;
+! 
+  		assert(sc != NULL);
+! 
+! 		if (sendTokenInit) {
+! 			tmpret = make_spnego_tokenInit_msg(sc,
+! 							   1,
+! 							   mic_out,
+! 							   0,
+! 							   GSS_C_NO_BUFFER,
+! 							   return_token,
+! 							   output_token);
+! 		} else {
+! 			tmpret = make_spnego_tokenTarg_msg(negState,
+! 							   sc ? sc->internal_mech : GSS_C_NO_OID,
+! 							   &mechtok_out, mic_out,
+! 							   return_token,
+! 							   output_token);
+! 		}
+  		if (tmpret < 0)
+  			ret = GSS_S_FAILURE;
+  	}
+--- 1664,1684 ----
+  				 &negState, &return_token);
+  	}
+  cleanup:
+! 	if (return_token == INIT_TOKEN_SEND && sendTokenInit) {
+  		assert(sc != NULL);
+! 		tmpret = make_spnego_tokenInit_msg(sc, 1, mic_out, 0,
+! 						   GSS_C_NO_BUFFER,
+! 						   return_token, output_token);
+! 		if (tmpret < 0)
+! 			ret = GSS_S_FAILURE;
+! 	} else if (return_token != NO_TOKEN_SEND &&
+! 		   return_token != CHECK_MIC) {
+! 		tmpret = make_spnego_tokenTarg_msg(negState,
+! 						   sc ? sc->internal_mech :
+! 						   GSS_C_NO_OID,
+! 						   &mechtok_out, mic_out,
+! 						   return_token,
+! 						   output_token);
+  		if (tmpret < 0)
+  			ret = GSS_S_FAILURE;
+  	}
+***************
+*** 1693,1698 ****
+--- 1687,1693 ----
+  		if (sc->internal_name != GSS_C_NO_NAME &&
+  		    src_name != NULL) {
+  			*src_name = sc->internal_name;
++ 			sc->internal_name = GSS_C_NO_NAME;
+  		}
+  		release_spnego_ctx(&sc);
+  	} else if (ret != GSS_S_CONTINUE_NEEDED) {
+***************
+*** 2578,2583 ****
+--- 2573,2580 ----
+  		(void) generic_gss_release_oid(&minor_stat,
+  				&context->internal_mech);
+  
++ 		(void) gss_release_name(&minor_stat, &context->internal_name);
++ 
+  		if (context->optionStr != NULL) {
+  			free(context->optionStr);
+  			context->optionStr = NULL;
+***************
+*** 3152,3157 ****
+--- 3149,3166 ----
+  		*mechListMIC = get_input_token(&ptr, REMAIN);
+  		if (*mechListMIC == GSS_C_NO_BUFFER)
+  			return GSS_S_DEFECTIVE_TOKEN;
++ 
++                 /* Handle Windows 2000 duplicate response token */
++                 if (*responseToken &&
++                     ((*responseToken)->length == (*mechListMIC)->length) &&
++                     !memcmp((*responseToken)->value, (*mechListMIC)->value,
++                             (*responseToken)->length)) {
++ 			OM_uint32 tmpmin;
++ 
++ 			gss_release_buffer(&tmpmin, *mechListMIC);
++ 			free(*mechListMIC);
++ 			*mechListMIC = NULL;
++ 		}
+  	}
+  	return GSS_S_COMPLETE;
+  #undef REMAIN
+Only in ../krb5-1.8.3/src//lib/gssapi/spnego: spnego_mech.so
+Only in ../krb5-1.8.3/src//lib/gssapi/spnego: .svn
+Only in ../krb5-1.8.3/src//lib/gssapi: .svn
+diff -crB ../original_source/krb5-1.8/src//lib/kadm5/alt_prof.c ../krb5-1.8.3/src//lib/kadm5/alt_prof.c
+*** ../original_source/krb5-1.8/src//lib/kadm5/alt_prof.c	2009-10-30 20:48:38.000000000 -0400
+--- ../krb5-1.8.3/src//lib/kadm5/alt_prof.c	2011-09-05 16:23:33.303035727 -0400
+***************
+*** 482,487 ****
+--- 482,517 ----
+  }
+  
+  /*
++  * Parse out the port number from an admin_server setting.  Modify server to
++  * contain just the hostname or address.  If a port is given, set *port, and
++  * set the appropriate bit in *mask.
++  */
++ static void
++ parse_admin_server_port(char *server, int *port, long *mask)
++ {
++     char *end, *portstr;
++ 
++     /* Allow the name or addr to be enclosed in brackets, for IPv6 addrs. */
++     if (*server == '[' && (end = strchr(server + 1, ']')) != NULL) {
++         portstr = (*(end + 1) == ':') ? end + 2 : NULL;
++         /* Shift the bracketed name or address back into server. */
++         memmove(server, server + 1, end - (server + 1));
++         *(end - 1) = '\0';
++     } else {
++         /* Terminate the name at the colon, if any. */
++         end = server + strcspn(server, ":");
++         portstr = (*end == ':') ? end + 1 : NULL;
++         *end = '\0';
++     }
++ 
++     /* If we found a port string, parse it and set the appropriate bit. */
++     if (portstr) {
++         *port = atoi(portstr);
++         *mask |= KADM5_CONFIG_KADMIND_PORT;
++     }
++ }
++ 
++ /*
+   * Function: kadm5_get_config_params
+   *
+   * Purpose: Merge configuration parameters provided by the caller with
+***************
+*** 581,593 ****
+                       NULL);
+  
+      if (params.mask & KADM5_CONFIG_ADMIN_SERVER) {
+!         char *p;
+!         p = strchr(params.admin_server, ':');
+!         if (p) {
+!             params.kadmind_port = atoi(p+1);
+!             params.mask |= KADM5_CONFIG_KADMIND_PORT;
+!             *p = '\0';
+!         }
+      }
+  
+      /* Get the value for the database */
+--- 611,618 ----
+                       NULL);
+  
+      if (params.mask & KADM5_CONFIG_ADMIN_SERVER) {
+!         parse_admin_server_port(params.admin_server, &params.kadmind_port,
+!                                 &params.mask);
+      }
+  
+      /* Get the value for the database */
+Only in ../krb5-1.8.3/src//lib/kadm5: alt_prof.so
+Only in ../krb5-1.8.3/src//lib/kadm5: chpass_util.so
+Only in ../krb5-1.8.3/src//lib/kadm5: chpass_util_strings.c
+Only in ../krb5-1.8.3/src//lib/kadm5: chpass_util_strings.h
+Only in ../krb5-1.8.3/src//lib/kadm5: chpass_util_strings.so
+Only in ../krb5-1.8.3/src//lib/kadm5/clnt: binutils.versions
+Only in ../krb5-1.8.3/src//lib/kadm5/clnt: client_init.so
+Only in ../krb5-1.8.3/src//lib/kadm5/clnt: client_principal.so
+Only in ../krb5-1.8.3/src//lib/kadm5/clnt: client_rpc.so
+Only in ../krb5-1.8.3/src//lib/kadm5/clnt: clnt_chpass_util.so
+Only in ../krb5-1.8.3/src//lib/kadm5/clnt: clnt_policy.so
+Only in ../krb5-1.8.3/src//lib/kadm5/clnt: clnt_privs.so
+Only in ../krb5-1.8.3/src//lib/kadm5/clnt: libkadm5clnt_mit.so
+Only in ../krb5-1.8.3/src//lib/kadm5/clnt: libkadm5clnt_mit.so.7
+Only in ../krb5-1.8.3/src//lib/kadm5/clnt: libkadm5clnt_mit.so.7.0
+Only in ../krb5-1.8.3/src//lib/kadm5/clnt: Makefile
+Only in ../krb5-1.8.3/src//lib/kadm5/clnt: OBJS.SH
+Only in ../krb5-1.8.3/src//lib/kadm5/clnt: .svn
+Only in ../krb5-1.8.3/src//lib/kadm5: kadm_err.c
+Only in ../krb5-1.8.3/src//lib/kadm5: kadm_err.h
+Only in ../krb5-1.8.3/src//lib/kadm5: kadm_err.so
+Only in ../krb5-1.8.3/src//lib/kadm5: kadm_rpc_xdr.so
+Only in ../krb5-1.8.3/src//lib/kadm5: logger.so
+Only in ../krb5-1.8.3/src//lib/kadm5: Makefile
+Only in ../krb5-1.8.3/src//lib/kadm5: misc_free.so
+Only in ../krb5-1.8.3/src//lib/kadm5: OBJS.SH
+Only in ../krb5-1.8.3/src//lib/kadm5/srv: adb_xdr.so
+Only in ../krb5-1.8.3/src//lib/kadm5/srv: binutils.versions
+Only in ../krb5-1.8.3/src//lib/kadm5/srv: libkadm5srv_mit.so
+Only in ../krb5-1.8.3/src//lib/kadm5/srv: libkadm5srv_mit.so.7
+Only in ../krb5-1.8.3/src//lib/kadm5/srv: libkadm5srv_mit.so.7.0
+Only in ../krb5-1.8.3/src//lib/kadm5/srv: Makefile
+Only in ../krb5-1.8.3/src//lib/kadm5/srv: OBJS.SH
+Only in ../krb5-1.8.3/src//lib/kadm5/srv: server_acl.so
+Only in ../krb5-1.8.3/src//lib/kadm5/srv: server_dict.so
+Only in ../krb5-1.8.3/src//lib/kadm5/srv: server_init.so
+Only in ../krb5-1.8.3/src//lib/kadm5/srv: server_kdb.so
+Only in ../krb5-1.8.3/src//lib/kadm5/srv: server_misc.so
+Only in ../krb5-1.8.3/src//lib/kadm5/srv: .svn
+Only in ../krb5-1.8.3/src//lib/kadm5/srv: svr_chpass_util.so
+Only in ../krb5-1.8.3/src//lib/kadm5/srv: svr_iters.so
+Only in ../krb5-1.8.3/src//lib/kadm5/srv: svr_policy.so
+diff -crB ../original_source/krb5-1.8/src//lib/kadm5/srv/svr_principal.c ../krb5-1.8.3/src//lib/kadm5/srv/svr_principal.c
+*** ../original_source/krb5-1.8/src//lib/kadm5/srv/svr_principal.c	2010-02-12 15:28:51.000000000 -0500
+--- ../krb5-1.8.3/src//lib/kadm5/srv/svr_principal.c	2011-09-05 16:23:33.275035727 -0400
+***************
+*** 858,865 ****
+          if (! (mask & KADM5_MOD_TIME))
+              entry->mod_date = 0;
+          if (! (mask & KADM5_MOD_NAME)) {
+!             krb5_free_principal(handle->context, entry->principal);
+!             entry->principal = NULL;
+          }
+      }
+  
+--- 858,865 ----
+          if (! (mask & KADM5_MOD_TIME))
+              entry->mod_date = 0;
+          if (! (mask & KADM5_MOD_NAME)) {
+!             krb5_free_principal(handle->context, entry->mod_name);
+!             entry->mod_name = NULL;
+          }
+      }
+  
+***************
+*** 871,880 ****
+              if (kdb.key_data[i].key_data_kvno > entry->kvno)
+                  entry->kvno = kdb.key_data[i].key_data_kvno;
+  
+!     ret = krb5_dbe_get_mkvno(handle->context, &kdb, master_keylist,
+!                              &entry->mkvno);
+!     if (ret)
+!         goto done;
+  
+      if (mask & KADM5_MAX_RLIFE)
+          entry->max_renewable_life = kdb.max_renewable_life;
+--- 871,882 ----
+              if (kdb.key_data[i].key_data_kvno > entry->kvno)
+                  entry->kvno = kdb.key_data[i].key_data_kvno;
+  
+!     if (mask & KADM5_MKVNO) {
+!         ret = krb5_dbe_get_mkvno(handle->context, &kdb, master_keylist,
+!                                  &entry->mkvno);
+!         if (ret)
+!             goto done;
+!     }
+  
+      if (mask & KADM5_MAX_RLIFE)
+          entry->max_renewable_life = kdb.max_renewable_life;
+Only in ../krb5-1.8.3/src//lib/kadm5/srv: svr_principal.so
+Only in ../krb5-1.8.3/src//lib/kadm5: str_conv.so
+Only in ../krb5-1.8.3/src//lib/kadm5: .svn
+Only in ../krb5-1.8.3/src//lib/kadm5/unit-test/api.1: .svn
+Only in ../krb5-1.8.3/src//lib/kadm5/unit-test/api.2: .svn
+Only in ../krb5-1.8.3/src//lib/kadm5/unit-test/api.current: .svn
+Only in ../krb5-1.8.3/src//lib/kadm5/unit-test/config: .svn
+Only in ../krb5-1.8.3/src//lib/kadm5/unit-test/diff-files: .svn
+Only in ../krb5-1.8.3/src//lib/kadm5/unit-test/lib: .svn
+Only in ../krb5-1.8.3/src//lib/kadm5/unit-test: Makefile
+Only in ../krb5-1.8.3/src//lib/kadm5/unit-test: .svn
+Only in ../krb5-1.8.3/src//lib/kdb: adb_err.c
+Only in ../krb5-1.8.3/src//lib/kdb: adb_err.h
+Only in ../krb5-1.8.3/src//lib/kdb: adb_err.so
+Only in ../krb5-1.8.3/src//lib/kdb: binutils.versions
+Only in ../krb5-1.8.3/src//lib/kdb: decrypt_key.so
+Only in ../krb5-1.8.3/src//lib/kdb: encrypt_key.so
+Only in ../krb5-1.8.3/src//lib/kdb: iprop_xdr.so
+Only in ../krb5-1.8.3/src//lib/kdb: kdb5.so
+Only in ../krb5-1.8.3/src//lib/kdb: kdb_convert.so
+Only in ../krb5-1.8.3/src//lib/kdb: kdb_cpw.so
+Only in ../krb5-1.8.3/src//lib/kdb: kdb_default.so
+Only in ../krb5-1.8.3/src//lib/kdb: kdb_log.so
+Only in ../krb5-1.8.3/src//lib/kdb: keytab.so
+Only in ../krb5-1.8.3/src//lib/kdb: libkdb5.so
+Only in ../krb5-1.8.3/src//lib/kdb: libkdb5.so.4
+Only in ../krb5-1.8.3/src//lib/kdb: libkdb5.so.4.0
+Only in ../krb5-1.8.3/src//lib/kdb: Makefile
+Only in ../krb5-1.8.3/src//lib/kdb: OBJS.SH
+Only in ../krb5-1.8.3/src//lib/kdb: .svn
+Only in ../krb5-1.8.3/src//lib/krb5/asn.1: asn1buf.so
+Only in ../krb5-1.8.3/src//lib/krb5/asn.1: asn1_decode.so
+Only in ../krb5-1.8.3/src//lib/krb5/asn.1: asn1_encode.so
+Only in ../krb5-1.8.3/src//lib/krb5/asn.1: asn1_get.so
+Only in ../krb5-1.8.3/src//lib/krb5/asn.1: asn1_k_decode.so
+Only in ../krb5-1.8.3/src//lib/krb5/asn.1: asn1_k_encode.so
+Only in ../krb5-1.8.3/src//lib/krb5/asn.1: asn1_make.so
+Only in ../krb5-1.8.3/src//lib/krb5/asn.1: asn1_misc.so
+Only in ../krb5-1.8.3/src//lib/krb5/asn.1: krb5_decode.so
+Only in ../krb5-1.8.3/src//lib/krb5/asn.1: krb5_encode.so
+Only in ../krb5-1.8.3/src//lib/krb5/asn.1: ldap_key_seq.so
+Only in ../krb5-1.8.3/src//lib/krb5/asn.1: Makefile
+Only in ../krb5-1.8.3/src//lib/krb5/asn.1: OBJS.SH
+Only in ../krb5-1.8.3/src//lib/krb5/asn.1: .svn
+Only in ../krb5-1.8.3/src//lib/krb5: binutils.versions
+Only in ../krb5-1.8.3/src//lib/krb5/ccache/ccapi: .svn
+Only in ../krb5-1.8.3/src//lib/krb5/ccache: ccbase.so
+Only in ../krb5-1.8.3/src//lib/krb5/ccache: cccopy.so
+Only in ../krb5-1.8.3/src//lib/krb5/ccache: cccursor.so
+Only in ../krb5-1.8.3/src//lib/krb5/ccache: ccdefault.so
+Only in ../krb5-1.8.3/src//lib/krb5/ccache: ccdefops.so
+Only in ../krb5-1.8.3/src//lib/krb5/ccache: cc_file.so
+Only in ../krb5-1.8.3/src//lib/krb5/ccache: ccfns.so
+Only in ../krb5-1.8.3/src//lib/krb5/ccache: cc_keyring.so
+Only in ../krb5-1.8.3/src//lib/krb5/ccache: cc_memory.so
+Only in ../krb5-1.8.3/src//lib/krb5/ccache: cc_retr.so
+Only in ../krb5-1.8.3/src//lib/krb5/ccache: Makefile
+Only in ../krb5-1.8.3/src//lib/krb5/ccache: OBJS.SH
+Only in ../krb5-1.8.3/src//lib/krb5/ccache: ser_cc.so
+Only in ../krb5-1.8.3/src//lib/krb5/ccache: .svn
+Only in ../krb5-1.8.3/src//lib/krb5/error_tables: asn1_err.c
+Only in ../krb5-1.8.3/src//lib/krb5/error_tables: asn1_err.h
+Only in ../krb5-1.8.3/src//lib/krb5/error_tables: asn1_err.so
+Only in ../krb5-1.8.3/src//lib/krb5/error_tables: kdb5_err.c
+Only in ../krb5-1.8.3/src//lib/krb5/error_tables: kdb5_err.h
+Only in ../krb5-1.8.3/src//lib/krb5/error_tables: kdb5_err.so
+Only in ../krb5-1.8.3/src//lib/krb5/error_tables: krb524_err.c
+Only in ../krb5-1.8.3/src//lib/krb5/error_tables: krb524_err.h
+Only in ../krb5-1.8.3/src//lib/krb5/error_tables: krb524_err.so
+Only in ../krb5-1.8.3/src//lib/krb5/error_tables: krb5_err.c
+Only in ../krb5-1.8.3/src//lib/krb5/error_tables: krb5_err.h
+Only in ../krb5-1.8.3/src//lib/krb5/error_tables: krb5_err.so
+Only in ../krb5-1.8.3/src//lib/krb5/error_tables: kv5m_err.c
+Only in ../krb5-1.8.3/src//lib/krb5/error_tables: kv5m_err.h
+Only in ../krb5-1.8.3/src//lib/krb5/error_tables: kv5m_err.so
+Only in ../krb5-1.8.3/src//lib/krb5/error_tables: Makefile
+Only in ../krb5-1.8.3/src//lib/krb5/error_tables: OBJS.SH
+Only in ../krb5-1.8.3/src//lib/krb5/error_tables: .svn
+Only in ../krb5-1.8.3/src//lib/krb5/keytab: ktadd.so
+Only in ../krb5-1.8.3/src//lib/krb5/keytab: ktbase.so
+Only in ../krb5-1.8.3/src//lib/krb5/keytab: ktdefault.so
+Only in ../krb5-1.8.3/src//lib/krb5/keytab: kt_file.so
+Only in ../krb5-1.8.3/src//lib/krb5/keytab: ktfns.so
+Only in ../krb5-1.8.3/src//lib/krb5/keytab: ktfr_entry.so
+Only in ../krb5-1.8.3/src//lib/krb5/keytab: kt_memory.so
+Only in ../krb5-1.8.3/src//lib/krb5/keytab: ktremove.so
+Only in ../krb5-1.8.3/src//lib/krb5/keytab: kt_srvtab.so
+Only in ../krb5-1.8.3/src//lib/krb5/keytab: Makefile
+Only in ../krb5-1.8.3/src//lib/krb5/keytab: OBJS.SH
+Only in ../krb5-1.8.3/src//lib/krb5/keytab: read_servi.so
+Only in ../krb5-1.8.3/src//lib/krb5/keytab: .svn
+Only in ../krb5-1.8.3/src//lib/krb5/krb: addr_comp.so
+Only in ../krb5-1.8.3/src//lib/krb5/krb: addr_order.so
+Only in ../krb5-1.8.3/src//lib/krb5/krb: addr_srch.so
+Only in ../krb5-1.8.3/src//lib/krb5/krb: allow_weak.so
+Only in ../krb5-1.8.3/src//lib/krb5/krb: appdefault.so
+Only in ../krb5-1.8.3/src//lib/krb5/krb: auth_con.so
+Only in ../krb5-1.8.3/src//lib/krb5/krb: authdata.so
+Only in ../krb5-1.8.3/src//lib/krb5/krb: bld_pr_ext.so
+Only in ../krb5-1.8.3/src//lib/krb5/krb: bld_princ.so
+Only in ../krb5-1.8.3/src//lib/krb5/krb: chk_trans.so
+Only in ../krb5-1.8.3/src//lib/krb5/krb: chpw.so
+Only in ../krb5-1.8.3/src//lib/krb5/krb: conv_creds.so
+Only in ../krb5-1.8.3/src//lib/krb5/krb: conv_princ.so
+Only in ../krb5-1.8.3/src//lib/krb5/krb: copy_addrs.so
+Only in ../krb5-1.8.3/src//lib/krb5/krb: copy_athctr.so
+Only in ../krb5-1.8.3/src//lib/krb5/krb: copy_auth.so
+Only in ../krb5-1.8.3/src//lib/krb5/krb: copy_cksum.so
+Only in ../krb5-1.8.3/src//lib/krb5/krb: copy_creds.so
+Only in ../krb5-1.8.3/src//lib/krb5/krb: copy_ctx.so
+Only in ../krb5-1.8.3/src//lib/krb5/krb: copy_data.so
+Only in ../krb5-1.8.3/src//lib/krb5/krb: copy_key.so
+Only in ../krb5-1.8.3/src//lib/krb5/krb: copy_princ.so
+Only in ../krb5-1.8.3/src//lib/krb5/krb: copy_tick.so
+Only in ../krb5-1.8.3/src//lib/krb5/krb: cp_key_cnt.so
+Only in ../krb5-1.8.3/src//lib/krb5/krb: cscope.out
+Only in ../krb5-1.8.3/src//lib/krb5/krb: decode_kdc.so
+Only in ../krb5-1.8.3/src//lib/krb5/krb: decrypt_tk.so
+Only in ../krb5-1.8.3/src//lib/krb5/krb: deltat.so
+diff -crB ../original_source/krb5-1.8/src//lib/krb5/krb/deps ../krb5-1.8.3/src//lib/krb5/krb/deps
+*** ../original_source/krb5-1.8/src//lib/krb5/krb/deps	2010-02-08 15:55:22.000000000 -0500
+--- ../krb5-1.8.3/src//lib/krb5/krb/deps	2011-09-05 16:23:35.079035729 -0400
+***************
+*** 63,107 ****
+    $(top_srcdir)/include/k5-gmt_mktime.h $(top_srcdir)/include/k5-int-pkinit.h \
+    $(top_srcdir)/include/k5-int.h $(top_srcdir)/include/k5-platform.h \
+    $(top_srcdir)/include/k5-plugin.h $(top_srcdir)/include/k5-thread.h \
+-   $(top_srcdir)/include/k5-utf8.h $(top_srcdir)/include/krb5.h \
+-   $(top_srcdir)/include/krb5/authdata_plugin.h $(top_srcdir)/include/krb5/locate_plugin.h \
+-   $(top_srcdir)/include/krb5/preauth_plugin.h $(top_srcdir)/include/port-sockets.h \
+-   $(top_srcdir)/include/socket-utils.h auth_con.h authdata.c \
+-   authdata.h int-proto.h
+- authdata_exp.so authdata_exp.po $(OUTPRE)authdata_exp.$(OBJEXT): \
+-   $(BUILDTOP)/include/autoconf.h $(BUILDTOP)/include/krb5/krb5.h \
+-   $(BUILDTOP)/include/osconf.h $(BUILDTOP)/include/profile.h \
+-   $(COM_ERR_DEPS) $(top_srcdir)/include/k5-buf.h $(top_srcdir)/include/k5-err.h \
+-   $(top_srcdir)/include/k5-gmt_mktime.h $(top_srcdir)/include/k5-int-pkinit.h \
+-   $(top_srcdir)/include/k5-int.h $(top_srcdir)/include/k5-platform.h \
+-   $(top_srcdir)/include/k5-plugin.h $(top_srcdir)/include/k5-thread.h \
+-   $(top_srcdir)/include/k5-utf8.h $(top_srcdir)/include/krb5.h \
+-   $(top_srcdir)/include/krb5/authdata_plugin.h $(top_srcdir)/include/krb5/locate_plugin.h \
+-   $(top_srcdir)/include/krb5/preauth_plugin.h $(top_srcdir)/include/port-sockets.h \
+-   $(top_srcdir)/include/socket-utils.h auth_con.h authdata.h \
+-   authdata_exp.c int-proto.h
+- authdata_enc.so authdata_enc.po $(OUTPRE)authdata_enc.$(OBJEXT): \
+-   $(BUILDTOP)/include/autoconf.h $(BUILDTOP)/include/krb5/krb5.h \
+-   $(BUILDTOP)/include/osconf.h $(BUILDTOP)/include/profile.h \
+-   $(COM_ERR_DEPS) $(top_srcdir)/include/k5-buf.h $(top_srcdir)/include/k5-err.h \
+-   $(top_srcdir)/include/k5-gmt_mktime.h $(top_srcdir)/include/k5-int-pkinit.h \
+-   $(top_srcdir)/include/k5-int.h $(top_srcdir)/include/k5-platform.h \
+-   $(top_srcdir)/include/k5-plugin.h $(top_srcdir)/include/k5-thread.h \
+    $(top_srcdir)/include/krb5.h $(top_srcdir)/include/krb5/authdata_plugin.h \
+    $(top_srcdir)/include/krb5/locate_plugin.h $(top_srcdir)/include/krb5/preauth_plugin.h \
+    $(top_srcdir)/include/port-sockets.h $(top_srcdir)/include/socket-utils.h \
+!   authdata_enc.c
+! authdata_dec.so authdata_dec.po $(OUTPRE)authdata_dec.$(OBJEXT): \
+!   $(BUILDTOP)/include/autoconf.h $(BUILDTOP)/include/krb5/krb5.h \
+!   $(BUILDTOP)/include/osconf.h $(BUILDTOP)/include/profile.h \
+!   $(COM_ERR_DEPS) $(top_srcdir)/include/k5-buf.h $(top_srcdir)/include/k5-err.h \
+!   $(top_srcdir)/include/k5-gmt_mktime.h $(top_srcdir)/include/k5-int-pkinit.h \
+!   $(top_srcdir)/include/k5-int.h $(top_srcdir)/include/k5-platform.h \
+!   $(top_srcdir)/include/k5-plugin.h $(top_srcdir)/include/k5-thread.h \
+!   $(top_srcdir)/include/krb5.h $(top_srcdir)/include/krb5/authdata_plugin.h \
+!   $(top_srcdir)/include/krb5/locate_plugin.h $(top_srcdir)/include/krb5/preauth_plugin.h \
+!   $(top_srcdir)/include/port-sockets.h $(top_srcdir)/include/socket-utils.h \
+!   authdata_dec.c int-proto.h
+  bld_pr_ext.so bld_pr_ext.po $(OUTPRE)bld_pr_ext.$(OBJEXT): \
+    $(BUILDTOP)/include/autoconf.h $(BUILDTOP)/include/krb5/krb5.h \
+    $(BUILDTOP)/include/osconf.h $(BUILDTOP)/include/profile.h \
+--- 63,72 ----
+    $(top_srcdir)/include/k5-gmt_mktime.h $(top_srcdir)/include/k5-int-pkinit.h \
+    $(top_srcdir)/include/k5-int.h $(top_srcdir)/include/k5-platform.h \
+    $(top_srcdir)/include/k5-plugin.h $(top_srcdir)/include/k5-thread.h \
+    $(top_srcdir)/include/krb5.h $(top_srcdir)/include/krb5/authdata_plugin.h \
+    $(top_srcdir)/include/krb5/locate_plugin.h $(top_srcdir)/include/krb5/preauth_plugin.h \
+    $(top_srcdir)/include/port-sockets.h $(top_srcdir)/include/socket-utils.h \
+!   auth_con.h authdata.c authdata.h int-proto.h
+  bld_pr_ext.so bld_pr_ext.po $(OUTPRE)bld_pr_ext.$(OBJEXT): \
+    $(BUILDTOP)/include/autoconf.h $(BUILDTOP)/include/krb5/krb5.h \
+    $(BUILDTOP)/include/osconf.h $(BUILDTOP)/include/profile.h \
+***************
+*** 190,196 ****
+    $(top_srcdir)/include/krb5.h $(top_srcdir)/include/krb5/authdata_plugin.h \
+    $(top_srcdir)/include/krb5/locate_plugin.h $(top_srcdir)/include/krb5/preauth_plugin.h \
+    $(top_srcdir)/include/port-sockets.h $(top_srcdir)/include/socket-utils.h \
+!   copy_auth.c int-proto.h
+  copy_athctr.so copy_athctr.po $(OUTPRE)copy_athctr.$(OBJEXT): \
+    $(BUILDTOP)/include/autoconf.h $(BUILDTOP)/include/krb5/krb5.h \
+    $(BUILDTOP)/include/osconf.h $(BUILDTOP)/include/profile.h \
+--- 155,161 ----
+    $(top_srcdir)/include/krb5.h $(top_srcdir)/include/krb5/authdata_plugin.h \
+    $(top_srcdir)/include/krb5/locate_plugin.h $(top_srcdir)/include/krb5/preauth_plugin.h \
+    $(top_srcdir)/include/port-sockets.h $(top_srcdir)/include/socket-utils.h \
+!   copy_auth.c
+  copy_athctr.so copy_athctr.po $(OUTPRE)copy_athctr.$(OBJEXT): \
+    $(BUILDTOP)/include/autoconf.h $(BUILDTOP)/include/krb5/krb5.h \
+    $(BUILDTOP)/include/osconf.h $(BUILDTOP)/include/profile.h \
+***************
+*** 201,207 ****
+    $(top_srcdir)/include/krb5.h $(top_srcdir)/include/krb5/authdata_plugin.h \
+    $(top_srcdir)/include/krb5/locate_plugin.h $(top_srcdir)/include/krb5/preauth_plugin.h \
+    $(top_srcdir)/include/port-sockets.h $(top_srcdir)/include/socket-utils.h \
+!   auth_con.h copy_athctr.c
+  copy_cksum.so copy_cksum.po $(OUTPRE)copy_cksum.$(OBJEXT): \
+    $(BUILDTOP)/include/autoconf.h $(BUILDTOP)/include/krb5/krb5.h \
+    $(BUILDTOP)/include/osconf.h $(BUILDTOP)/include/profile.h \
+--- 166,172 ----
+    $(top_srcdir)/include/krb5.h $(top_srcdir)/include/krb5/authdata_plugin.h \
+    $(top_srcdir)/include/krb5/locate_plugin.h $(top_srcdir)/include/krb5/preauth_plugin.h \
+    $(top_srcdir)/include/port-sockets.h $(top_srcdir)/include/socket-utils.h \
+!   copy_athctr.c
+  copy_cksum.so copy_cksum.po $(OUTPRE)copy_cksum.$(OBJEXT): \
+    $(BUILDTOP)/include/autoconf.h $(BUILDTOP)/include/krb5/krb5.h \
+    $(BUILDTOP)/include/osconf.h $(BUILDTOP)/include/profile.h \
+***************
+*** 669,685 ****
+    $(top_srcdir)/include/krb5/locate_plugin.h $(top_srcdir)/include/krb5/preauth_plugin.h \
+    $(top_srcdir)/include/port-sockets.h $(top_srcdir)/include/socket-utils.h \
+    authdata.h pac.c
+- pac_sign.so pac_sign.po $(OUTPRE)pac_sign.$(OBJEXT): \
+-   $(BUILDTOP)/include/autoconf.h $(BUILDTOP)/include/krb5/krb5.h \
+-   $(BUILDTOP)/include/osconf.h $(BUILDTOP)/include/profile.h \
+-   $(COM_ERR_DEPS) $(top_srcdir)/include/k5-buf.h $(top_srcdir)/include/k5-err.h \
+-   $(top_srcdir)/include/k5-gmt_mktime.h $(top_srcdir)/include/k5-int-pkinit.h \
+-   $(top_srcdir)/include/k5-int.h $(top_srcdir)/include/k5-platform.h \
+-   $(top_srcdir)/include/k5-plugin.h $(top_srcdir)/include/k5-thread.h \
+-   $(top_srcdir)/include/k5-utf8.h $(top_srcdir)/include/krb5.h \
+-   $(top_srcdir)/include/krb5/authdata_plugin.h $(top_srcdir)/include/krb5/locate_plugin.h \
+-   $(top_srcdir)/include/krb5/preauth_plugin.h $(top_srcdir)/include/port-sockets.h \
+-   $(top_srcdir)/include/socket-utils.h authdata.h pac_sign.c
+  parse.so parse.po $(OUTPRE)parse.$(OBJEXT): $(BUILDTOP)/include/autoconf.h \
+    $(BUILDTOP)/include/krb5/krb5.h $(BUILDTOP)/include/osconf.h \
+    $(BUILDTOP)/include/profile.h $(COM_ERR_DEPS) $(top_srcdir)/include/k5-buf.h \
+--- 634,639 ----
+***************
+*** 722,738 ****
+    $(top_srcdir)/include/krb5/locate_plugin.h $(top_srcdir)/include/krb5/preauth_plugin.h \
+    $(top_srcdir)/include/port-sockets.h $(top_srcdir)/include/socket-utils.h \
+    fast.h int-proto.h preauth2.c
+- gic_opt_set_pa.so gic_opt_set_pa.po $(OUTPRE)gic_opt_set_pa.$(OBJEXT): \
+-   $(BUILDTOP)/include/autoconf.h $(BUILDTOP)/include/krb5/krb5.h \
+-   $(BUILDTOP)/include/osconf.h $(BUILDTOP)/include/profile.h \
+-   $(COM_ERR_DEPS) $(top_srcdir)/include/k5-buf.h $(top_srcdir)/include/k5-err.h \
+-   $(top_srcdir)/include/k5-gmt_mktime.h $(top_srcdir)/include/k5-int-pkinit.h \
+-   $(top_srcdir)/include/k5-int.h $(top_srcdir)/include/k5-platform.h \
+-   $(top_srcdir)/include/k5-plugin.h $(top_srcdir)/include/k5-thread.h \
+-   $(top_srcdir)/include/krb5.h $(top_srcdir)/include/krb5/authdata_plugin.h \
+-   $(top_srcdir)/include/krb5/locate_plugin.h $(top_srcdir)/include/krb5/preauth_plugin.h \
+-   $(top_srcdir)/include/port-sockets.h $(top_srcdir)/include/socket-utils.h \
+-   gic_opt_set_pa.c int-proto.h
+  princ_comp.so princ_comp.po $(OUTPRE)princ_comp.$(OBJEXT): \
+    $(BUILDTOP)/include/autoconf.h $(BUILDTOP)/include/krb5/krb5.h \
+    $(BUILDTOP)/include/osconf.h $(BUILDTOP)/include/profile.h \
+--- 676,681 ----
+***************
+*** 805,815 ****
+    $(top_srcdir)/include/k5-gmt_mktime.h $(top_srcdir)/include/k5-int-pkinit.h \
+    $(top_srcdir)/include/k5-int.h $(top_srcdir)/include/k5-platform.h \
+    $(top_srcdir)/include/k5-plugin.h $(top_srcdir)/include/k5-thread.h \
+!   $(top_srcdir)/include/k5-utf8.h $(top_srcdir)/include/krb5.h \
+!   $(top_srcdir)/include/krb5/authdata_plugin.h $(top_srcdir)/include/krb5/locate_plugin.h \
+!   $(top_srcdir)/include/krb5/preauth_plugin.h $(top_srcdir)/include/port-sockets.h \
+!   $(top_srcdir)/include/socket-utils.h auth_con.h authdata.h \
+!   int-proto.h rd_req_dec.c
+  rd_safe.so rd_safe.po $(OUTPRE)rd_safe.$(OBJEXT): $(BUILDTOP)/include/autoconf.h \
+    $(BUILDTOP)/include/krb5/krb5.h $(BUILDTOP)/include/osconf.h \
+    $(BUILDTOP)/include/profile.h $(COM_ERR_DEPS) $(top_srcdir)/include/k5-buf.h \
+--- 748,757 ----
+    $(top_srcdir)/include/k5-gmt_mktime.h $(top_srcdir)/include/k5-int-pkinit.h \
+    $(top_srcdir)/include/k5-int.h $(top_srcdir)/include/k5-platform.h \
+    $(top_srcdir)/include/k5-plugin.h $(top_srcdir)/include/k5-thread.h \
+!   $(top_srcdir)/include/krb5.h $(top_srcdir)/include/krb5/authdata_plugin.h \
+!   $(top_srcdir)/include/krb5/locate_plugin.h $(top_srcdir)/include/krb5/preauth_plugin.h \
+!   $(top_srcdir)/include/port-sockets.h $(top_srcdir)/include/socket-utils.h \
+!   auth_con.h authdata.h int-proto.h rd_req_dec.c
+  rd_safe.so rd_safe.po $(OUTPRE)rd_safe.$(OBJEXT): $(BUILDTOP)/include/autoconf.h \
+    $(BUILDTOP)/include/krb5/krb5.h $(BUILDTOP)/include/osconf.h \
+    $(BUILDTOP)/include/profile.h $(COM_ERR_DEPS) $(top_srcdir)/include/k5-buf.h \
+***************
+*** 1038,1044 ****
+    $(top_srcdir)/include/krb5.h $(top_srcdir)/include/krb5/authdata_plugin.h \
+    $(top_srcdir)/include/krb5/locate_plugin.h $(top_srcdir)/include/krb5/preauth_plugin.h \
+    $(top_srcdir)/include/port-sockets.h $(top_srcdir)/include/socket-utils.h \
+!   int-proto.h valid_times.c
+  vfy_increds.so vfy_increds.po $(OUTPRE)vfy_increds.$(OBJEXT): \
+    $(BUILDTOP)/include/autoconf.h $(BUILDTOP)/include/krb5/krb5.h \
+    $(BUILDTOP)/include/osconf.h $(BUILDTOP)/include/profile.h \
+--- 980,986 ----
+    $(top_srcdir)/include/krb5.h $(top_srcdir)/include/krb5/authdata_plugin.h \
+    $(top_srcdir)/include/krb5/locate_plugin.h $(top_srcdir)/include/krb5/preauth_plugin.h \
+    $(top_srcdir)/include/port-sockets.h $(top_srcdir)/include/socket-utils.h \
+!   valid_times.c
+  vfy_increds.so vfy_increds.po $(OUTPRE)vfy_increds.$(OBJEXT): \
+    $(BUILDTOP)/include/autoconf.h $(BUILDTOP)/include/krb5/krb5.h \
+    $(BUILDTOP)/include/osconf.h $(BUILDTOP)/include/profile.h \
+Only in ../krb5-1.8.3/src//lib/krb5/krb: enc_helper.so
+Only in ../krb5-1.8.3/src//lib/krb5/krb: enc_keyhelper.so
+Only in ../krb5-1.8.3/src//lib/krb5/krb: encode_kdc.so
+Only in ../krb5-1.8.3/src//lib/krb5/krb: encrypt_tk.so
+Only in ../krb5-1.8.3/src//lib/krb5/krb: etype_list.so
+diff -crB ../original_source/krb5-1.8/src//lib/krb5/krb/fast.c ../krb5-1.8.3/src//lib/krb5/krb/fast.c
+*** ../original_source/krb5-1.8/src//lib/krb5/krb/fast.c	2010-02-12 15:28:43.000000000 -0500
+--- ../krb5-1.8.3/src//lib/krb5/krb/fast.c	2011-09-05 16:23:35.075035729 -0400
+***************
+*** 572,577 ****
+--- 572,578 ----
+      krb5_data scratch;
+      krb5_boolean valid;
+  
++     *fast_avail = FALSE;
+      if (rep->enc_part2->flags& TKT_FLG_ENC_PA_REP) {
+          pa = krb5int_find_pa_data(context, rep->enc_part2->enc_padata,
+                                    KRB5_ENCPADATA_REQ_ENC_PA_REP);
+Only in ../krb5-1.8.3/src//lib/krb5/krb: fast.so
+Only in ../krb5-1.8.3/src//lib/krb5/krb: fwd_tgt.so
+Only in ../krb5-1.8.3/src//lib/krb5/krb: gc_frm_kdc.so
+diff -crB ../original_source/krb5-1.8/src//lib/krb5/krb/gc_via_tkt.c ../krb5-1.8.3/src//lib/krb5/krb/gc_via_tkt.c
+*** ../original_source/krb5-1.8/src//lib/krb5/krb/gc_via_tkt.c	2009-12-22 17:26:55.000000000 -0500
+--- ../krb5-1.8.3/src//lib/krb5/krb/gc_via_tkt.c	2011-09-05 16:23:35.127035729 -0400
+***************
+*** 424,430 ****
+      krb5int_dbgref_dump_principal("krb5_get_cred_via_tkt requested ticket", in_cred->server);
+      krb5int_dbgref_dump_principal("krb5_get_cred_via_tkt TGT in use", tkt->server);
+  #endif
+! 
+      retval = krb5int_make_tgs_request(context, tkt, kdcoptions,
+                                        address, in_padata, in_cred,
+                                        pacb_fct, pacb_data,
+--- 424,430 ----
+      krb5int_dbgref_dump_principal("krb5_get_cred_via_tkt requested ticket", in_cred->server);
+      krb5int_dbgref_dump_principal("krb5_get_cred_via_tkt TGT in use", tkt->server);
+  #endif
+!     
+      retval = krb5int_make_tgs_request(context, tkt, kdcoptions,
+                                        address, in_padata, in_cred,
+                                        pacb_fct, pacb_data,
+Only in ../krb5-1.8.3/src//lib/krb5/krb: gc_via_tkt.so
+Only in ../krb5-1.8.3/src//lib/krb5/krb: gen_save_subkey.so
+Only in ../krb5-1.8.3/src//lib/krb5/krb: gen_seqnum.so
+Only in ../krb5-1.8.3/src//lib/krb5/krb: gen_subkey.so
+diff -crB ../original_source/krb5-1.8/src//lib/krb5/krb/get_creds.c ../krb5-1.8.3/src//lib/krb5/krb/get_creds.c
+*** ../original_source/krb5-1.8/src//lib/krb5/krb/get_creds.c	2009-12-22 17:26:55.000000000 -0500
+--- ../krb5-1.8.3/src//lib/krb5/krb/get_creds.c	2011-09-05 16:23:35.123035729 -0400
+***************
+*** 168,173 ****
+--- 168,177 ----
+              return EINVAL;
+          kdcopt |= KDC_OPT_FORWARDABLE | KDC_OPT_CNAME_IN_ADDL_TKT;
+      }
++     // MIKEY Test code injection, allows KDC to distinguish request for MIKEY
++     if(options & KDC_OPT_MIKEY) {
++         kdcopt |= KDC_OPT_MIKEY;
++     }
+  
+      retval = krb5_get_cred_from_kdc_opt(context, ccache, in_creds,
+                                          &ncreds, &tgts, kdcopt);
+Only in ../krb5-1.8.3/src//lib/krb5/krb: get_creds.so
+diff -crB ../original_source/krb5-1.8/src//lib/krb5/krb/get_in_tkt.c ../krb5-1.8.3/src//lib/krb5/krb/get_in_tkt.c
+*** ../original_source/krb5-1.8/src//lib/krb5/krb/get_in_tkt.c	2010-01-04 12:00:23.000000000 -0500
+--- ../krb5-1.8.3/src//lib/krb5/krb/get_in_tkt.c	2011-09-05 16:23:35.123035729 -0400
+***************
+*** 1083,1089 ****
+                                      &flags);
+          if (code == KRB5KRB_ERR_RESPONSE_TOO_BIG && !tcp_only)
+              tcp_only = 1;
+!         else if (code != 0 || (flags & KRB5_INIT_CREDS_STEP_FLAG_COMPLETE))
+              break;
+  
+          krb5_free_data_contents(context, &reply);
+--- 1083,1089 ----
+                                      &flags);
+          if (code == KRB5KRB_ERR_RESPONSE_TOO_BIG && !tcp_only)
+              tcp_only = 1;
+!         else if (code != 0 || (flags & 1) == 0)
+              break;
+  
+          krb5_free_data_contents(context, &reply);
+***************
+*** 1489,1502 ****
+          krb5_princ_type(context, ctx->request->client) = KRB5_NT_WELLKNOWN;
+      }
+      code = restart_init_creds_loop(context, ctx, NULL);
+  
+      *pctx = ctx;
+  
+  cleanup:
+!     if (code != 0)
+!         krb5_init_creds_free(context, ctx);
+!     if (str != NULL)
+!         free(str);
+  
+      return code;
+  }
+--- 1489,1503 ----
+          krb5_princ_type(context, ctx->request->client) = KRB5_NT_WELLKNOWN;
+      }
+      code = restart_init_creds_loop(context, ctx, NULL);
++     if (code)
++         goto cleanup;
+  
+      *pctx = ctx;
++     ctx = NULL;
+  
+  cleanup:
+!     krb5_init_creds_free(context, ctx);
+!     free(str);
+  
+      return code;
+  }
+***************
+*** 2065,2071 ****
+          }
+      }
+  
+!     *flags = (ctx->flags & KRB5_INIT_CREDS_STEP_FLAG_COMPLETE);
+  
+      return code;
+  }
+--- 2066,2072 ----
+          }
+      }
+  
+!     *flags = (ctx->flags & KRB5_INIT_CREDS_STEP_FLAG_COMPLETE) ? 0 : 1;
+  
+      return code;
+  }
+Only in ../krb5-1.8.3/src//lib/krb5/krb: get_in_tkt.so
+Only in ../krb5-1.8.3/src//lib/krb5/krb: gic_keytab.so
+Only in ../krb5-1.8.3/src//lib/krb5/krb: gic_opt.so
+diff -crB ../original_source/krb5-1.8/src//lib/krb5/krb/gic_pwd.c ../krb5-1.8.3/src//lib/krb5/krb/gic_pwd.c
+*** ../original_source/krb5-1.8/src//lib/krb5/krb/gic_pwd.c	2009-12-23 11:00:05.000000000 -0500
+--- ../krb5-1.8.3/src//lib/krb5/krb/gic_pwd.c	2011-09-05 16:23:35.067035729 -0400
+***************
+*** 218,224 ****
+       * to prompt.  Prompting is only disabled if the option has been set
+       * and the value has been set to false.
+       */
+!     if (!(options->flags & KRB5_GET_INIT_CREDS_OPT_CHG_PWD_PRMPT))
+          goto cleanup;
+  
+      /* ok, we have an expired password.  Give the user a few chances
+--- 218,224 ----
+       * to prompt.  Prompting is only disabled if the option has been set
+       * and the value has been set to false.
+       */
+!     if (options && !(options->flags & KRB5_GET_INIT_CREDS_OPT_CHG_PWD_PRMPT))
+          goto cleanup;
+  
+      /* ok, we have an expired password.  Give the user a few chances
+Only in ../krb5-1.8.3/src//lib/krb5/krb: gic_pwd.so
+Only in ../krb5-1.8.3/src//lib/krb5/krb: init_ctx.so
+Only in ../krb5-1.8.3/src//lib/krb5/krb: init_keyblock.so
+Only in ../krb5-1.8.3/src//lib/krb5/krb: in_tkt_sky.so
+Only in ../krb5-1.8.3/src//lib/krb5/krb: kdc_rep_dc.so
+Only in ../krb5-1.8.3/src//lib/krb5/krb: kerrs.so
+Only in ../krb5-1.8.3/src//lib/krb5/krb: kfree.so
+Only in ../krb5-1.8.3/src//lib/krb5/krb: libdef_parse.so
+Only in ../krb5-1.8.3/src//lib/krb5/krb: Makefile
+Only in ../krb5-1.8.3/src//lib/krb5/krb: mk_cred.so
+Only in ../krb5-1.8.3/src//lib/krb5/krb: mk_error.so
+Only in ../krb5-1.8.3/src//lib/krb5/krb: mk_priv.so
+Only in ../krb5-1.8.3/src//lib/krb5/krb: mk_rep.so
+diff -crB ../original_source/krb5-1.8/src//lib/krb5/krb/mk_req_ext.c ../krb5-1.8.3/src//lib/krb5/krb/mk_req_ext.c
+*** ../original_source/krb5-1.8/src//lib/krb5/krb/mk_req_ext.c	2009-12-23 11:00:05.000000000 -0500
+--- ../krb5-1.8.3/src//lib/krb5/krb/mk_req_ext.c	2011-09-09 22:19:25.178268846 -0400
+***************
+*** 98,107 ****
+      request.ap_options = ap_req_options & AP_OPTS_WIRE_MASK;
+      request.authenticator.ciphertext.data = NULL;
+      request.ticket = 0;
+- 
+      if (!in_creds->ticket.length)
+          return(KRB5_NO_TKT_SUPPLIED);
+! 
+      if ((ap_req_options & AP_OPTS_ETYPE_NEGOTIATION) &&
+          !(ap_req_options & AP_OPTS_MUTUAL_REQUIRED))
+          return(EINVAL);
+--- 98,106 ----
+      request.ap_options = ap_req_options & AP_OPTS_WIRE_MASK;
+      request.authenticator.ciphertext.data = NULL;
+      request.ticket = 0;
+      if (!in_creds->ticket.length)
+          return(KRB5_NO_TKT_SUPPLIED);
+!     
+      if ((ap_req_options & AP_OPTS_ETYPE_NEGOTIATION) &&
+          !(ap_req_options & AP_OPTS_MUTUAL_REQUIRED))
+          return(EINVAL);
+Only in ../krb5-1.8.3/src//lib/krb5/krb: mk_req_ext.so
+Only in ../krb5-1.8.3/src//lib/krb5/krb: mk_req.so
+Only in ../krb5-1.8.3/src//lib/krb5/krb: mk_safe.so
+Only in ../krb5-1.8.3/src//lib/krb5/krb: OBJS.SH
+Only in ../krb5-1.8.3/src//lib/krb5/krb: pac.so
+Only in ../krb5-1.8.3/src//lib/krb5/krb: parse.so
+Only in ../krb5-1.8.3/src//lib/krb5/krb: preauth2.so
+Only in ../krb5-1.8.3/src//lib/krb5/krb: preauth.so
+Only in ../krb5-1.8.3/src//lib/krb5/krb: princ_comp.so
+Only in ../krb5-1.8.3/src//lib/krb5/krb: pr_to_salt.so
+Only in ../krb5-1.8.3/src//lib/krb5/krb: rd_cred.so
+Only in ../krb5-1.8.3/src//lib/krb5/krb: rd_error.so
+Only in ../krb5-1.8.3/src//lib/krb5/krb: rd_priv.so
+Only in ../krb5-1.8.3/src//lib/krb5/krb: rd_rep.so
+Only in ../krb5-1.8.3/src//lib/krb5/krb: .rd_req_dec.c.swp
+Only in ../krb5-1.8.3/src//lib/krb5/krb: rd_req_dec.so
+Only in ../krb5-1.8.3/src//lib/krb5/krb: rd_req.so
+Only in ../krb5-1.8.3/src//lib/krb5/krb: rd_safe.so
+diff -crB ../original_source/krb5-1.8/src//lib/krb5/krb/recvauth.c ../krb5-1.8.3/src//lib/krb5/krb/recvauth.c
+*** ../original_source/krb5-1.8/src//lib/krb5/krb/recvauth.c	2009-10-30 20:48:38.000000000 -0400
+--- ../krb5-1.8.3/src//lib/krb5/krb/recvauth.c	2011-09-09 22:52:30.122269765 -0400
+***************
+*** 48,54 ****
+                  krb5_keytab keytab,
+                  /* OUT */
+                  krb5_ticket ** ticket,
+!                 krb5_data *version)
+  {
+      krb5_auth_context     new_auth_context;
+      krb5_flags            ap_option = 0;
+--- 48,55 ----
+                  krb5_keytab keytab,
+                  /* OUT */
+                  krb5_ticket ** ticket,
+!                 krb5_data *version,
+!                 krb5_data *multicast_group)
+  {
+      krb5_auth_context     new_auth_context;
+      krb5_flags            ap_option = 0;
+***************
+*** 60,66 ****
+      krb5_data             null_server;
+      int                   need_error_free = 0;
+      int                   local_rcache = 0, local_authcon = 0;
+! 
+      /*
+       * Zero out problem variable.  If problem is set at the end of
+       * the intial version negotiation section, it means that we
+--- 61,67 ----
+      krb5_data             null_server;
+      int                   need_error_free = 0;
+      int                   local_rcache = 0, local_authcon = 0;
+! printf("%s(%d)\n",__FILE__,__LINE__);
+      /*
+       * Zero out problem variable.  If problem is set at the end of
+       * the intial version negotiation section, it means that we
+***************
+*** 70,75 ****
+--- 71,77 ----
+      problem = 0;
+      response = 0;
+  
++ printf("%s(%d)\n",__FILE__,__LINE__);
+      if (!(flags & KRB5_RECVAUTH_SKIP_VERSION)) {
+          /*
+           * First read the sendauth version string and check it.
+***************
+*** 121,126 ****
+--- 123,129 ----
+      if ((retval = krb5_read_message(context, fd, &inbuf)))
+          return retval;
+  
++ printf("%s(%d)\n",__FILE__,__LINE__);
+      if (*auth_context == NULL) {
+          problem = krb5_auth_con_init(context, &new_auth_context);
+          *auth_context = new_auth_context;
+***************
+*** 143,148 ****
+--- 146,152 ----
+              problem = krb5_auth_con_setrcache(context, *auth_context, rcache);
+          local_rcache = 1;
+      }
++ printf("%s(%d)\n",__FILE__,__LINE__);
+      if (!problem) {
+          problem = krb5_rd_req(context, auth_context, &inbuf, server,
+                                keytab, &ap_option, ticket);
+***************
+*** 192,197 ****
+--- 196,202 ----
+          outbuf.data = 0;
+      }
+  
++ printf("%s(%d)\n",__FILE__,__LINE__);
+      retval = krb5_write_message(context, fd, &outbuf);
+      if (outbuf.data) {
+          free(outbuf.data);
+***************
+*** 211,216 ****
+--- 216,224 ----
+          free(outbuf.data);
+      }
+  
++ printf("%s(%d)\n",__FILE__,__LINE__);
++     multicast_group->data = (char*)(*auth_context)->authentp->authorization_data[0]->contents;
++ printf("%s(%d)\n",__FILE__,__LINE__);
+  cleanup:;
+      if (retval) {
+          if (local_authcon) {
+***************
+*** 227,233 ****
+  krb5_recvauth(krb5_context context, krb5_auth_context *auth_context, krb5_pointer fd, char *appl_version, krb5_principal server, krb5_int32 flags, krb5_keytab keytab, krb5_ticket **ticket)
+  {
+      return recvauth_common (context, auth_context, fd, appl_version,
+!                             server, flags, keytab, ticket, 0);
+  }
+  
+  krb5_error_code KRB5_CALLCONV
+--- 235,241 ----
+  krb5_recvauth(krb5_context context, krb5_auth_context *auth_context, krb5_pointer fd, char *appl_version, krb5_principal server, krb5_int32 flags, krb5_keytab keytab, krb5_ticket **ticket)
+  {
+      return recvauth_common (context, auth_context, fd, appl_version,
+!                             server, flags, keytab, ticket, 0, NULL);
+  }
+  
+  krb5_error_code KRB5_CALLCONV
+***************
+*** 243,247 ****
+                        krb5_data *version)
+  {
+      return recvauth_common (context, auth_context, fd, 0,
+!                             server, flags, keytab, ticket, version);
+  }
+--- 251,270 ----
+                        krb5_data *version)
+  {
+      return recvauth_common (context, auth_context, fd, 0,
+!                             server, flags, keytab, ticket, version, NULL);
+! }
+! 
+! krb5_error_code KRB5_CALLCONV
+! krb5_recvauth_gcks(krb5_context context,
+!                     krb5_auth_context *auth_context,
+!                     krb5_pointer fd,
+!                     char *appl_version,
+!                     krb5_principal server,
+!                     krb5_int32 flags,
+!                     krb5_keytab keytab,
+!                     krb5_ticket **ticket,
+!                     krb5_data * multicast_group)
+! {
+!     return recvauth_common (context, auth_context, fd, appl_version,
+!                             server, flags, keytab, ticket, 0, multicast_group);
+  }
+Only in ../krb5-1.8.3/src//lib/krb5/krb: recvauth.so
+Only in ../krb5-1.8.3/src//lib/krb5/krb: s4u_creds.so
+diff -crB ../original_source/krb5-1.8/src//lib/krb5/krb/sendauth.c ../krb5-1.8.3/src//lib/krb5/krb/sendauth.c
+*** ../original_source/krb5-1.8/src//lib/krb5/krb/sendauth.c	2009-10-30 20:48:38.000000000 -0400
+--- ../krb5-1.8.3/src//lib/krb5/krb/sendauth.c	2011-09-09 22:20:07.818268873 -0400
+***************
+*** 124,130 ****
+          in_creds = &creds;
+      }
+      if (!in_creds->ticket.length) {
+!         if ((retval = krb5_get_credentials(context, 0,
+                                             use_ccache, in_creds, &credsp)))
+              goto error_return;
+          credspout = credsp;
+--- 124,130 ----
+          in_creds = &creds;
+      }
+      if (!in_creds->ticket.length) {
+!         if ((retval = krb5_get_credentials(context, ap_req_options,
+                                             use_ccache, in_creds, &credsp)))
+              goto error_return;
+          credspout = credsp;
+***************
+*** 132,137 ****
+--- 132,138 ----
+          credsp = in_creds;
+      }
+  
++     
+      if (ap_req_options & AP_OPTS_USE_SUBKEY) {
+          /* Provide some more fodder for random number code.
+             This isn't strong cryptographically; the point here is
+***************
+*** 155,161 ****
+              (void) krb5_c_random_add_entropy (context, KRB5_C_RANDSOURCE_EXTERNAL_PROTOCOL, &d);
+          }
+      }
+! 
+      outbuf[0].data = NULL;      /* Coverity is confused otherwise */
+      if ((retval = krb5_mk_req_extended(context, auth_context,
+                                         ap_req_options, in_data, credsp,
+--- 156,162 ----
+              (void) krb5_c_random_add_entropy (context, KRB5_C_RANDSOURCE_EXTERNAL_PROTOCOL, &d);
+          }
+      }
+!     
+      outbuf[0].data = NULL;      /* Coverity is confused otherwise */
+      if ((retval = krb5_mk_req_extended(context, auth_context,
+                                         ap_req_options, in_data, credsp,
+Only in ../krb5-1.8.3/src//lib/krb5/krb: .sendauth.c.swp
+Only in ../krb5-1.8.3/src//lib/krb5/krb: sendauth.so
+diff -crB ../original_source/krb5-1.8/src//lib/krb5/krb/send_tgs.c ../krb5-1.8.3/src//lib/krb5/krb/send_tgs.c
+*** ../original_source/krb5-1.8/src//lib/krb5/krb/send_tgs.c	2009-11-27 15:38:28.000000000 -0500
+--- ../krb5-1.8.3/src//lib/krb5/krb/send_tgs.c	2011-09-05 16:23:35.043035729 -0400
+***************
+*** 191,197 ****
+          return(KRB5_NO_TKT_SUPPLIED);
+  
+      memset(&tgsreq, 0, sizeof(tgsreq));
+! 
+      tgsreq.kdc_options = kdcoptions;
+      tgsreq.server = (krb5_principal) sname;
+  
+--- 191,197 ----
+          return(KRB5_NO_TKT_SUPPLIED);
+  
+      memset(&tgsreq, 0, sizeof(tgsreq));
+!     
+      tgsreq.kdc_options = kdcoptions;
+      tgsreq.server = (krb5_principal) sname;
+  
+Only in ../krb5-1.8.3/src//lib/krb5/krb: send_tgs.so
+Only in ../krb5-1.8.3/src//lib/krb5/krb: ser_actx.so
+Only in ../krb5-1.8.3/src//lib/krb5/krb: ser_adata.so
+Only in ../krb5-1.8.3/src//lib/krb5/krb: ser_addr.so
+Only in ../krb5-1.8.3/src//lib/krb5/krb: ser_auth.so
+Only in ../krb5-1.8.3/src//lib/krb5/krb: ser_cksum.so
+Only in ../krb5-1.8.3/src//lib/krb5/krb: ser_ctx.so
+Only in ../krb5-1.8.3/src//lib/krb5/krb: serialize.so
+Only in ../krb5-1.8.3/src//lib/krb5/krb: ser_key.so
+Only in ../krb5-1.8.3/src//lib/krb5/krb: ser_princ.so
+Only in ../krb5-1.8.3/src//lib/krb5/krb: set_realm.so
+Only in ../krb5-1.8.3/src//lib/krb5/krb: srv_dec_tkt.so
+Only in ../krb5-1.8.3/src//lib/krb5/krb: srv_rcache.so
+diff -crB ../original_source/krb5-1.8/src//lib/krb5/krb/str_conv.c ../krb5-1.8.3/src//lib/krb5/krb/str_conv.c
+*** ../original_source/krb5-1.8/src//lib/krb5/krb/str_conv.c	2009-10-30 20:48:38.000000000 -0400
+--- ../krb5-1.8.3/src//lib/krb5/krb/str_conv.c	2011-09-05 16:23:35.055035729 -0400
+***************
+*** 300,306 ****
+       * This will break if bytes are more than 8 bits.
+       */
+  #define MAX_CHARS_FOR_INT_TYPE(TYPE)    ((int) (2 + 2.408241 * sizeof (TYPE)))
+-     char tmpbuf[MAX_CHARS_FOR_INT_TYPE(int) * 4 + 8];
+  
+      days = (int) (deltat / (24*3600L));
+      dt = deltat % (24*3600L);
+--- 300,305 ----
+***************
+*** 309,315 ****
+      minutes = (int) (dt / 60);
+      seconds = (int) (dt % 60);
+  
+-     memset (tmpbuf, 0, sizeof (tmpbuf));
+      if (days == 0)
+          snprintf(buffer, buflen, "%d:%02d:%02d", hours, minutes, seconds);
+      else if (hours || minutes || seconds)
+--- 308,313 ----
+***************
+*** 319,332 ****
+      else
+          snprintf(buffer, buflen, "%d %s", days,
+                   (days > 1) ? "days" : "day");
+-     if (tmpbuf[sizeof(tmpbuf)-1] != 0)
+-         /* Something must be very wrong with my math above, or the
+-            assumptions going into it...  */
+-         abort ();
+-     if (strlen (tmpbuf) > buflen)
+-         return ENOMEM;
+-     else
+-         strncpy (buffer, tmpbuf, buflen);
+      return 0;
+  }
+  
+--- 317,322 ----
+Only in ../krb5-1.8.3/src//lib/krb5/krb: str_conv.so
+Only in ../krb5-1.8.3/src//lib/krb5/krb: .svn
+Only in ../krb5-1.8.3/src//lib/krb5/krb: tgtname.so
+Only in ../krb5-1.8.3/src//lib/krb5/krb: unparse.so
+Only in ../krb5-1.8.3/src//lib/krb5/krb: valid_times.so
+Only in ../krb5-1.8.3/src//lib/krb5/krb: vfy_increds.so
+Only in ../krb5-1.8.3/src//lib/krb5/krb: vic_opt.so
+Only in ../krb5-1.8.3/src//lib/krb5/krb: walk_rtree.so
+Only in ../krb5-1.8.3/src//lib/krb5: krb5_libinit.so
+diff -crB ../original_source/krb5-1.8/src//lib/krb5/libkrb5.exports ../krb5-1.8.3/src//lib/krb5/libkrb5.exports
+*** ../original_source/krb5-1.8/src//lib/krb5/libkrb5.exports	2010-01-21 17:49:07.000000000 -0500
+--- ../krb5-1.8.3/src//lib/krb5/libkrb5.exports	2011-09-08 15:37:42.877196201 -0400
+***************
+*** 505,510 ****
+--- 505,511 ----
+  krb5_realm_iterator_free
+  krb5_recvauth
+  krb5_recvauth_version
++ krb5_recvauth_gcks
+  krb5_register_serializer
+  krb5_salttype_to_string
+  krb5_secure_config_files
+Only in ../krb5-1.8.3/src//lib/krb5: libkrb5.so
+Only in ../krb5-1.8.3/src//lib/krb5: libkrb5.so.3
+Only in ../krb5-1.8.3/src//lib/krb5: libkrb5.so.3.3
+Only in ../krb5-1.8.3/src//lib/krb5: Makefile
+Only in ../krb5-1.8.3/src//lib/krb5: OBJS.SH
+Only in ../krb5-1.8.3/src//lib/krb5/os: accessor.so
+Only in ../krb5-1.8.3/src//lib/krb5/os: an_to_ln.so
+Only in ../krb5-1.8.3/src//lib/krb5/os: ccdefname.so
+diff -crB ../original_source/krb5-1.8/src//lib/krb5/os/changepw.c ../krb5-1.8.3/src//lib/krb5/os/changepw.c
+*** ../original_source/krb5-1.8/src//lib/krb5/os/changepw.c	2009-12-02 13:06:19.000000000 -0500
+--- ../krb5-1.8.3/src//lib/krb5/os/changepw.c	2011-09-05 16:23:33.743035727 -0400
+***************
+*** 65,84 ****
+      int sockType = (useTcp ? SOCK_STREAM : SOCK_DGRAM);
+  
+      code = krb5int_locate_server (context, realm, addrlist,
+!                                   locate_service_kpasswd, sockType, AF_INET);
+  
+      if (code == KRB5_REALM_CANT_RESOLVE || code == KRB5_REALM_UNKNOWN) {
+          code = krb5int_locate_server (context, realm, addrlist,
+                                        locate_service_kadmin, SOCK_STREAM,
+!                                       AF_INET);
+          if (!code) {
+              /* Success with admin_server but now we need to change the
+                 port number to use DEFAULT_KPASSWD_PORT and the socktype.  */
+              size_t i;
+              for (i=0; i<addrlist->naddrs; i++) {
+                  struct addrinfo *a = addrlist->addrs[i].ai;
+                  if (a->ai_family == AF_INET)
+!                     sa2sin (a->ai_addr)->sin_port = htons(DEFAULT_KPASSWD_PORT);
+                  if (sockType != SOCK_STREAM)
+                      a->ai_socktype = sockType;
+              }
+--- 65,87 ----
+      int sockType = (useTcp ? SOCK_STREAM : SOCK_DGRAM);
+  
+      code = krb5int_locate_server (context, realm, addrlist,
+!                                   locate_service_kpasswd, sockType, AF_UNSPEC);
+  
+      if (code == KRB5_REALM_CANT_RESOLVE || code == KRB5_REALM_UNKNOWN) {
+          code = krb5int_locate_server (context, realm, addrlist,
+                                        locate_service_kadmin, SOCK_STREAM,
+!                                       AF_UNSPEC);
+          if (!code) {
+              /* Success with admin_server but now we need to change the
+                 port number to use DEFAULT_KPASSWD_PORT and the socktype.  */
+              size_t i;
+              for (i=0; i<addrlist->naddrs; i++) {
+                  struct addrinfo *a = addrlist->addrs[i].ai;
++                 krb5_ui_2 kpasswd_port = htons(DEFAULT_KPASSWD_PORT);
+                  if (a->ai_family == AF_INET)
+!                     sa2sin (a->ai_addr)->sin_port = kpasswd_port;
+!                 if (a->ai_family == AF_INET6)
+!                     sa2sin6 (a->ai_addr)->sin6_port = kpasswd_port;
+                  if (sockType != SOCK_STREAM)
+                      a->ai_socktype = sockType;
+              }
+***************
+*** 131,140 ****
+      /* some brain-dead OS's don't return useful information from
+       * the getsockname call.  Namely, windows and solaris.  */
+  
+!     if (ss2sin(&local_addr)->sin_addr.s_addr != 0) {
+          local_kaddr.addrtype = ADDRTYPE_INET;
+          local_kaddr.length = sizeof(ss2sin(&local_addr)->sin_addr);
+          local_kaddr.contents = (krb5_octet *) &ss2sin(&local_addr)->sin_addr;
+      } else {
+          krb5_address **addrs;
+  
+--- 134,149 ----
+      /* some brain-dead OS's don't return useful information from
+       * the getsockname call.  Namely, windows and solaris.  */
+  
+!     if (local_addr.ss_family == AF_INET &&
+!         ss2sin(&local_addr)->sin_addr.s_addr != 0) {
+          local_kaddr.addrtype = ADDRTYPE_INET;
+          local_kaddr.length = sizeof(ss2sin(&local_addr)->sin_addr);
+          local_kaddr.contents = (krb5_octet *) &ss2sin(&local_addr)->sin_addr;
++     } else if (local_addr.ss_family == AF_INET6 &&
++                ss2sin6(&local_addr)->sin6_addr.s6_addr != 0) {
++         local_kaddr.addrtype = ADDRTYPE_INET6;
++         local_kaddr.length = sizeof(ss2sin6(&local_addr)->sin6_addr);
++         local_kaddr.contents = (krb5_octet *) &ss2sin6(&local_addr)->sin6_addr;
+      } else {
+          krb5_address **addrs;
+  
+***************
+*** 278,286 ****
+              break;
+          }
+  
+!         remote_kaddr.addrtype = ADDRTYPE_INET;
+!         remote_kaddr.length = sizeof(ss2sin(&remote_addr)->sin_addr);
+!         remote_kaddr.contents = (krb5_octet *) &ss2sin(&remote_addr)->sin_addr;
+  
+          if ((code = krb5_auth_con_setaddrs(callback_ctx.context,
+                                             callback_ctx.auth_context,
+--- 287,305 ----
+              break;
+          }
+  
+!         if (remote_addr.ss_family == AF_INET) {
+!             remote_kaddr.addrtype = ADDRTYPE_INET;
+!             remote_kaddr.length = sizeof(ss2sin(&remote_addr)->sin_addr);
+!             remote_kaddr.contents =
+!                 (krb5_octet *) &ss2sin(&remote_addr)->sin_addr;
+!         } else if (remote_addr.ss_family == AF_INET6) {
+!             remote_kaddr.addrtype = ADDRTYPE_INET6;
+!             remote_kaddr.length = sizeof(ss2sin6(&remote_addr)->sin6_addr);
+!             remote_kaddr.contents =
+!                 (krb5_octet *) &ss2sin6(&remote_addr)->sin6_addr;
+!         } else {
+!             break;
+!         }
+  
+          if ((code = krb5_auth_con_setaddrs(callback_ctx.context,
+                                             callback_ctx.auth_context,
+Only in ../krb5-1.8.3/src//lib/krb5/os: changepw.so
+Only in ../krb5-1.8.3/src//lib/krb5/os: c_ustime.so
+Only in ../krb5-1.8.3/src//lib/krb5/os: def_realm.so
+Only in ../krb5-1.8.3/src//lib/krb5/os: dnsglue.so
+Only in ../krb5-1.8.3/src//lib/krb5/os: dnssrv.so
+Only in ../krb5-1.8.3/src//lib/krb5/os: free_krbhs.so
+Only in ../krb5-1.8.3/src//lib/krb5/os: full_ipadr.so
+Only in ../krb5-1.8.3/src//lib/krb5/os: genaddrs.so
+Only in ../krb5-1.8.3/src//lib/krb5/os: gen_port.so
+Only in ../krb5-1.8.3/src//lib/krb5/os: gen_rname.so
+Only in ../krb5-1.8.3/src//lib/krb5/os: get_krbhst.so
+Only in ../krb5-1.8.3/src//lib/krb5/os: hostaddr.so
+Only in ../krb5-1.8.3/src//lib/krb5/os: hst_realm.so
+Only in ../krb5-1.8.3/src//lib/krb5/os: init_os_ctx.so
+Only in ../krb5-1.8.3/src//lib/krb5/os: krbfileio.so
+Only in ../krb5-1.8.3/src//lib/krb5/os: ktdefname.so
+Only in ../krb5-1.8.3/src//lib/krb5/os: kuserok.so
+Only in ../krb5-1.8.3/src//lib/krb5/os: localaddr.so
+diff -crB ../original_source/krb5-1.8/src//lib/krb5/os/locate_kdc.c ../krb5-1.8.3/src//lib/krb5/os/locate_kdc.c
+*** ../original_source/krb5-1.8/src//lib/krb5/os/locate_kdc.c	2009-11-02 13:00:40.000000000 -0500
+--- ../krb5-1.8.3/src//lib/krb5/os/locate_kdc.c	2011-09-05 16:23:33.723035727 -0400
+***************
+*** 374,392 ****
+          if (code == 0) {
+              for (i=0; masterlist[i]; i++) {
+                  host = masterlist[i];
+! 
+!                 /*
+!                  * Strip off excess whitespace
+!                  */
+!                 cp = strchr(host, ' ');
+!                 if (cp)
+!                     *cp = 0;
+!                 cp = strchr(host, '\t');
+!                 if (cp)
+!                     *cp = 0;
+!                 cp = strchr(host, ':');
+!                 if (cp)
+!                     *cp = 0;
+              }
+          }
+      } else {
+--- 374,384 ----
+          if (code == 0) {
+              for (i=0; masterlist[i]; i++) {
+                  host = masterlist[i];
+!                 /* Strip off excess characters. */
+!                 if (*host == '[' && (cp = strchr(host, ']')))
+!                     *(cp + 1) = '\0';
+!                 else
+!                     *(host + strcspn(host, " \t:")) = '\0';
+              }
+          }
+      } else {
+***************
+*** 407,426 ****
+  
+          host = hostlist[i];
+          Tprintf ("entry %d is '%s'\n", i, host);
+!         /*
+!          * Strip off excess whitespace
+!          */
+!         cp = strchr(host, ' ');
+!         if (cp)
+!             *cp = 0;
+!         cp = strchr(host, '\t');
+!         if (cp)
+!             *cp = 0;
+!         port = strchr(host, ':');
+!         if (port) {
+!             *port = 0;
+!             port++;
+!         }
+  
+          ismaster = 0;
+          if (masterlist) {
+--- 399,411 ----
+  
+          host = hostlist[i];
+          Tprintf ("entry %d is '%s'\n", i, host);
+!         /* Find port number, and strip off any excess characters. */
+!         if (*host == '[' && (cp = strchr(host, ']')))
+!             cp = cp + 1;
+!         else
+!             cp = host + strcspn(host, " \t:");
+!         port = (*cp == ':') ? cp + 1 : NULL;
+!         *cp = '\0';
+  
+          ismaster = 0;
+          if (masterlist) {
+***************
+*** 454,468 ****
+              p2 = sec_udpport;
+          }
+  
+          if (socktype != 0)
+!             code = add_host_to_list (addrlist, hostlist[i], p1, p2,
+!                                      socktype, family);
+          else {
+!             code = add_host_to_list (addrlist, hostlist[i], p1, p2,
+!                                      SOCK_DGRAM, family);
+              if (code == 0)
+!                 code = add_host_to_list (addrlist, hostlist[i], p1, p2,
+!                                          SOCK_STREAM, family);
+          }
+          if (code) {
+              Tprintf ("error %d (%s) returned from add_host_to_list\n", code,
+--- 439,458 ----
+              p2 = sec_udpport;
+          }
+  
++         /* If the hostname was in brackets, strip those off now. */
++         if (*host == '[' && (cp = strchr(host, ']'))) {
++             host++;
++             *cp = '\0';
++         }
++ 
+          if (socktype != 0)
+!             code = add_host_to_list(addrlist, host, p1, p2, socktype, family);
+          else {
+!             code = add_host_to_list(addrlist, host, p1, p2, SOCK_DGRAM,
+!                                     family);
+              if (code == 0)
+!                 code = add_host_to_list(addrlist, host, p1, p2, SOCK_STREAM,
+!                                         family);
+          }
+          if (code) {
+              Tprintf ("error %d (%s) returned from add_host_to_list\n", code,
+Only in ../krb5-1.8.3/src//lib/krb5/os: locate_kdc.so
+Only in ../krb5-1.8.3/src//lib/krb5/os: lock_file.so
+Only in ../krb5-1.8.3/src//lib/krb5/os: Makefile
+diff -crB ../original_source/krb5-1.8/src//lib/krb5/os/Makefile.in ../krb5-1.8.3/src//lib/krb5/os/Makefile.in
+*** ../original_source/krb5-1.8/src//lib/krb5/os/Makefile.in	2010-01-04 01:22:41.000000000 -0500
+--- ../krb5-1.8.3/src//lib/krb5/os/Makefile.in	2011-09-05 16:23:33.715035727 -0400
+***************
+*** 189,195 ****
+  	$(LCLINT) $(LCLINTOPTS) $(CPPFLAGS) $(LOCALINCLUDES) $(DEFS) \
+  		-DTEST $(srcdir)/localaddr.c
+  
+! check-unix:: $(TEST_PROGS)
+  	KRB5_CONFIG=$(srcdir)/td_krb5.conf ; export KRB5_CONFIG ;\
+  	$(KRB5_RUN_ENV) $(VALGRIND) ./t_std_conf  -d -s NEW.DEFAULT.REALM -d \
+  		-k IGGY.ORG -k DEFAULT_REALM.TST \
+--- 189,197 ----
+  	$(LCLINT) $(LCLINTOPTS) $(CPPFLAGS) $(LOCALINCLUDES) $(DEFS) \
+  		-DTEST $(srcdir)/localaddr.c
+  
+! check-unix:: check-unix-stdconf check-unix-locate check-unix-antoln
+! 
+! check-unix-stdconf:: t_std_conf
+  	KRB5_CONFIG=$(srcdir)/td_krb5.conf ; export KRB5_CONFIG ;\
+  	$(KRB5_RUN_ENV) $(VALGRIND) ./t_std_conf  -d -s NEW.DEFAULT.REALM -d \
+  		-k IGGY.ORG -k DEFAULT_REALM.TST \
+***************
+*** 198,214 ****
+  		-r pgp.good.idea -r no_domain > test.out
+  	cmp test.out $(srcdir)/ref_std_conf.out
+  	$(RM) test.out
+! 	KRB5_CONFIG=$(srcdir)/td_krb5.conf ; export KRB5_CONFIG ;\
+! 	if test "$(OFFLINE)" != yes; then \
+! 	  $(KRB5_RUN_ENV) $(VALGRIND) ./t_locate_kdc ATHENA.MIT.EDU; \
+  	else \
+! 	  echo SKIPPING t_locate_kdc TEST WHILE OFFLINE; \
+  	fi
+  
+  #
+  # Do some aname-to-lname testing.
+  #
+! check-unix::
+  	echo '[libdefaults]' > ./t_an.conf
+  	echo '	default_realm = r' >> ./t_an.conf
+  	echo '[realms]' >> ./t_an.conf
+--- 200,228 ----
+  		-r pgp.good.idea -r no_domain > test.out
+  	cmp test.out $(srcdir)/ref_std_conf.out
+  	$(RM) test.out
+! 
+! # The following can be overriden on the make command line if needed:
+! LOCREALM = ATHENA.MIT.EDU
+! SRVNAME = _kerberos._udp.athena.mit.edu.
+! DIGPAT = '^_kerberos.*srv'
+! NSPAT = '^_kerberos.*service'
+! DIG = @DIG@
+! NSLOOKUP = @NSLOOKUP@
+! 
+! check-unix-locate:: t_locate_kdc
+! 	if [ "$(OFFLINE)" = no ] && \
+! 	    $(DIG) $(SRVNAME) srv | grep -i $(DIGPAT) || \
+! 	    $(NSLOOKUP) -q=srv $(SRVNAME) | grep -i $(NSPAT); then \
+! 	    KRB5_CONFIG=$(srcdir)/td_krb5.conf ; export KRB5_CONFIG ;\
+! 	    $(KRB5_RUN_ENV) $(VALGRIND) ./t_locate_kdc $(LOCREALM); \
+  	else \
+! 	    echo '*** WARNING: skipped t_locate_kdc test: known DNS name not found'; \
+  	fi
+  
+  #
+  # Do some aname-to-lname testing.
+  #
+! check-unix-antoln:: t_an_to_ln
+  	echo '[libdefaults]' > ./t_an.conf
+  	echo '	default_realm = r' >> ./t_an.conf
+  	echo '[realms]' >> ./t_an.conf
+Only in ../krb5-1.8.3/src//lib/krb5/os: mk_faddr.so
+Only in ../krb5-1.8.3/src//lib/krb5/os: net_read.so
+Only in ../krb5-1.8.3/src//lib/krb5/os: net_write.so
+Only in ../krb5-1.8.3/src//lib/krb5/os: OBJS.SH
+Only in ../krb5-1.8.3/src//lib/krb5/os: osconfig.so
+Only in ../krb5-1.8.3/src//lib/krb5/os: port2ip.so
+Only in ../krb5-1.8.3/src//lib/krb5/os: prompter.so
+Only in ../krb5-1.8.3/src//lib/krb5/os: read_msg.so
+Only in ../krb5-1.8.3/src//lib/krb5/os: read_pwd.so
+Only in ../krb5-1.8.3/src//lib/krb5/os: realm_dom.so
+Only in ../krb5-1.8.3/src//lib/krb5/os: realm_iter.so
+Only in ../krb5-1.8.3/src//lib/krb5/os: sendto_kdc.so
+Only in ../krb5-1.8.3/src//lib/krb5/os: sn2princ.so
+Only in ../krb5-1.8.3/src//lib/krb5/os: .svn
+Only in ../krb5-1.8.3/src//lib/krb5/os: thread_safe.so
+Only in ../krb5-1.8.3/src//lib/krb5/os: timeofday.so
+Only in ../krb5-1.8.3/src//lib/krb5/os: toffset.so
+Only in ../krb5-1.8.3/src//lib/krb5/os: unlck_file.so
+Only in ../krb5-1.8.3/src//lib/krb5/os: ustime.so
+Only in ../krb5-1.8.3/src//lib/krb5/os: write_msg.so
+Only in ../krb5-1.8.3/src//lib/krb5/posix: .svn
+Only in ../krb5-1.8.3/src//lib/krb5/rcache: Makefile
+Only in ../krb5-1.8.3/src//lib/krb5/rcache: OBJS.SH
+Only in ../krb5-1.8.3/src//lib/krb5/rcache: rc_base.so
+Only in ../krb5-1.8.3/src//lib/krb5/rcache: rc_conv.so
+Only in ../krb5-1.8.3/src//lib/krb5/rcache: rcdef.so
+Only in ../krb5-1.8.3/src//lib/krb5/rcache: rc_dfl.so
+Only in ../krb5-1.8.3/src//lib/krb5/rcache: rcfns.so
+Only in ../krb5-1.8.3/src//lib/krb5/rcache: rc_io.so
+Only in ../krb5-1.8.3/src//lib/krb5/rcache: rc_none.so
+Only in ../krb5-1.8.3/src//lib/krb5/rcache: ser_rc.so
+Only in ../krb5-1.8.3/src//lib/krb5/rcache: .svn
+Only in ../krb5-1.8.3/src//lib/krb5: .svn
+Only in ../krb5-1.8.3/src//lib/krb5/unicode: .links
+Only in ../krb5-1.8.3/src//lib/krb5/unicode: Makefile
+Only in ../krb5-1.8.3/src//lib/krb5/unicode: OBJS.SH
+Only in ../krb5-1.8.3/src//lib/krb5/unicode: .svn
+Only in ../krb5-1.8.3/src//lib/krb5/unicode/ucdata: .svn
+Only in ../krb5-1.8.3/src//lib/krb5/unicode: ucdata.c
+Only in ../krb5-1.8.3/src//lib/krb5/unicode: ucdata.h
+Only in ../krb5-1.8.3/src//lib/krb5/unicode: ucdata.so
+Only in ../krb5-1.8.3/src//lib/krb5/unicode: ucgendat.c
+Only in ../krb5-1.8.3/src//lib/krb5/unicode: ucstr.so
+Only in ../krb5-1.8.3/src//lib/krb5/unicode: uctable.h
+Only in ../krb5-1.8.3/src//lib/krb5/unicode/ure: .svn
+Only in ../krb5-1.8.3/src//lib/krb5/unicode: ure.c
+Only in ../krb5-1.8.3/src//lib/krb5/unicode: ure.h
+Only in ../krb5-1.8.3/src//lib/krb5/unicode: ure.so
+Only in ../krb5-1.8.3/src//lib/krb5/unicode: urestubs.c
+Only in ../krb5-1.8.3/src//lib/krb5/unicode: urestubs.so
+Only in ../krb5-1.8.3/src//lib/krb5/unicode/utbm: .svn
+Only in ../krb5-1.8.3/src//lib: libapputils.a
+Only in ../krb5-1.8.3/src//lib: libcom_err.so
+Only in ../krb5-1.8.3/src//lib: libcom_err.so.3
+Only in ../krb5-1.8.3/src//lib: libcom_err.so.3.0
+Only in ../krb5-1.8.3/src//lib: libgssapi_krb5.so
+Only in ../krb5-1.8.3/src//lib: libgssapi_krb5.so.2
+Only in ../krb5-1.8.3/src//lib: libgssapi_krb5.so.2.2
+Only in ../krb5-1.8.3/src//lib: libgssrpc.so
+Only in ../krb5-1.8.3/src//lib: libgssrpc.so.4
+Only in ../krb5-1.8.3/src//lib: libgssrpc.so.4.1
+Only in ../krb5-1.8.3/src//lib: libk5crypto.so
+Only in ../krb5-1.8.3/src//lib: libk5crypto.so.3
+Only in ../krb5-1.8.3/src//lib: libk5crypto.so.3.1
+Only in ../krb5-1.8.3/src//lib: libkadm5clnt_mit.so
+Only in ../krb5-1.8.3/src//lib: libkadm5clnt_mit.so.7
+Only in ../krb5-1.8.3/src//lib: libkadm5clnt_mit.so.7.0
+Only in ../krb5-1.8.3/src//lib: libkadm5srv_mit.so
+Only in ../krb5-1.8.3/src//lib: libkadm5srv_mit.so.7
+Only in ../krb5-1.8.3/src//lib: libkadm5srv_mit.so.7.0
+Only in ../krb5-1.8.3/src//lib: libkdb5.so
+Only in ../krb5-1.8.3/src//lib: libkdb5.so.4
+Only in ../krb5-1.8.3/src//lib: libkdb5.so.4.0
+Only in ../krb5-1.8.3/src//lib: libkrb5.so
+Only in ../krb5-1.8.3/src//lib: libkrb5.so.3
+Only in ../krb5-1.8.3/src//lib: libkrb5.so.3.3
+Only in ../krb5-1.8.3/src//lib: libkrb5support.so
+Only in ../krb5-1.8.3/src//lib: libkrb5support.so.0
+Only in ../krb5-1.8.3/src//lib: libkrb5support.so.0.1
+Only in ../krb5-1.8.3/src//lib: libss.a
+Only in ../krb5-1.8.3/src//lib: Makefile
+Only in ../krb5-1.8.3/src//lib/rpc: auth_gssapi_misc.so
+Only in ../krb5-1.8.3/src//lib/rpc: auth_gssapi.so
+Only in ../krb5-1.8.3/src//lib/rpc: authgss_prot.so
+Only in ../krb5-1.8.3/src//lib/rpc: auth_gss.so
+Only in ../krb5-1.8.3/src//lib/rpc: auth_none.so
+Only in ../krb5-1.8.3/src//lib/rpc: authunix_prot.so
+Only in ../krb5-1.8.3/src//lib/rpc: auth_unix.so
+Only in ../krb5-1.8.3/src//lib/rpc: bindresvport.so
+Only in ../krb5-1.8.3/src//lib/rpc: binutils.versions
+Only in ../krb5-1.8.3/src//lib/rpc: clnt_generic.so
+Only in ../krb5-1.8.3/src//lib/rpc: clnt_perror.so
+Only in ../krb5-1.8.3/src//lib/rpc: clnt_raw.so
+Only in ../krb5-1.8.3/src//lib/rpc: clnt_simple.so
+Only in ../krb5-1.8.3/src//lib/rpc: clnt_tcp.so
+Only in ../krb5-1.8.3/src//lib/rpc: clnt_udp.so
+Only in ../krb5-1.8.3/src//lib/rpc: dyn.so
+Only in ../krb5-1.8.3/src//lib/rpc: get_myaddress.so
+Only in ../krb5-1.8.3/src//lib/rpc: getrpcport.so
+Only in ../krb5-1.8.3/src//lib/rpc: libgssrpc.so
+Only in ../krb5-1.8.3/src//lib/rpc: libgssrpc.so.4
+Only in ../krb5-1.8.3/src//lib/rpc: libgssrpc.so.4.1
+Only in ../krb5-1.8.3/src//lib/rpc: Makefile
+Only in ../krb5-1.8.3/src//lib/rpc: OBJS.SH
+Only in ../krb5-1.8.3/src//lib/rpc: pmap_clnt.so
+Only in ../krb5-1.8.3/src//lib/rpc: pmap_getmaps.so
+Only in ../krb5-1.8.3/src//lib/rpc: pmap_getport.so
+Only in ../krb5-1.8.3/src//lib/rpc: pmap_prot2.so
+Only in ../krb5-1.8.3/src//lib/rpc: pmap_prot.so
+Only in ../krb5-1.8.3/src//lib/rpc: pmap_rmt.so
+Only in ../krb5-1.8.3/src//lib/rpc: rpc_callmsg.so
+Only in ../krb5-1.8.3/src//lib/rpc: rpc_commondata.so
+Only in ../krb5-1.8.3/src//lib/rpc: rpc_dtablesize.so
+Only in ../krb5-1.8.3/src//lib/rpc: rpc_prot.so
+Only in ../krb5-1.8.3/src//lib/rpc: svc_auth_gssapi.so
+Only in ../krb5-1.8.3/src//lib/rpc: svc_auth_gss.so
+Only in ../krb5-1.8.3/src//lib/rpc: svc_auth_none.so
+Only in ../krb5-1.8.3/src//lib/rpc: svc_auth.so
+Only in ../krb5-1.8.3/src//lib/rpc: svc_auth_unix.so
+Only in ../krb5-1.8.3/src//lib/rpc: svc_raw.so
+Only in ../krb5-1.8.3/src//lib/rpc: svc_run.so
+Only in ../krb5-1.8.3/src//lib/rpc: svc_simple.so
+Only in ../krb5-1.8.3/src//lib/rpc: svc.so
+Only in ../krb5-1.8.3/src//lib/rpc: svc_tcp.so
+Only in ../krb5-1.8.3/src//lib/rpc: svc_udp.so
+Only in ../krb5-1.8.3/src//lib/rpc: .svn
+Only in ../krb5-1.8.3/src//lib/rpc: types.stamp
+Only in ../krb5-1.8.3/src//lib/rpc/unit-test: client
+Only in ../krb5-1.8.3/src//lib/rpc/unit-test: client.o
+Only in ../krb5-1.8.3/src//lib/rpc/unit-test/config: .svn
+Only in ../krb5-1.8.3/src//lib/rpc/unit-test/lib: .svn
+Only in ../krb5-1.8.3/src//lib/rpc/unit-test: Makefile
+Only in ../krb5-1.8.3/src//lib/rpc/unit-test/rpc_test.0: .svn
+Only in ../krb5-1.8.3/src//lib/rpc/unit-test: rpc_test_clnt.o
+Only in ../krb5-1.8.3/src//lib/rpc/unit-test: rpc_test_svc.o
+Only in ../krb5-1.8.3/src//lib/rpc/unit-test: server
+Only in ../krb5-1.8.3/src//lib/rpc/unit-test: server.o
+Only in ../krb5-1.8.3/src//lib/rpc/unit-test: .svn
+Only in ../krb5-1.8.3/src//lib/rpc: xdr_alloc.so
+Only in ../krb5-1.8.3/src//lib/rpc: xdr_array.so
+Only in ../krb5-1.8.3/src//lib/rpc: xdr_float.so
+Only in ../krb5-1.8.3/src//lib/rpc: xdr_mem.so
+Only in ../krb5-1.8.3/src//lib/rpc: xdr_rec.so
+Only in ../krb5-1.8.3/src//lib/rpc: xdr_reference.so
+Only in ../krb5-1.8.3/src//lib/rpc: xdr_sizeof.so
+Only in ../krb5-1.8.3/src//lib/rpc: xdr.so
+Only in ../krb5-1.8.3/src//lib/rpc: xdr_stdio.so
+Only in ../krb5-1.8.3/src//lib: .svn
+Only in ../krb5-1.8.3/src/: Makefile
+diff -crB ../original_source/krb5-1.8/src//patchlevel.h ../krb5-1.8.3/src//patchlevel.h
+*** ../original_source/krb5-1.8/src//patchlevel.h	2010-03-02 13:21:00.000000000 -0500
+--- ../krb5-1.8.3/src//patchlevel.h	2011-09-05 16:23:43.315035732 -0400
+***************
+*** 52,58 ****
+   */
+  #define KRB5_MAJOR_RELEASE 1
+  #define KRB5_MINOR_RELEASE 8
+! #define KRB5_PATCHLEVEL 0
+  /* #undef KRB5_RELTAIL */
+! #define KRB5_RELDATE "20100302"
+! #define KRB5_RELTAG "tags/krb5-1-8-final"
+--- 52,58 ----
+   */
+  #define KRB5_MAJOR_RELEASE 1
+  #define KRB5_MINOR_RELEASE 8
+! #define KRB5_PATCHLEVEL 3
+  /* #undef KRB5_RELTAIL */
+! #define KRB5_RELDATE "20100804"
+! #define KRB5_RELTAG "tags/krb5-1-8-3-final"
+Only in ../krb5-1.8.3/src//plugins/authdata/greet: Makefile
+Only in ../krb5-1.8.3/src//plugins/authdata/greet: .svn
+Only in ../krb5-1.8.3/src//plugins/authdata/greet_client: Makefile
+Only in ../krb5-1.8.3/src//plugins/authdata/greet_client: .svn
+Only in ../krb5-1.8.3/src//plugins/authdata/greet_server: Makefile
+Only in ../krb5-1.8.3/src//plugins/authdata/greet_server: .svn
+Only in ../krb5-1.8.3/src//plugins/authdata: .svn
+Only in ../krb5-1.8.3/src//plugins/kdb/db2: adb_openclose.so
+Only in ../krb5-1.8.3/src//plugins/kdb/db2: adb_policy.so
+Only in ../krb5-1.8.3/src//plugins/kdb/db2: binutils.versions
+Only in ../krb5-1.8.3/src//plugins/kdb/db2: db2_exp.so
+Only in ../krb5-1.8.3/src//plugins/kdb/db2: db2.so
+Only in ../krb5-1.8.3/src//plugins/kdb/db2: kdb_db2.so
+Only in ../krb5-1.8.3/src//plugins/kdb/db2: kdb_ext.so
+Only in ../krb5-1.8.3/src//plugins/kdb/db2: kdb_xdr.so
+Only in ../krb5-1.8.3/src//plugins/kdb/db2/libdb2: binutils.versions
+Only in ../krb5-1.8.3/src//plugins/kdb/db2/libdb2/btree: bt_close.so
+Only in ../krb5-1.8.3/src//plugins/kdb/db2/libdb2/btree: bt_conv.so
+Only in ../krb5-1.8.3/src//plugins/kdb/db2/libdb2/btree: bt_debug.so
+Only in ../krb5-1.8.3/src//plugins/kdb/db2/libdb2/btree: bt_delete.so
+Only in ../krb5-1.8.3/src//plugins/kdb/db2/libdb2/btree: bt_get.so
+Only in ../krb5-1.8.3/src//plugins/kdb/db2/libdb2/btree: bt_open.so
+Only in ../krb5-1.8.3/src//plugins/kdb/db2/libdb2/btree: bt_overflow.so
+Only in ../krb5-1.8.3/src//plugins/kdb/db2/libdb2/btree: bt_page.so
+Only in ../krb5-1.8.3/src//plugins/kdb/db2/libdb2/btree: bt_put.so
+Only in ../krb5-1.8.3/src//plugins/kdb/db2/libdb2/btree: bt_search.so
+Only in ../krb5-1.8.3/src//plugins/kdb/db2/libdb2/btree: bt_seq.so
+Only in ../krb5-1.8.3/src//plugins/kdb/db2/libdb2/btree: bt_split.so
+Only in ../krb5-1.8.3/src//plugins/kdb/db2/libdb2/btree: bt_utils.so
+Only in ../krb5-1.8.3/src//plugins/kdb/db2/libdb2/btree: Makefile
+Only in ../krb5-1.8.3/src//plugins/kdb/db2/libdb2/btree: OBJS.SH
+Only in ../krb5-1.8.3/src//plugins/kdb/db2/libdb2/btree: .svn
+Only in ../krb5-1.8.3/src//plugins/kdb/db2/libdb2/db: db.so
+Only in ../krb5-1.8.3/src//plugins/kdb/db2/libdb2/db: Makefile
+Only in ../krb5-1.8.3/src//plugins/kdb/db2/libdb2/db: OBJS.SH
+Only in ../krb5-1.8.3/src//plugins/kdb/db2/libdb2/db: .svn
+Only in ../krb5-1.8.3/src//plugins/kdb/db2/libdb2/docs: .svn
+Only in ../krb5-1.8.3/src//plugins/kdb/db2/libdb2/hash: dbm.so
+Only in ../krb5-1.8.3/src//plugins/kdb/db2/libdb2/hash: hash_bigkey.so
+Only in ../krb5-1.8.3/src//plugins/kdb/db2/libdb2/hash: hash_debug.so
+Only in ../krb5-1.8.3/src//plugins/kdb/db2/libdb2/hash: hash_func.so
+Only in ../krb5-1.8.3/src//plugins/kdb/db2/libdb2/hash: hash_log2.so
+Only in ../krb5-1.8.3/src//plugins/kdb/db2/libdb2/hash: hash_page.so
+Only in ../krb5-1.8.3/src//plugins/kdb/db2/libdb2/hash: hash.so
+Only in ../krb5-1.8.3/src//plugins/kdb/db2/libdb2/hash: hsearch.so
+Only in ../krb5-1.8.3/src//plugins/kdb/db2/libdb2/hash: Makefile
+Only in ../krb5-1.8.3/src//plugins/kdb/db2/libdb2/hash: OBJS.SH
+Only in ../krb5-1.8.3/src//plugins/kdb/db2/libdb2/hash: .svn
+Only in ../krb5-1.8.3/src//plugins/kdb/db2/libdb2/include: .svn
+Only in ../krb5-1.8.3/src//plugins/kdb/db2/libdb2: libdb.so
+Only in ../krb5-1.8.3/src//plugins/kdb/db2/libdb2: libdb.so.1
+Only in ../krb5-1.8.3/src//plugins/kdb/db2/libdb2: libdb.so.1.1
+Only in ../krb5-1.8.3/src//plugins/kdb/db2/libdb2: Makefile
+Only in ../krb5-1.8.3/src//plugins/kdb/db2/libdb2/man: .svn
+Only in ../krb5-1.8.3/src//plugins/kdb/db2/libdb2/mpool: Makefile
+Only in ../krb5-1.8.3/src//plugins/kdb/db2/libdb2/mpool: mpool.so
+Only in ../krb5-1.8.3/src//plugins/kdb/db2/libdb2/mpool: OBJS.SH
+Only in ../krb5-1.8.3/src//plugins/kdb/db2/libdb2/mpool: .svn
+Only in ../krb5-1.8.3/src//plugins/kdb/db2/libdb2/recno: Makefile
+Only in ../krb5-1.8.3/src//plugins/kdb/db2/libdb2/recno: OBJS.SH
+Only in ../krb5-1.8.3/src//plugins/kdb/db2/libdb2/recno: rec_close.so
+Only in ../krb5-1.8.3/src//plugins/kdb/db2/libdb2/recno: rec_delete.so
+Only in ../krb5-1.8.3/src//plugins/kdb/db2/libdb2/recno: rec_get.so
+Only in ../krb5-1.8.3/src//plugins/kdb/db2/libdb2/recno: rec_open.so
+Only in ../krb5-1.8.3/src//plugins/kdb/db2/libdb2/recno: rec_put.so
+Only in ../krb5-1.8.3/src//plugins/kdb/db2/libdb2/recno: rec_search.so
+Only in ../krb5-1.8.3/src//plugins/kdb/db2/libdb2/recno: rec_seq.so
+Only in ../krb5-1.8.3/src//plugins/kdb/db2/libdb2/recno: rec_utils.so
+Only in ../krb5-1.8.3/src//plugins/kdb/db2/libdb2/recno: .svn
+Only in ../krb5-1.8.3/src//plugins/kdb/db2/libdb2: .svn
+Only in ../krb5-1.8.3/src//plugins/kdb/db2/libdb2/test/btree.tests: .svn
+Only in ../krb5-1.8.3/src//plugins/kdb/db2/libdb2/test/hash1.tests: .svn
+Only in ../krb5-1.8.3/src//plugins/kdb/db2/libdb2/test/hash2.tests/passwd: .svn
+Only in ../krb5-1.8.3/src//plugins/kdb/db2/libdb2/test/hash2.tests: .svn
+Only in ../krb5-1.8.3/src//plugins/kdb/db2/libdb2/test: Makefile
+Only in ../krb5-1.8.3/src//plugins/kdb/db2/libdb2/test/SEQ_TEST: .svn
+Only in ../krb5-1.8.3/src//plugins/kdb/db2/libdb2/test: .svn
+Only in ../krb5-1.8.3/src//plugins/kdb/db2: lockout.so
+Only in ../krb5-1.8.3/src//plugins/kdb/db2: Makefile
+Only in ../krb5-1.8.3/src//plugins/kdb/db2: OBJS.SH
+Only in ../krb5-1.8.3/src//plugins/kdb/db2: pol_xdr.so
+Only in ../krb5-1.8.3/src//plugins/kdb/db2: .svn
+Only in ../krb5-1.8.3/src//plugins/kdb/hdb: Makefile
+Only in ../krb5-1.8.3/src//plugins/kdb/hdb: .svn
+Only in ../krb5-1.8.3/src//plugins/kdb/ldap/ldap_util: .svn
+diff -crB ../original_source/krb5-1.8/src//plugins/kdb/ldap/libkdb_ldap/ldap_principal2.c ../krb5-1.8.3/src//plugins/kdb/ldap/libkdb_ldap/ldap_principal2.c
+*** ../original_source/krb5-1.8/src//plugins/kdb/ldap/libkdb_ldap/ldap_principal2.c	2009-11-24 18:52:25.000000000 -0500
+--- ../krb5-1.8.3/src//plugins/kdb/ldap/libkdb_ldap/ldap_principal2.c	2011-09-05 16:23:38.775035730 -0400
+***************
+*** 891,896 ****
+--- 891,906 ----
+              if (st != 0)
+                  goto cleanup;
+          } else if (entries->mask & KADM5_FAIL_AUTH_COUNT_INCREMENT) {
++             int attr_mask = 0;
++             krb5_boolean has_fail_count;
++ 
++             /* Check if the krbLoginFailedCount attribute exists.  (Through
++              * krb5 1.8.1, it wasn't set in new entries.) */
++             st = krb5_get_attributes_mask(context, entries, &attr_mask);
++             if (st != 0)
++                 goto cleanup;
++             has_fail_count = ((attr_mask & KDB_FAIL_AUTH_COUNT_ATTR) != 0);
++ 
+              /*
+               * If the client library and server supports RFC 4525,
+               * then use it to increment by one the value of the
+***************
+*** 898,935 ****
+               * (provided) old value by deleting it before adding.
+               */
+  #ifdef LDAP_MOD_INCREMENT
+!             if (ldap_server_handle->server_info->modify_increment) {
+                  st = krb5_add_int_mem_ldap_mod(&mods, "krbLoginFailedCount",
+                                                 LDAP_MOD_INCREMENT, 1);
+                  if (st != 0)
+                      goto cleanup;
+!             } else
+  #endif /* LDAP_MOD_INCREMENT */
+!                 if (entries->fail_auth_count == 0) {
+!                     /*
+!                      * Unfortunately we have no way of distinguishing between
+!                      * an absent and a zero-valued attribute by the time we are
+!                      * called here. So, although this creates a race condition,
+!                      * it appears impossible to assert the old value as that
+!                      * would fail were the attribute absent.
+!                      */
+!                     st = krb5_add_int_mem_ldap_mod(&mods, "krbLoginFailedCount",
+!                                                    LDAP_MOD_REPLACE, 1);
+!                     if (st != 0)
+!                         goto cleanup;
+!                 } else {
+!                     st = krb5_add_int_mem_ldap_mod(&mods, "krbLoginFailedCount",
+                                                     LDAP_MOD_DELETE,
+                                                     entries->fail_auth_count);
+                      if (st != 0)
+                          goto cleanup;
+- 
+-                     st = krb5_add_int_mem_ldap_mod(&mods, "krbLoginFailedCount",
+-                                                    LDAP_MOD_ADD,
+-                                                    entries->fail_auth_count + 1);
+-                     if (st != 0)
+-                         goto cleanup;
+                  }
+          }
+  
+          if (entries->mask & KADM5_MAX_LIFE) {
+--- 908,942 ----
+               * (provided) old value by deleting it before adding.
+               */
+  #ifdef LDAP_MOD_INCREMENT
+!             if (ldap_server_handle->server_info->modify_increment &&
+!                 has_fail_count) {
+                  st = krb5_add_int_mem_ldap_mod(&mods, "krbLoginFailedCount",
+                                                 LDAP_MOD_INCREMENT, 1);
+                  if (st != 0)
+                      goto cleanup;
+!             } else {
+  #endif /* LDAP_MOD_INCREMENT */
+!                 if (has_fail_count) {
+!                     st = krb5_add_int_mem_ldap_mod(&mods,
+!                                                    "krbLoginFailedCount",
+                                                     LDAP_MOD_DELETE,
+                                                     entries->fail_auth_count);
+                      if (st != 0)
+                          goto cleanup;
+                  }
++                 st = krb5_add_int_mem_ldap_mod(&mods, "krbLoginFailedCount",
++                                                LDAP_MOD_ADD,
++                                                entries->fail_auth_count + 1);
++                 if (st != 0)
++                     goto cleanup;
++ #ifdef LDAP_MOD_INCREMENT
++             }
++ #endif
++         } else if (optype == ADD_PRINCIPAL) {
++             /* Initialize krbLoginFailedCount in new entries to help avoid a
++              * race during the first failed login. */
++             st = krb5_add_int_mem_ldap_mod(&mods, "krbLoginFailedCount",
++                                            LDAP_MOD_ADD, 0);
+          }
+  
+          if (entries->mask & KADM5_MAX_LIFE) {
+Only in ../krb5-1.8.3/src//plugins/kdb/ldap/libkdb_ldap: .svn
+Only in ../krb5-1.8.3/src//plugins/kdb/ldap: .svn
+Only in ../krb5-1.8.3/src//plugins/kdb: .svn
+Only in ../krb5-1.8.3/src//plugins/locate/python: Makefile
+Only in ../krb5-1.8.3/src//plugins/locate/python: .svn
+Only in ../krb5-1.8.3/src//plugins/locate: .svn
+Only in ../krb5-1.8.3/src//plugins/preauth/cksum_body: Makefile
+Only in ../krb5-1.8.3/src//plugins/preauth/cksum_body/src: .svn
+Only in ../krb5-1.8.3/src//plugins/preauth/cksum_body: .svn
+Only in ../krb5-1.8.3/src//plugins/preauth/encrypted_challenge: binutils.versions
+Only in ../krb5-1.8.3/src//plugins/preauth/encrypted_challenge: encrypted_challenge_main.so
+Only in ../krb5-1.8.3/src//plugins/preauth/encrypted_challenge: encrypted_challenge.so
+Only in ../krb5-1.8.3/src//plugins/preauth/encrypted_challenge: Makefile
+Only in ../krb5-1.8.3/src//plugins/preauth/encrypted_challenge: OBJS.SH
+Only in ../krb5-1.8.3/src//plugins/preauth/encrypted_challenge: .svn
+Only in ../krb5-1.8.3/src//plugins/preauth/pkinit: binutils.versions
+Only in ../krb5-1.8.3/src//plugins/preauth/pkinit: Makefile
+Only in ../krb5-1.8.3/src//plugins/preauth/pkinit: OBJS.SH
+Only in ../krb5-1.8.3/src//plugins/preauth/pkinit: pkinit_accessor.so
+Only in ../krb5-1.8.3/src//plugins/preauth/pkinit: pkinit_clnt.so
+diff -crB ../original_source/krb5-1.8/src//plugins/preauth/pkinit/pkinit_crypto_openssl.c ../krb5-1.8.3/src//plugins/preauth/pkinit/pkinit_crypto_openssl.c
+*** ../original_source/krb5-1.8/src//plugins/preauth/pkinit/pkinit_crypto_openssl.c	2009-12-30 23:07:03.000000000 -0500
+--- ../krb5-1.8.3/src//plugins/preauth/pkinit/pkinit_crypto_openssl.c	2011-09-05 16:23:40.115035731 -0400
+***************
+*** 2092,2097 ****
+--- 2092,2113 ----
+      return retval;
+  }
+  
++ /* Call DH_compute_key() and ensure that we left-pad short results instead of
++  * leaving junk bytes at the end of the buffer. */
++ static void
++ compute_dh(unsigned char *buf, int size, BIGNUM *server_pub_key, DH *dh)
++ {
++     int len, pad;
++ 
++     len = DH_compute_key(buf, server_pub_key, dh);
++     assert(len >= 0 && len <= size);
++     if (len < size) {
++         pad = size - len;
++         memmove(buf + pad, buf, len);
++         memset(buf, 0, pad);
++     }
++ }
++ 
+  krb5_error_code
+  client_create_dh(krb5_context context,
+                   pkinit_plg_crypto_context plg_cryptoctx,
+***************
+*** 2243,2249 ****
+      if ((server_pub_key = ASN1_INTEGER_to_BN(pub_key, NULL)) == NULL)
+          goto cleanup;
+  
+!     DH_compute_key(*client_key, server_pub_key, cryptoctx->dh);
+  #ifdef DEBUG_DH
+      print_pubkey(server_pub_key, "server's pub_key=");
+      pkiDebug("client secret key (%d)= ", *client_key_len);
+--- 2259,2265 ----
+      if ((server_pub_key = ASN1_INTEGER_to_BN(pub_key, NULL)) == NULL)
+          goto cleanup;
+  
+!     compute_dh(*client_key, *client_key_len, server_pub_key, cryptoctx->dh);
+  #ifdef DEBUG_DH
+      print_pubkey(server_pub_key, "server's pub_key=");
+      pkiDebug("client secret key (%d)= ", *client_key_len);
+***************
+*** 2378,2384 ****
+      *server_key_len = DH_size(dh_server);
+      if ((*server_key = malloc(*server_key_len)) == NULL)
+          goto cleanup;
+!     DH_compute_key(*server_key, dh->pub_key, dh_server);
+  
+  #ifdef DEBUG_DH
+      print_dh(dh_server, "client&server's DH params\n");
+--- 2394,2400 ----
+      *server_key_len = DH_size(dh_server);
+      if ((*server_key = malloc(*server_key_len)) == NULL)
+          goto cleanup;
+!     compute_dh(*server_key, *server_key_len, dh->pub_key, dh_server);
+  
+  #ifdef DEBUG_DH
+      print_dh(dh_server, "client&server's DH params\n");
+Only in ../krb5-1.8.3/src//plugins/preauth/pkinit: pkinit_crypto_openssl.so
+Only in ../krb5-1.8.3/src//plugins/preauth/pkinit: pkinit_identity.so
+Only in ../krb5-1.8.3/src//plugins/preauth/pkinit: pkinit_lib.so
+Only in ../krb5-1.8.3/src//plugins/preauth/pkinit: pkinit_matching.so
+Only in ../krb5-1.8.3/src//plugins/preauth/pkinit: pkinit_profile.so
+Only in ../krb5-1.8.3/src//plugins/preauth/pkinit: pkinit.so
+Only in ../krb5-1.8.3/src//plugins/preauth/pkinit: pkinit_srv.so
+Only in ../krb5-1.8.3/src//plugins/preauth/pkinit: .svn
+Only in ../krb5-1.8.3/src//plugins/preauth: .svn
+Only in ../krb5-1.8.3/src//plugins/preauth/wpse: Makefile
+Only in ../krb5-1.8.3/src//plugins/preauth/wpse/src: .svn
+Only in ../krb5-1.8.3/src//plugins/preauth/wpse: .svn
+Only in ../krb5-1.8.3/src//plugins: .svn
+Only in ../krb5-1.8.3/src//prototype: .svn
+Only in ../krb5-1.8.3/src//slave: kprop
+Only in ../krb5-1.8.3/src//slave: kpropd
+Only in ../krb5-1.8.3/src//slave: kpropd.o
+Only in ../krb5-1.8.3/src//slave: kpropd_rpc.o
+Only in ../krb5-1.8.3/src//slave: kproplog
+diff -crB ../original_source/krb5-1.8/src//slave/kproplog.c ../krb5-1.8.3/src//slave/kproplog.c
+*** ../original_source/krb5-1.8/src//slave/kproplog.c	2009-11-06 14:45:29.000000000 -0500
+--- ../krb5-1.8.3/src//slave/kproplog.c	2011-09-05 16:23:35.531035730 -0400
+***************
+*** 74,93 ****
+      }
+  }
+  
+  /*
+   * Display time information.
+   */
+  static void
+! print_time(unsigned int *timep)
+  {
+      if (*timep == 0L)
+          printf("\t\t\tNone\n");
+      else {
+!         time_t ltime = *timep;
+!         printf("\t\t\t%s", ctime(&ltime));
+      }
+  }
+  
+  /*
+   * Display string in hex primitive.
+   */
+--- 74,113 ----
+      }
+  }
+  
++ /* ctime() for uint32_t* */
++ static char *
++ ctime_uint32(uint32_t *time32)
++ {
++     time_t tmp;
++     tmp = *time32;
++     return ctime(&tmp);
++ }
++ 
+  /*
+   * Display time information.
+   */
+  static void
+! print_time(uint32_t *timep)
+  {
+      if (*timep == 0L)
+          printf("\t\t\tNone\n");
+      else {
+!         printf("\t\t\t%s", ctime_uint32(timep));
+      }
+  }
+  
++ static void
++ print_deltat(uint32_t *deltat)
++ {
++     krb5_error_code ret;
++     static char buf[30];
++     ret = krb5_deltat_to_string(*deltat, buf, sizeof(buf));
++     if (ret)
++         printf("\t\t\t(error)\n");
++     else
++         printf("\t\t\t%s\n", buf);
++ }
++ 
+  /*
+   * Display string in hex primitive.
+   */
+***************
+*** 251,263 ****
+      case AT_MAX_LIFE:
+          (void) printf(_("\t\tMaximum ticket life\n"));
+          if (vverbose) {
+!             print_time(&val->kdbe_val_t_u.av_max_life);
+          }
+          break;
+      case AT_MAX_RENEW_LIFE:
+          (void) printf(_("\t\tMaximum renewable life\n"));
+          if (vverbose) {
+!             print_time(&val->kdbe_val_t_u.av_max_renew_life);
+          }
+          break;
+      case AT_EXP:
+--- 271,283 ----
+      case AT_MAX_LIFE:
+          (void) printf(_("\t\tMaximum ticket life\n"));
+          if (vverbose) {
+!             print_deltat(&val->kdbe_val_t_u.av_max_life);
+          }
+          break;
+      case AT_MAX_RENEW_LIFE:
+          (void) printf(_("\t\tMaximum renewable life\n"));
+          if (vverbose) {
+!             print_deltat(&val->kdbe_val_t_u.av_max_renew_life);
+          }
+          break;
+      case AT_EXP:
+***************
+*** 447,453 ****
+              (void) printf(_("\tUpdate time stamp : None\n"));
+          else
+              (void) printf(_("\tUpdate time stamp : %s"),
+!                           ctime((time_t *)&(indx_log->kdb_time.seconds)));
+  
+          (void) printf(_("\tAttributes changed : %d\n"),
+                        upd.kdb_update.kdbe_t_len);
+--- 467,473 ----
+              (void) printf(_("\tUpdate time stamp : None\n"));
+          else
+              (void) printf(_("\tUpdate time stamp : %s"),
+!                           ctime_uint32(&indx_log->kdb_time.seconds));
+  
+          (void) printf(_("\tAttributes changed : %d\n"),
+                        upd.kdb_update.kdbe_t_len);
+***************
+*** 581,592 ****
+              (void) printf(_("\tFirst time stamp : None\n"));
+          else {
+              (void) printf(_("\tFirst time stamp : %s"),
+!                           ctime((time_t *)
+!                                 &(ulog->kdb_first_time.seconds)));
+          }
+  
+          (void) printf(_("\tLast time stamp : %s\n"),
+!                       ctime((time_t *)&(ulog->kdb_last_time.seconds)));
+      }
+  
+      if ((!headeronly) && ulog->kdb_num) {
+--- 601,611 ----
+              (void) printf(_("\tFirst time stamp : None\n"));
+          else {
+              (void) printf(_("\tFirst time stamp : %s"),
+!                           ctime_uint32(&ulog->kdb_first_time.seconds));
+          }
+  
+          (void) printf(_("\tLast time stamp : %s\n"),
+!                       ctime_uint32(&ulog->kdb_last_time.seconds));
+      }
+  
+      if ((!headeronly) && ulog->kdb_num) {
+Only in ../krb5-1.8.3/src//slave: kproplog.o
+Only in ../krb5-1.8.3/src//slave: kprop.o
+Only in ../krb5-1.8.3/src//slave: Makefile
+Only in ../krb5-1.8.3/src//slave: .svn
+Only in ../krb5-1.8.3/src/: .svn
+Only in ../krb5-1.8.3/src/: svn-commit.tmp
+Only in ../krb5-1.8.3/src//tests/asn.1: expected_encode.out
+Only in ../krb5-1.8.3/src//tests/asn.1: expected_trval.out
+Only in ../krb5-1.8.3/src//tests/asn.1: krb5_decode_leak
+Only in ../krb5-1.8.3/src//tests/asn.1: krb5_decode_test
+Only in ../krb5-1.8.3/src//tests/asn.1: krb5_encode_test
+Only in ../krb5-1.8.3/src//tests/asn.1: Makefile
+Only in ../krb5-1.8.3/src//tests/asn.1: .svn
+Only in ../krb5-1.8.3/src//tests/asn.1: test.out
+Only in ../krb5-1.8.3/src//tests/asn.1: trval.out
+Only in ../krb5-1.8.3/src//tests/asn.1: t_trval
+Only in ../krb5-1.8.3/src//tests/create: kdb5_mkdums
+Only in ../krb5-1.8.3/src//tests/create: Makefile
+Only in ../krb5-1.8.3/src//tests/create: .svn
+diff -crB ../original_source/krb5-1.8/src//tests/dejagnu/config/default.exp ../krb5-1.8.3/src//tests/dejagnu/config/default.exp
+*** ../original_source/krb5-1.8/src//tests/dejagnu/config/default.exp	2010-01-08 18:43:05.000000000 -0500
+--- ../krb5-1.8.3/src//tests/dejagnu/config/default.exp	2011-09-05 16:23:28.315035725 -0400
+***************
+*** 2226,2231 ****
+--- 2226,2266 ----
+  
+      return 1
+  }
++ 
++ proc kinit_renew { name pass standalone } {
++     global REALMNAME
++     global KINIT
++     global spawn_id
++ 
++     spawn $KINIT -5 -f $name@$REALMNAME
++     expect {
++ 	"Password for $name@$REALMNAME:" {
++ 	    verbose "kinit started"
++ 	}
++ 	timeout {
++ 	    fail "kinit"
++ 	    return 0
++ 	}
++ 	eof {
++ 	    fail "kinit"
++ 	    return 0
++ 	}
++     }
++     send "$pass\r"
++     expect eof
++     if ![check_exit_status kinit] {
++ 	return 0
++     }
++ 
++     spawn $KINIT -R
++     expect eof
++     if ![check_exit_status "kinit_renew"] {
++ 	return 0
++     }
++ 
++     return 1
++ }
++ 
+  # Retrieve a ticket using FAST armor
+  proc kinit_fast { name pass standalone } {
+      global REALMNAME
+Only in ../krb5-1.8.3/src//tests/dejagnu/config: .svn
+diff -crB ../original_source/krb5-1.8/src//tests/dejagnu/krb-standalone/standalone.exp ../krb5-1.8.3/src//tests/dejagnu/krb-standalone/standalone.exp
+*** ../original_source/krb5-1.8/src//tests/dejagnu/krb-standalone/standalone.exp	2010-01-08 18:43:05.000000000 -0500
+--- ../krb5-1.8.3/src//tests/dejagnu/krb-standalone/standalone.exp	2011-09-05 16:23:28.299035725 -0400
+***************
+*** 201,206 ****
+--- 201,210 ----
+  	return
+      }
+  
++     if ![kinit_renew krbtest/admin adminpass$KEY 1] {
++ 	return
++     }
++ 
+      # Make sure that klist can see the ticket.
+      if ![do_klist "krbtest/admin@$REALMNAME" "krbtgt/$REALMNAME@$REALMNAME" "klist"] {
+  	return
+Only in ../krb5-1.8.3/src//tests/dejagnu/krb-standalone: .svn
+Only in ../krb5-1.8.3/src//tests/dejagnu: Makefile
+Only in ../krb5-1.8.3/src//tests/dejagnu/pkinit-certs: .svn
+Only in ../krb5-1.8.3/src//tests/dejagnu: .svn
+Only in ../krb5-1.8.3/src//tests/gssapi: Makefile
+Only in ../krb5-1.8.3/src//tests/gssapi: .svn
+Only in ../krb5-1.8.3/src//tests/gssapi: t_gssexts
+Only in ../krb5-1.8.3/src//tests/gssapi: t_imp_name
+Only in ../krb5-1.8.3/src//tests/gssapi: t_namingexts
+Only in ../krb5-1.8.3/src//tests/gssapi: t_s4u
+Only in ../krb5-1.8.3/src//tests/gssapi: t_spnego
+Only in ../krb5-1.8.3/src//tests/gss-threads: gss-client
+Only in ../krb5-1.8.3/src//tests/gss-threads: gss-server
+Only in ../krb5-1.8.3/src//tests/gss-threads: Makefile
+Only in ../krb5-1.8.3/src//tests/gss-threads: .svn
+Only in ../krb5-1.8.3/src//tests/hammer: kdc5_hammer
+Only in ../krb5-1.8.3/src//tests/hammer: Makefile
+Only in ../krb5-1.8.3/src//tests/hammer: .svn
+Only in ../krb5-1.8.3/src//tests: kdc.conf
+Only in ../krb5-1.8.3/src//tests/kdc_realm/input_conf: .svn
+Only in ../krb5-1.8.3/src//tests/kdc_realm: .svn
+Only in ../krb5-1.8.3/src//tests: krb5.conf
+Only in ../krb5-1.8.3/src//tests: Makefile
+Only in ../krb5-1.8.3/src//tests/misc: Makefile
+Only in ../krb5-1.8.3/src//tests/misc: .svn
+Only in ../krb5-1.8.3/src//tests/misc: test_cxx_gss
+Only in ../krb5-1.8.3/src//tests/misc: test_cxx_k5int
+Only in ../krb5-1.8.3/src//tests/misc: test_cxx_kadm5
+Only in ../krb5-1.8.3/src//tests/misc: test_cxx_krb5
+Only in ../krb5-1.8.3/src//tests/misc: test_cxx_rpc
+Only in ../krb5-1.8.3/src//tests/misc: test_getpw
+Only in ../krb5-1.8.3/src//tests/mkeystash_compat: bigendian
+Only in ../krb5-1.8.3/src//tests/mkeystash_compat: kdc.conf
+Only in ../krb5-1.8.3/src//tests/mkeystash_compat: krb5.conf
+Only in ../krb5-1.8.3/src//tests/mkeystash_compat: Makefile
+Only in ../krb5-1.8.3/src//tests/mkeystash_compat: .svn
+Only in ../krb5-1.8.3/src//tests/mk_migr/db2_backend/input_conf: .svn
+Only in ../krb5-1.8.3/src//tests/mk_migr/db2_backend: .svn
+Only in ../krb5-1.8.3/src//tests/mk_migr/ldap_backend/input_conf: .svn
+Only in ../krb5-1.8.3/src//tests/mk_migr/ldap_backend: .svn
+Only in ../krb5-1.8.3/src//tests/mk_migr: .svn
+Only in ../krb5-1.8.3/src//tests/resolve: addrinfo-test
+Only in ../krb5-1.8.3/src//tests/resolve: fake-addrinfo-test
+Only in ../krb5-1.8.3/src//tests/resolve: Makefile
+Only in ../krb5-1.8.3/src//tests/resolve: resolve
+Only in ../krb5-1.8.3/src//tests/resolve: .svn
+Only in ../krb5-1.8.3/src//tests/shlib: Makefile
+Only in ../krb5-1.8.3/src//tests/shlib: .svn
+Only in ../krb5-1.8.3/src//tests: .svn
+Only in ../krb5-1.8.3/src//tests/threads: Makefile
+Only in ../krb5-1.8.3/src//tests/threads: .svn
+Only in ../krb5-1.8.3/src//tests/verify: kdb5_verify
+Only in ../krb5-1.8.3/src//tests/verify: Makefile
+Only in ../krb5-1.8.3/src//tests/verify: .svn
+Only in ../krb5-1.8.3/src//util/collected-client-lib: Makefile
+Only in ../krb5-1.8.3/src//util/collected-client-lib: .svn
+Only in ../krb5-1.8.3/src//util/et: binutils.versions
+Only in ../krb5-1.8.3/src//util/et: com_err.so
+Only in ../krb5-1.8.3/src//util/et: compile_et
+Only in ../krb5-1.8.3/src//util/et: error_message.so
+Only in ../krb5-1.8.3/src//util/et: et_name.so
+Only in ../krb5-1.8.3/src//util/et: libcom_err.so
+Only in ../krb5-1.8.3/src//util/et: libcom_err.so.3
+Only in ../krb5-1.8.3/src//util/et: libcom_err.so.3.0
+Only in ../krb5-1.8.3/src//util/et: Makefile
+Only in ../krb5-1.8.3/src//util/et: OBJS.SH
+Only in ../krb5-1.8.3/src//util/et: .svn
+Only in ../krb5-1.8.3/src//util: fakedest
+Only in ../krb5-1.8.3/src//util/kfrags: .svn
+Only in ../krb5-1.8.3/src//util/mac: .svn
+Only in ../krb5-1.8.3/src//util: Makefile
+Only in ../krb5-1.8.3/src//util/profile: binutils.versions
+Only in ../krb5-1.8.3/src//util/profile: libprofile.so
+Only in ../krb5-1.8.3/src//util/profile: libprofile.so.1
+Only in ../krb5-1.8.3/src//util/profile: libprofile.so.1.1
+Only in ../krb5-1.8.3/src//util/profile: Makefile
+Only in ../krb5-1.8.3/src//util/profile: OBJS.SH
+Only in ../krb5-1.8.3/src//util/profile: prof_err.c
+Only in ../krb5-1.8.3/src//util/profile: prof_err.h
+Only in ../krb5-1.8.3/src//util/profile: prof_err.so
+Only in ../krb5-1.8.3/src//util/profile: prof_file.so
+Only in ../krb5-1.8.3/src//util/profile: prof_get.so
+Only in ../krb5-1.8.3/src//util/profile: profile.h
+Only in ../krb5-1.8.3/src//util/profile: prof_init.so
+Only in ../krb5-1.8.3/src//util/profile: prof_parse.so
+Only in ../krb5-1.8.3/src//util/profile: prof_set.so
+Only in ../krb5-1.8.3/src//util/profile: prof_tree.so
+Only in ../krb5-1.8.3/src//util/profile: .svn
+Only in ../krb5-1.8.3/src//util/send-pr: install-sid
+Only in ../krb5-1.8.3/src//util/send-pr: Makefile
+Only in ../krb5-1.8.3/src//util/send-pr: send-pr
+Only in ../krb5-1.8.3/src//util/send-pr: .svn
+Only in ../krb5-1.8.3/src//util/ss: ct_c.awk
+Only in ../krb5-1.8.3/src//util/ss: ct_c.sed
+Only in ../krb5-1.8.3/src//util/ss: data.o
+diff -crB ../original_source/krb5-1.8/src//util/ss/deps ../krb5-1.8.3/src//util/ss/deps
+*** ../original_source/krb5-1.8/src//util/ss/deps	2010-02-08 15:55:22.000000000 -0500
+--- ../krb5-1.8.3/src//util/ss/deps	2011-09-05 16:23:42.083035731 -0400
+***************
+*** 63,69 ****
+    ss_internal.h utils.c
+  options.so options.po $(OUTPRE)options.$(OBJEXT): $(BUILDTOP)/include/ss/ss_err.h \
+    $(COM_ERR_DEPS) copyright.h options.c ss.h
+! cmd_tbl.lex.o: cmd_tbl.lex.c
+  ct.tab.o: $(BUILDTOP)/include/ss/ss_err.h $(COM_ERR_DEPS) \
+    ct.tab.c ss.h
+  ss_err.so ss_err.po $(OUTPRE)ss_err.$(OBJEXT): $(COM_ERR_DEPS) \
+--- 63,69 ----
+    ss_internal.h utils.c
+  options.so options.po $(OUTPRE)options.$(OBJEXT): $(BUILDTOP)/include/ss/ss_err.h \
+    $(COM_ERR_DEPS) copyright.h options.c ss.h
+! cmd_tbl.lex.o: cmd_tbl.lex.c ct.tab.h
+  ct.tab.o: $(BUILDTOP)/include/ss/ss_err.h $(COM_ERR_DEPS) \
+    ct.tab.c ss.h
+  ss_err.so ss_err.po $(OUTPRE)ss_err.$(OBJEXT): $(COM_ERR_DEPS) \
+Only in ../krb5-1.8.3/src//util/ss: error.o
+Only in ../krb5-1.8.3/src//util/ss: execute_cmd.o
+Only in ../krb5-1.8.3/src//util/ss: help.o
+Only in ../krb5-1.8.3/src//util/ss: invocation.o
+Only in ../krb5-1.8.3/src//util/ss: libss.a
+Only in ../krb5-1.8.3/src//util/ss: listen.o
+Only in ../krb5-1.8.3/src//util/ss: list_rqs.o
+Only in ../krb5-1.8.3/src//util/ss: Makefile
+Only in ../krb5-1.8.3/src//util/ss: mk_cmds
+Only in ../krb5-1.8.3/src//util/ss: OBJS.ST
+Only in ../krb5-1.8.3/src//util/ss: pager.o
+Only in ../krb5-1.8.3/src//util/ss: parse.o
+Only in ../krb5-1.8.3/src//util/ss: prompt.o
+Only in ../krb5-1.8.3/src//util/ss: requests.o
+Only in ../krb5-1.8.3/src//util/ss: request_tbl.o
+Only in ../krb5-1.8.3/src//util/ss: ss_err.c
+Only in ../krb5-1.8.3/src//util/ss: ss_err.h
+Only in ../krb5-1.8.3/src//util/ss: ss_err.o
+Only in ../krb5-1.8.3/src//util/ss: std_rqs.c
+Only in ../krb5-1.8.3/src//util/ss: std_rqs.o
+Only in ../krb5-1.8.3/src//util/ss: .svn
+Only in ../krb5-1.8.3/src//util/support: binutils.versions
+Only in ../krb5-1.8.3/src//util/support: errors.so
+Only in ../krb5-1.8.3/src//util/support: fake-addrinfo.so
+Only in ../krb5-1.8.3/src//util/support: gmt_mktime.so
+Only in ../krb5-1.8.3/src//util/support: init-addrinfo.so
+Only in ../krb5-1.8.3/src//util/support: k5buf.so
+Only in ../krb5-1.8.3/src//util/support: libkrb5support.exports
+Only in ../krb5-1.8.3/src//util/support: libkrb5support.so
+Only in ../krb5-1.8.3/src//util/support: libkrb5support.so.0
+Only in ../krb5-1.8.3/src//util/support: libkrb5support.so.0.1
+Only in ../krb5-1.8.3/src//util/support: Makefile
+Only in ../krb5-1.8.3/src//util/support: OBJS.SH
+diff -crB ../original_source/krb5-1.8/src//util/support/plugins.c ../krb5-1.8.3/src//util/support/plugins.c
+*** ../original_source/krb5-1.8/src//util/support/plugins.c	2009-11-30 16:35:38.000000000 -0500
+--- ../krb5-1.8.3/src//util/support/plugins.c	2011-09-05 16:23:43.139035732 -0400
+***************
+*** 268,273 ****
+--- 268,275 ----
+              handle = dlopen(filepath, PLUGIN_DLOPEN_FLAGS);
+              if (handle == NULL) {
+                  const char *e = dlerror();
++                 if (e == NULL)
++                     e = "unknown failure";
+                  Tprintf ("dlopen(%s): %s\n", filepath, e);
+                  err = ENOENT; /* XXX */
+                  krb5int_set_error (ep, err, "%s", e);
+***************
+*** 335,340 ****
+--- 337,344 ----
+          sym = dlsym (h->dlhandle, csymname);
+          if (sym == NULL) {
+              const char *e = dlerror (); /* XXX copy and save away */
++             if (e == NULL)
++                 e = "unknown failure";
+              Tprintf ("dlsym(%s): %s\n", csymname, e);
+              err = ENOENT; /* XXX */
+              krb5int_set_error(ep, err, "%s", e);
+Only in ../krb5-1.8.3/src//util/support: plugins.so
+Only in ../krb5-1.8.3/src//util/support: strlcpy.so
+Only in ../krb5-1.8.3/src//util/support: .svn
+Only in ../krb5-1.8.3/src//util/support: threads.so
+Only in ../krb5-1.8.3/src//util/support: utf8_conv.so
+Only in ../krb5-1.8.3/src//util/support: utf8.so
+Only in ../krb5-1.8.3/src//util/support: zap.so
+Only in ../krb5-1.8.3/src//util: .svn
+Only in ../krb5-1.8.3/src//util/windows: .svn
+Only in ../krb5-1.8.3/src//windows/build/css: .svn
+Only in ../krb5-1.8.3/src//windows/build: .svn
+Only in ../krb5-1.8.3/src//windows/ccapi/server: .svn
+Only in ../krb5-1.8.3/src//windows/ccapi: .svn
+Only in ../krb5-1.8.3/src//windows/cns: .svn
+Only in ../krb5-1.8.3/src//windows/gina: .svn
+Only in ../krb5-1.8.3/src//windows/gss: .svn
+Only in ../krb5-1.8.3/src//windows/identity/config: .svn
+Only in ../krb5-1.8.3/src//windows/identity/doc/images: .svn
+Only in ../krb5-1.8.3/src//windows/identity/doc: .svn
+Only in ../krb5-1.8.3/src//windows/identity/help/html/images: .svn
+Only in ../krb5-1.8.3/src//windows/identity/help/html: .svn
+Only in ../krb5-1.8.3/src//windows/identity/help: .svn
+Only in ../krb5-1.8.3/src//windows/identity/include: .svn
+Only in ../krb5-1.8.3/src//windows/identity/kconfig: .svn
+Only in ../krb5-1.8.3/src//windows/identity/kconfig/test: .svn
+Only in ../krb5-1.8.3/src//windows/identity/kcreddb/lang/en_us: .svn
+Only in ../krb5-1.8.3/src//windows/identity/kcreddb/lang: .svn
+Only in ../krb5-1.8.3/src//windows/identity/kcreddb: .svn
+Only in ../krb5-1.8.3/src//windows/identity/kherr: .svn
+Only in ../krb5-1.8.3/src//windows/identity/kmm/lang: .svn
+Only in ../krb5-1.8.3/src//windows/identity/kmm: .svn
+Only in ../krb5-1.8.3/src//windows/identity/kmq: .svn
+Only in ../krb5-1.8.3/src//windows/identity/nidmgrdll: .svn
+Only in ../krb5-1.8.3/src//windows/identity/plugins/common: .svn
+Only in ../krb5-1.8.3/src//windows/identity/plugins/krb4/images: .svn
+Only in ../krb5-1.8.3/src//windows/identity/plugins/krb4/lang/en_us: .svn
+Only in ../krb5-1.8.3/src//windows/identity/plugins/krb4/lang: .svn
+Only in ../krb5-1.8.3/src//windows/identity/plugins/krb4: .svn
+Only in ../krb5-1.8.3/src//windows/identity/plugins/krb5/images: .svn
+Only in ../krb5-1.8.3/src//windows/identity/plugins/krb5/lang/en_us: .svn
+Only in ../krb5-1.8.3/src//windows/identity/plugins/krb5/lang: .svn
+Only in ../krb5-1.8.3/src//windows/identity/plugins/krb5: .svn
+Only in ../krb5-1.8.3/src//windows/identity/plugins: .svn
+Only in ../krb5-1.8.3/src//windows/identity/sample: .svn
+Only in ../krb5-1.8.3/src//windows/identity/sample/templates/credprov/images: .svn
+Only in ../krb5-1.8.3/src//windows/identity/sample/templates/credprov/lang/en_us: .svn
+Only in ../krb5-1.8.3/src//windows/identity/sample/templates/credprov/lang: .svn
+Only in ../krb5-1.8.3/src//windows/identity/sample/templates/credprov: .svn
+Only in ../krb5-1.8.3/src//windows/identity/sample/templates: .svn
+Only in ../krb5-1.8.3/src//windows/identity: .svn
+Only in ../krb5-1.8.3/src//windows/identity/ui/images: .svn
+Only in ../krb5-1.8.3/src//windows/identity/ui/lang/en_us: .svn
+Only in ../krb5-1.8.3/src//windows/identity/ui/lang: .svn
+Only in ../krb5-1.8.3/src//windows/identity/ui: .svn
+Only in ../krb5-1.8.3/src//windows/identity/uilib: .svn
+Only in ../krb5-1.8.3/src//windows/identity/util: .svn
+Only in ../krb5-1.8.3/src//windows/installer/nsis: .svn
+Only in ../krb5-1.8.3/src//windows/installer: .svn
+Only in ../krb5-1.8.3/src//windows/installer/wix/Binary: .svn
+Only in ../krb5-1.8.3/src//windows/installer/wix/custom: .svn
+Only in ../krb5-1.8.3/src//windows/installer/wix/lang: .svn
+Only in ../krb5-1.8.3/src//windows/installer/wix: .svn
+Only in ../krb5-1.8.3/src//windows/kfwlogon: .svn
+Only in ../krb5-1.8.3/src//windows/lib: .svn
+Only in ../krb5-1.8.3/src//windows/ms2mit: .svn
+Only in ../krb5-1.8.3/src//windows: .svn
+Only in ../krb5-1.8.3/src//windows/wintel: .svn
