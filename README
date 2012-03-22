@@ -6,9 +6,18 @@ The above copyright notice and this permission notice shall be included in all c
 
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
+Introduction:
+=============
+This project is a prototype for the composition of Kerberos (RFC 4120) and MIKEY (RFC 3830) protocol as
+part of a Master of Applied Science thesis research work at University of Waterloo supervised by
+Professor Mahesh Tripunitara.
+
+Links:
+http://tools.ietf.org/html/rfc4120
+http://tools.ietf.org/html/rfc3830
 
 Installation & Setup
-==========================================================================================================
+====================
 
 Kerberos:
 =========
