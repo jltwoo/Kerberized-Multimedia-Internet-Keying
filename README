@@ -1,0 +1,32 @@
+
+Installation & Setup
+==========================================================================================================
+
+Kerberos:
+=========
+
+The krb5.patch includes changes based on MITKerberos v1.8.3 at http://web.mit.edu/kerberos/dist/index.html
+
+Users should follow the online instruction guides for Kerberos installation.
+
+Use the krb5admin tools provided in their source code to set up the Kerberos database accordingly.
+
+
+Minisip:
+========
+
+The minisip.patch includes changes based on Minisip at http://www.minisip.org/
+
+building_minisip.html provides additional instructions to get the the Minisip libraries installed properly.
+
+KM1 & KM2:
+==========
+
+Source code for the gcks and clients are located in kmtools/ sclient1 and gcks1 corresponds to KM1 model
+
+and sclient2 and gcks2 corresponds to KM2 model. To setup the KM tools, perform the following code
+
+make all
+make install
+
+This must be done after Krb5 and Minisip libraries are properly installed. 
