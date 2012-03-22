@@ -1,9 +1,0 @@
-#!/usr/bin/expect -f
-set principal_name [lrange $argv 0 0]
-set password [lrange $argv 1 1 ]
-set cache_name [ lrange $argv 2 2 ]
-
-spawn kinit -c $cache_name $principal_name 
-expect "^Password for $principal_name" 
-send "$password\r"
-expect eof
