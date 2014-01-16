@@ -4,7 +4,9 @@ This project is a prototype for the composition of Kerberos (RFC 4120) and MIKEY
 part of a Master of Applied Science thesis research work at University of Waterloo supervised by
 Professor Mahesh Tripunitara.
 
-Jeffrey Lok Tin Woo, Mahesh V. Tripunitara, "Composing Kerberos and Multimedia Internet KEYing (MIKEY) for Authenticated Transport of Group Keys," IEEE Transactions on Parallel and Distributed Systems, vol. 99, no. PrePrints, p. 1, , 2013 
+Jeffrey Lok Tin Woo, Mahesh V. Tripunitara, 
+"Composing Kerberos and Multimedia Internet KEYing (MIKEY) for Authenticated Transport of Group Keys," 
+IEEE Transactions on Parallel and Distributed Systems, vol. 99, no. PrePrints, p. 1, , 2013 
 http://doi.ieeecomputersociety.org/10.1109/TPDS.2013.81
 
 The open-sourced project MITKerberos and Minisip were modified to adopt to this project's need.
